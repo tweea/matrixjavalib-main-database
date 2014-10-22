@@ -1,5 +1,4 @@
 /*
- * $Id: StringListAsStringType.java 868 2014-01-21 10:45:15Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

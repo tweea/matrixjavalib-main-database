@@ -1,5 +1,4 @@
 /*
- * $Id: HQLs.java 857 2014-01-20 08:27:10Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

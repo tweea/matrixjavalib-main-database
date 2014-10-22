@@ -1,5 +1,4 @@
 /*
- * $Id: ConnectionInfoTest.java 696 2013-09-04 15:00:10Z tweea@263.net $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */

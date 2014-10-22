@@ -1,5 +1,4 @@
 /*
- * $Id: BooleanAsIntegerType.java 864 2014-01-21 07:40:02Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

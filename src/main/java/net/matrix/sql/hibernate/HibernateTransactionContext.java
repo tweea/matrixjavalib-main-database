@@ -1,5 +1,4 @@
 /*
- * $Id: HibernateTransactionContext.java 908 2014-01-23 05:13:21Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

@@ -1,5 +1,4 @@
 /*
- * $Id: HibernateDAO.java 936 2014-02-19 05:52:13Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

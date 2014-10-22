@@ -1,5 +1,4 @@
 /*
- * $Id: IntegerColumnBooleanMapper.java 864 2014-01-21 07:40:02Z tweea@263.net $
  * 版权所有 2014 Matrix。
  * 保留所有权利。
  */

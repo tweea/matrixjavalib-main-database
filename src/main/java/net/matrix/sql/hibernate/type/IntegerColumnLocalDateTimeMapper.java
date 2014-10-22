@@ -1,5 +1,4 @@
 /*
- * $Id: IntegerColumnLocalDateTimeMapper.java 865 2014-01-21 08:18:46Z tweea@263.net $
  * 版权所有 2014 Matrix。
  * 保留所有权利。
  */

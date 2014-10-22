@@ -1,5 +1,4 @@
 /*
- * $Id: UserInfo.java 700 2013-09-05 02:14:36Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

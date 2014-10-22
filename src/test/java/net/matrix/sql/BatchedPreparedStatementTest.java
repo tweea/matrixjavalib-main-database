@@ -1,5 +1,4 @@
 /*
- * $Id: BatchedPreparedStatementTest.java 675 2013-09-02 15:00:17Z tweea@263.net $
  * 版权所有 2013 Matrix。
  * 保留所有权利。
  */

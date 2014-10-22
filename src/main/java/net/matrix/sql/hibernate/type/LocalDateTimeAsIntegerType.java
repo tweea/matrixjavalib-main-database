@@ -1,5 +1,4 @@
 /*
- * $Id: LocalDateTimeAsIntegerType.java 866 2014-01-21 08:20:32Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

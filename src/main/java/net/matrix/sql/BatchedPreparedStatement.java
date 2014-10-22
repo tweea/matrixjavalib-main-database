@@ -1,5 +1,4 @@
 /*
- * $Id: BatchedPreparedStatement.java 968 2014-04-17 09:43:12Z tweea@263.net $
  * Copyright(C) 2009 matrix
  * All right reserved.
  */

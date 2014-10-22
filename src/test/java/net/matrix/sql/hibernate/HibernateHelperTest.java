@@ -1,5 +1,4 @@
 /*
- * $Id: HibernateHelperTest.java 586 2013-03-11 08:16:02Z tweea $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

@@ -1,5 +1,4 @@
 /*
- * $Id: HibernateHelper.java 901 2014-01-22 16:36:15Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */
