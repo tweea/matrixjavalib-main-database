@@ -67,11 +67,12 @@ public class BatchedPreparedStatementTest {
 	@Test
 	public void testClose()
 		throws SQLException {
-		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
-		batchedStatement.addBatch();
-		batchedStatement.close();
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2)) {
+			Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+			batchedStatement.addBatch();
+			batchedStatement.close();
+			Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		}
 	}
 
 	@Test
