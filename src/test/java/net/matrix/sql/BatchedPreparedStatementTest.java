@@ -95,17 +95,17 @@ public class BatchedPreparedStatementTest {
 	@Test
 	public void testIsWrapperFor()
 		throws SQLException {
-		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement);
-		Assert.assertFalse(batchedStatement.isWrapperFor(Integer.class));
-		Assert.assertTrue(batchedStatement.isWrapperFor(PreparedStatement.class));
-		batchedStatement.close();
+		try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
+			Assert.assertFalse(batchedStatement.isWrapperFor(Integer.class));
+			Assert.assertTrue(batchedStatement.isWrapperFor(PreparedStatement.class));
+		}
 	}
 
 	@Test
 	public void testUnwrap()
 		throws SQLException {
-		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement);
-		Assert.assertSame(statement, batchedStatement.unwrap(PreparedStatement.class));
-		batchedStatement.close();
+		try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
+			Assert.assertSame(statement, batchedStatement.unwrap(PreparedStatement.class));
+		}
 	}
 }

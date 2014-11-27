@@ -1175,19 +1175,13 @@ public final class HibernateHelper {
 			@Override
 			public Integer execute(Connection connection)
 				throws SQLException {
-				PreparedStatement stat = null;
-				try {
-					stat = connection.prepareStatement(sql);
+				try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 					if (params != null) {
 						for (int i = 0; i < params.length; i++) {
-							stat.setObject(i + 1, params[i]);
+							stmt.setObject(i + 1, params[i]);
 						}
 					}
-					return stat.executeUpdate();
-				} finally {
-					if (stat != null) {
-						stat.close();
-					}
+					return stmt.executeUpdate();
 				}
 			}
 		});
@@ -1214,9 +1208,7 @@ public final class HibernateHelper {
 			@Override
 			public List<Map<String, String>> execute(Connection connection)
 				throws SQLException {
-				Statement stmt = null;
-				try {
-					stmt = connection.createStatement();
+				try (Statement stmt = connection.createStatement()) {
 					ResultSet rs = stmt.executeQuery(sql);
 
 					// field name
@@ -1236,10 +1228,6 @@ public final class HibernateHelper {
 						table.add(row);
 					}
 					return table;
-				} finally {
-					if (stmt != null) {
-						stmt.close();
-					}
 				}
 			}
 		});
@@ -1266,9 +1254,7 @@ public final class HibernateHelper {
 			@Override
 			public List<Map<String, String>> execute(Connection connection)
 				throws SQLException {
-				Statement stmt = null;
-				try {
-					stmt = connection.createStatement();
+				try (Statement stmt = connection.createStatement()) {
 					ResultSet rs = stmt.executeQuery(sql);
 
 					ResultSetMetaData meta = rs.getMetaData();
@@ -1295,10 +1281,6 @@ public final class HibernateHelper {
 						j += 1;
 					}
 					return table;
-				} finally {
-					if (stmt != null) {
-						stmt.close();
-					}
 				}
 			}
 		});
@@ -1325,23 +1307,17 @@ public final class HibernateHelper {
 			@Override
 			public Long execute(Connection connection)
 				throws SQLException {
-				PreparedStatement stat = null;
-				try {
-					stat = connection.prepareStatement(sql);
+				try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 					if (params != null) {
 						for (int i = 0; i < params.length; i++) {
-							stat.setObject(i + 1, params[i]);
+							stmt.setObject(i + 1, params[i]);
 						}
 					}
-					ResultSet rlt = stat.executeQuery();
+					ResultSet rlt = stmt.executeQuery();
 					if (!rlt.next()) {
 						return 0L;
 					}
 					return rlt.getLong(1);
-				} finally {
-					if (stat != null) {
-						stat.close();
-					}
 				}
 			}
 		});
@@ -1368,16 +1344,13 @@ public final class HibernateHelper {
 			@Override
 			public Long[] execute(Connection connection)
 				throws SQLException {
-				PreparedStatement stat = null;
-				ResultSet rlt = null;
-				try {
-					stat = connection.prepareStatement(sql);
+				try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 					if (params != null) {
 						for (int i = 0; i < params.length; i++) {
-							stat.setObject(i + 1, params[i]);
+							stmt.setObject(i + 1, params[i]);
 						}
 					}
-					rlt = stat.executeQuery();
+					ResultSet rlt = stmt.executeQuery();
 					Long[] result = new Long[countNum];
 					if (rlt.next()) {
 						for (int i = 0; i < countNum; i++) {
@@ -1389,10 +1362,6 @@ public final class HibernateHelper {
 						}
 					}
 					return result;
-				} finally {
-					if (stat != null) {
-						stat.close();
-					}
 				}
 			}
 		});
