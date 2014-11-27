@@ -31,8 +31,8 @@ public class ConnectionInfoTest {
 	public void testGetConnection()
 		throws SQLException {
 		ConnectionInfo info = new ConnectionInfo(driverClass, url, "", "");
-		Connection conn = info.getConnection();
-		Assert.assertNotNull(conn);
-		conn.close();
+		try (Connection conn = info.getConnection()) {
+			Assert.assertNotNull(conn);
+		}
 	}
 }

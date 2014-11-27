@@ -124,7 +124,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 	}
 
 	public <S extends T> Iterable<S> save(final Iterable<S> entities) {
-		List<S> result = new ArrayList<S>();
+		List<S> result = new ArrayList<>();
 
 		for (S entity : entities) {
 			currentSession().save(entity);
@@ -158,7 +158,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 	 * 按 id 列表获取对象列表。
 	 */
 	public Iterable<T> findAll(final Iterable<ID> ids) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (ID id : ids) {
 			result.add(findOne(id));
 		}

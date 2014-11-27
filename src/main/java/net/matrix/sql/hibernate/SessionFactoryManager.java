@@ -40,7 +40,7 @@ public final class SessionFactoryManager
 	/**
 	 * 所有的实例。
 	 */
-	private static final Map<String, SessionFactoryManager> INSTANCES = new HashMap<String, SessionFactoryManager>();
+	private static final Map<String, SessionFactoryManager> INSTANCES = new HashMap<>();
 
 	private final String factoryName;
 
@@ -156,13 +156,13 @@ public final class SessionFactoryManager
 	private SessionFactoryManager(String name) {
 		this.factoryName = name;
 		this.configResource = null;
-		this.threadContext = new ThreadLocal<HibernateTransactionContext>();
+		this.threadContext = new ThreadLocal<>();
 	}
 
 	private SessionFactoryManager(String name, String configResource) {
 		this.factoryName = name;
 		this.configResource = configResource;
-		this.threadContext = new ThreadLocal<HibernateTransactionContext>();
+		this.threadContext = new ThreadLocal<>();
 	}
 
 	/**

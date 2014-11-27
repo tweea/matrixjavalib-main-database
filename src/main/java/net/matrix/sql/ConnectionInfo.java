@@ -10,9 +10,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * 数据库连接信息。
  */
@@ -22,11 +19,6 @@ public class ConnectionInfo
 	 * serialVersionUID。
 	 */
 	private static final long serialVersionUID = -7842286530934311836L;
-
-	/**
-	 * 日志记录器。
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(ConnectionInfo.class);
 
 	// 连接信息
 	/**
@@ -91,17 +83,10 @@ public class ConnectionInfo
 	 */
 	private void readMetaData()
 		throws SQLException {
-		Connection connection = getConnection();
-		try {
+		try (Connection connection = getConnection()) {
 			DatabaseMetaData metadata = connection.getMetaData();
 			databaseType = metadata.getDatabaseProductName();
 			driverName = metadata.getDriverName();
-		} finally {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				LOG.warn("关闭连接失败", e);
-			}
 		}
 	}
 

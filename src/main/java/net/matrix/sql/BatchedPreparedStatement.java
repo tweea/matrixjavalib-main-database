@@ -724,11 +724,15 @@ public class BatchedPreparedStatement
 		return statement.unwrap(iface);
 	}
 
-	public void closeOnCompletion() {
-		throw new UnsupportedOperationException();
+	@Override
+	public void closeOnCompletion()
+		throws SQLException {
+		statement.closeOnCompletion();
 	}
 
-	public boolean isCloseOnCompletion() {
-		throw new UnsupportedOperationException();
+	@Override
+	public boolean isCloseOnCompletion()
+		throws SQLException {
+		return statement.isCloseOnCompletion();
 	}
 }

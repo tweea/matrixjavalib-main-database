@@ -28,7 +28,7 @@ public class StringColumnStringListMapper
 
 	@Override
 	public List<String> fromNonNullValue(String value) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		String[] list = pattern.split(value);
 		for (String item : list) {
 			result.add(item);

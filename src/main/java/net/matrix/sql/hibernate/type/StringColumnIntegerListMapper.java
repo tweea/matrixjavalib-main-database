@@ -28,7 +28,7 @@ public class StringColumnIntegerListMapper
 
 	@Override
 	public List<Integer> fromNonNullValue(String value) {
-		List<Integer> result = new ArrayList<Integer>();
+		List<Integer> result = new ArrayList<>();
 		String[] list = pattern.split(value);
 		for (String item : list) {
 			result.add(Integer.parseInt(item));

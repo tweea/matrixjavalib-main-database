@@ -1227,9 +1227,9 @@ public final class HibernateHelper {
 						str[i] = meta.getColumnName(i + 1).toLowerCase();
 					}
 
-					List<Map<String, String>> table = new ArrayList<Map<String, String>>();
+					List<Map<String, String>> table = new ArrayList<>();
 					while (rs.next()) {
-						Map<String, String> row = new HashMap<String, String>();
+						Map<String, String> row = new HashMap<>();
 						for (int i = 0; i < count; i++) {
 							row.put(str[i], rs.getString(i + 1));
 						}
@@ -1279,14 +1279,14 @@ public final class HibernateHelper {
 						str[i] = meta.getColumnName(i + 1).toLowerCase();
 					}
 
-					List<Map<String, String>> table = new ArrayList<Map<String, String>>();
+					List<Map<String, String>> table = new ArrayList<>();
 					int index = 0;
 					while (index < startNum && rs.next()) {
 						index++;
 					}
 					int j = 0;
 					while (rs.next() && j < numPerPage) {
-						Map<String, String> row = new HashMap<String, String>();
+						Map<String, String> row = new HashMap<>();
 						for (i = 0; i < count; i++) {
 							String tem = Objects2.isNull(rs.getString(i + 1), "");
 							row.put(str[i], tem);
