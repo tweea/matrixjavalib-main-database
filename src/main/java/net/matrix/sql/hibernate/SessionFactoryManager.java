@@ -177,7 +177,7 @@ public final class SessionFactoryManager
 				sessionFactory.close();
 				LOG.info(factoryName + " 配置的 Hibernate SessionFactory 已关闭。");
 			} catch (HibernateException e) {
-				LOG.error(factoryName + " 配置的 Hibernate SessionFactory 关闭失败。");
+				LOG.error(factoryName + " 配置的 Hibernate SessionFactory 关闭失败。", e);
 			} finally {
 				sessionFactory = null;
 			}
@@ -203,7 +203,7 @@ public final class SessionFactoryManager
 					LOG.info("读取默认的 Hibernate 配置。");
 					configuration = new Configuration().configure();
 				} else {
-					LOG.info("读取 " + configResource + "的 Hibernate 配置。");
+					LOG.info("读取 {} 的 Hibernate 配置。", configResource);
 					configuration = new Configuration().configure(configResource);
 				}
 			}
@@ -225,7 +225,7 @@ public final class SessionFactoryManager
 				if (DEFAULT_NAME.equals(factoryName)) {
 					LOG.info("以默认配置构建 Hibernate ServiceRegistry。");
 				} else {
-					LOG.info("以 " + factoryName + " 配置构建 Hibernate ServiceRegistry。");
+					LOG.info("以 {} 配置构建 Hibernate ServiceRegistry。", factoryName);
 				}
 				serviceRegistry = new StandardServiceRegistryBuilder().applySettings(getConfiguration().getProperties()).build();
 			}
@@ -247,7 +247,7 @@ public final class SessionFactoryManager
 				if (DEFAULT_NAME.equals(factoryName)) {
 					LOG.info("以默认配置构建 Hibernate SessionFactory。");
 				} else {
-					LOG.info("以 " + factoryName + " 配置构建 Hibernate SessionFactory。");
+					LOG.info("以 {} 配置构建 Hibernate SessionFactory。", factoryName);
 				}
 				sessionFactory = getConfiguration().buildSessionFactory(getServiceRegistry());
 			}

@@ -31,7 +31,7 @@ public class StringColumnIntegerListMapper
 		List<Integer> result = new ArrayList<>();
 		String[] list = pattern.split(value);
 		for (String item : list) {
-			result.add(Integer.parseInt(item));
+			result.add(Integer.valueOf(item));
 		}
 		return result;
 	}
