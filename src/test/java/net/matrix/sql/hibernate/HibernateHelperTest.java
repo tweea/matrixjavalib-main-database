@@ -8,9 +8,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-/**
- * @since 2007 三月 1
- */
 public class HibernateHelperTest {
 	@BeforeClass
 	public static void setUpBeforeClass()

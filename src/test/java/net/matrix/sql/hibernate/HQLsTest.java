@@ -4,20 +4,17 @@
  */
 package net.matrix.sql.hibernate;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
  * Hibernate 测试
- * 
- * @author Tweea
- * @version 2005-11-30
  */
 public class HQLsTest {
 	@Test
 	public void getParameterName()
 		throws Exception {
-		Assert.assertEquals("p0", HQLs.getParameterName(0));
-		Assert.assertEquals("p10", HQLs.getParameterName(10));
+		Assertions.assertThat(HQLs.getParameterName(0)).isEqualTo("p0");
+		Assertions.assertThat(HQLs.getParameterName(10)).isEqualTo("p10");
 	}
 }

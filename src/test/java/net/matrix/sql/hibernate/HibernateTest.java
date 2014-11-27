@@ -4,14 +4,11 @@
  */
 package net.matrix.sql.hibernate;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
  * Hibernate 测试
- * 
- * @author Tweea
- * @version 2005-11-30
  */
 public class HibernateTest {
 	@Test
@@ -24,19 +21,19 @@ public class HibernateTest {
 		HibernateTransactionContext tc01 = mm.getTransactionContext();
 		HibernateTransactionContext tc11 = mm.getTransactionContext();
 		HibernateTransactionContext tc21 = mm.getTransactionContext();
-		Assert.assertSame(tc0, tc01);
-		Assert.assertSame(tc1, tc11);
-		Assert.assertSame(tc2, tc21);
+		Assertions.assertThat(tc01).isSameAs(tc0);
+		Assertions.assertThat(tc11).isSameAs(tc1);
+		Assertions.assertThat(tc21).isSameAs(tc2);
 	}
 
 	@Test
 	public void testCreateDrop()
 		throws Exception {
 		SessionFactoryManager mm = SessionFactoryManager.getInstance();
-		Assert.assertNotNull(mm.getTransactionContext());
+		Assertions.assertThat(mm.getTransactionContext()).isNotNull();
 		mm.dropTransactionContext();
 		mm.dropTransactionContext();
-		Assert.assertNotNull(mm.getTransactionContext());
+		Assertions.assertThat(mm.getTransactionContext()).isNotNull();
 	}
 
 	@Test

@@ -7,7 +7,7 @@ package net.matrix.sql;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class ConnectionInfoTest {
@@ -19,12 +19,12 @@ public class ConnectionInfoTest {
 	public void testConnectionInfo()
 		throws SQLException {
 		ConnectionInfo info = new ConnectionInfo(driverClass, url, "", "");
-		Assert.assertEquals(driverClass, info.getDriverClass());
-		Assert.assertEquals(url, info.getUrl());
-		Assert.assertEquals("", info.getUsername());
-		Assert.assertEquals("", info.getPassword());
-		Assert.assertEquals("Apache Derby", info.getDatabaseType());
-		Assert.assertEquals("Apache Derby Embedded JDBC Driver", info.getDriverName());
+		Assertions.assertThat(info.getDriverClass()).isEqualTo(driverClass);
+		Assertions.assertThat(info.getUrl()).isEqualTo(url);
+		Assertions.assertThat(info.getUsername()).isEmpty();
+		Assertions.assertThat(info.getPassword()).isEmpty();
+		Assertions.assertThat(info.getDatabaseType()).isEqualTo("Apache Derby");
+		Assertions.assertThat(info.getDriverName()).isEqualTo("Apache Derby Embedded JDBC Driver");
 	}
 
 	@Test
@@ -32,7 +32,7 @@ public class ConnectionInfoTest {
 		throws SQLException {
 		ConnectionInfo info = new ConnectionInfo(driverClass, url, "", "");
 		try (Connection conn = info.getConnection()) {
-			Assert.assertNotNull(conn);
+			Assertions.assertThat(conn).isNotNull();
 		}
 	}
 }

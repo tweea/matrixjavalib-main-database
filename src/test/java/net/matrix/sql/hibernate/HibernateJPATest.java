@@ -12,24 +12,22 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import org.assertj.core.api.Assertions;
 import org.joda.time.LocalDate;
-import org.junit.Assert;
 import org.junit.Test;
 
 import net.matrix.sql.hibernate.entity.UserInfo;
 
 /**
  * Hibernate 测试
- * 
- * @version 2005-11-30
  */
 public class HibernateJPATest {
 	@Test
 	public void testContextManager() {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("test");
-		Assert.assertNotNull(emf);
+		Assertions.assertThat(emf).isNotNull();
 		EntityManager em = emf.createEntityManager();
-		Assert.assertNotNull(em);
+		Assertions.assertThat(em).isNotNull();
 		// 插入
 		EntityTransaction et = em.getTransaction();
 		et.begin();
@@ -41,13 +39,13 @@ public class HibernateJPATest {
 		et.commit();
 		// 查询
 		Query query = em.createNamedQuery("UserInfo.findAll");
-		Assert.assertNotNull(query);
+		Assertions.assertThat(query).isNotNull();
 		List<UserInfo> result = query.getResultList();
-		Assert.assertNotNull(result);
-		Assert.assertFalse(result.isEmpty());
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).isEmpty();
 		user = result.get(0);
-		Assert.assertEquals("abc", user.getYhm());
-		Assert.assertEquals("abc", user.getMm());
-		Assert.assertEquals(new LocalDate(2011, 1, 18), user.getCsrq());
+		Assertions.assertThat(user.getYhm()).isEqualTo("abc");
+		Assertions.assertThat(user.getMm()).isEqualTo("abc");
+		Assertions.assertThat(user.getCsrq()).isEqualTo(new LocalDate(2011, 1, 18));
 	}
 }

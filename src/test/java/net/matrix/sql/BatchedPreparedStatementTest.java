@@ -7,9 +7,8 @@ package net.matrix.sql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.fest.reflect.core.Reflection;
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,6 +19,8 @@ public class BatchedPreparedStatementTest {
 	@Mock
 	private PreparedStatement statement;
 
+	private FieldSupport fieldSupport = FieldSupport.instance();
+
 	@Before
 	public void before() {
 		MockitoAnnotations.initMocks(this);
@@ -28,50 +29,50 @@ public class BatchedPreparedStatementTest {
 	@Test
 	public void testBatchedPreparedStatementPreparedStatement() {
 		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement);
-		Assert.assertSame(statement, Reflection.field("statement").ofType(PreparedStatement.class).in(batchedStatement).get());
-		Assert.assertEquals(0, Reflection.field("batchSize").ofType(int.class).in(batchedStatement).get().intValue());
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
-		Assert.assertArrayEquals(ArrayUtils.EMPTY_INT_ARRAY, Reflection.field("batchResult").ofType(int[].class).in(batchedStatement).get());
+		Assertions.assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
+		Assertions.assertThat(fieldSupport.fieldValue("batchSize", int.class, batchedStatement)).isEqualTo(0);
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
+		Assertions.assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
 	}
 
 	@Test
 	public void testBatchedPreparedStatementPreparedStatementInt() {
 		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3);
-		Assert.assertSame(statement, Reflection.field("statement").ofType(PreparedStatement.class).in(batchedStatement).get());
-		Assert.assertEquals(3, Reflection.field("batchSize").ofType(int.class).in(batchedStatement).get().intValue());
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
-		Assert.assertArrayEquals(ArrayUtils.EMPTY_INT_ARRAY, Reflection.field("batchResult").ofType(int[].class).in(batchedStatement).get());
+		Assertions.assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
+		Assertions.assertThat(fieldSupport.fieldValue("batchSize", int.class, batchedStatement)).isEqualTo(3);
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
+		Assertions.assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
 	}
 
 	@Test
 	public void testAddBatch()
 		throws SQLException {
 		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 		batchedStatement.addBatch();
-		Assert.assertEquals(1, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(1);
 		batchedStatement.addBatch();
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 	}
 
 	@Test
 	public void testClearBatch()
 		throws SQLException {
 		PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 		batchedStatement.addBatch();
 		batchedStatement.clearBatch();
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 	}
 
 	@Test
 	public void testClose()
 		throws SQLException {
 		try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2)) {
-			Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+			Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 			batchedStatement.addBatch();
 			batchedStatement.close();
-			Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+			Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 		}
 	}
 
@@ -84,21 +85,19 @@ public class BatchedPreparedStatementTest {
 		}, new int[] {
 			3
 		});
-		Assert.assertEquals(0, Reflection.field("batchCount").ofType(int.class).in(batchedStatement).get().intValue());
+		Assertions.assertThat(fieldSupport.fieldValue("batchCount", int.class, batchedStatement)).isEqualTo(0);
 		batchedStatement.addBatch();
 		batchedStatement.addBatch();
 		batchedStatement.addBatch();
-		Assert.assertArrayEquals(new int[] {
-			1, 2, 3
-		}, batchedStatement.executeBatch());
+		Assertions.assertThat(batchedStatement.executeBatch()).containsExactly(1, 2, 3);
 	}
 
 	@Test
 	public void testIsWrapperFor()
 		throws SQLException {
 		try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
-			Assert.assertFalse(batchedStatement.isWrapperFor(Integer.class));
-			Assert.assertTrue(batchedStatement.isWrapperFor(PreparedStatement.class));
+			Assertions.assertThat(batchedStatement.isWrapperFor(Integer.class)).isFalse();
+			Assertions.assertThat(batchedStatement.isWrapperFor(PreparedStatement.class)).isTrue();
 		}
 	}
 
@@ -106,7 +105,7 @@ public class BatchedPreparedStatementTest {
 	public void testUnwrap()
 		throws SQLException {
 		try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
-			Assert.assertSame(statement, batchedStatement.unwrap(PreparedStatement.class));
+			Assertions.assertThat(batchedStatement.unwrap(PreparedStatement.class)).isSameAs(statement);
 		}
 	}
 }
