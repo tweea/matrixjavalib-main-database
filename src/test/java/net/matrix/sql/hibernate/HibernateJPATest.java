@@ -42,7 +42,7 @@ public class HibernateJPATest {
 		Assertions.assertThat(query).isNotNull();
 		List<UserInfo> result = query.getResultList();
 		Assertions.assertThat(result).isNotNull();
-		Assertions.assertThat(result).isEmpty();
+		Assertions.assertThat(result).isNotEmpty();
 		user = result.get(0);
 		Assertions.assertThat(user.getYhm()).isEqualTo("abc");
 		Assertions.assertThat(user.getMm()).isEqualTo("abc");
