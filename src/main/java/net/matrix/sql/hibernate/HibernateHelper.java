@@ -21,15 +21,20 @@ import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.jdbc.ReturningWork;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.matrix.lang.Objects2;
 
 /**
  * Hibernate 实用类。
- * 
- * @since 2005.06.15
  */
 public final class HibernateHelper {
+	/**
+	 * 日志记录器。
+	 */
+	private static final Logger LOG = LoggerFactory.getLogger(HibernateHelper.class);
+
 	/**
 	 * 阻止实例化。
 	 */
@@ -540,6 +545,7 @@ public final class HibernateHelper {
 			setQueryParameter(query, params);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -580,6 +586,7 @@ public final class HibernateHelper {
 			setQueryParameter(query, params);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -620,6 +627,7 @@ public final class HibernateHelper {
 			setQueryParameter(query, params);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -660,6 +668,7 @@ public final class HibernateHelper {
 			setQueryParameter(query, params);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -700,6 +709,7 @@ public final class HibernateHelper {
 			setQueryParameter(query, params);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -740,6 +750,7 @@ public final class HibernateHelper {
 			setQueryParameter(query, params);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -782,6 +793,7 @@ public final class HibernateHelper {
 			query.setMaxResults(maxResults);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -824,6 +836,7 @@ public final class HibernateHelper {
 			query.setMaxResults(maxResults);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -866,6 +879,7 @@ public final class HibernateHelper {
 			query.setMaxResults(maxResults);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -908,6 +922,7 @@ public final class HibernateHelper {
 			query.setMaxResults(maxResults);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -951,6 +966,7 @@ public final class HibernateHelper {
 			query.setMaxResults(maxResults);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -994,6 +1010,7 @@ public final class HibernateHelper {
 			query.setMaxResults(maxResults);
 			return query.list();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return new ArrayList();
 		} catch (HibernateException e) {
 			throw new SQLException(e);
@@ -1039,6 +1056,7 @@ public final class HibernateHelper {
 			}
 			return ((Number) r).longValue();
 		} catch (ObjectNotFoundException oe) {
+			LOG.trace("", oe);
 			return 0;
 		} catch (HibernateException he) {
 			throw new SQLException(he);

@@ -19,7 +19,7 @@ public class BatchedPreparedStatementTest {
 	@Mock
 	private PreparedStatement statement;
 
-	private FieldSupport fieldSupport = FieldSupport.instance();
+	private FieldSupport fieldSupport = FieldSupport.extraction();
 
 	@Before
 	public void before() {
