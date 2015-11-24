@@ -919,7 +919,7 @@ public final class HibernateHelper {
 	 */
 	public static List<Map<String, Object>> queryPageAsMap(HibernateTransactionContext context, String queryString, int startNum, int maxResults,
 		Object... params)
-		throws SQLException {
+			throws SQLException {
 		return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
 	}
 
@@ -962,7 +962,7 @@ public final class HibernateHelper {
 	 */
 	public static List<Map<String, Object>> queryPageAsMap(HibernateTransactionContext context, String queryString, int startNum, int maxResults,
 		Iterable params)
-		throws SQLException {
+			throws SQLException {
 		return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
 	}
 
@@ -1005,7 +1005,7 @@ public final class HibernateHelper {
 	 */
 	public static List<Map<String, Object>> queryPageAsMap(HibernateTransactionContext context, String queryString, int startNum, int maxResults,
 		Map<String, ?> params)
-		throws SQLException {
+			throws SQLException {
 		return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
 	}
 
