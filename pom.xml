@@ -33,14 +33,16 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>4.3.7.Final</version>
+			<version>4.3.11.Final</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
+					<!-- 使用 javax.transaction-api 代替 -->
 					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>jboss-transaction-api_1.2_spec</artifactId>
 				</exclusion>
 				<exclusion>
+					<!-- 使用 Java 内置类代替 -->
 					<groupId>xml-apis</groupId>
 					<artifactId>xml-apis</artifactId>
 				</exclusion>
@@ -49,10 +51,11 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.7.Final</version>
+			<version>4.3.11.Final</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
+					<!-- 使用 javax.transaction-api 代替 -->
 					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>jboss-transaction-api_1.2_spec</artifactId>
 				</exclusion>
@@ -61,10 +64,11 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-commons</artifactId>
-			<version>1.9.1.RELEASE</version>
+			<version>1.11.1.RELEASE</version>
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
+					<!-- 排除无用传递依赖 -->
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-beans</artifactId>
 				</exclusion>
@@ -73,52 +77,60 @@
 		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.core</artifactId>
-			<version>3.2.0.GA</version>
+			<version>4.0.0.GA</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<!-- 升级 Hibernate 传递依赖 -->
+			<!-- 提升 Hibernate 传递依赖 -->
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.18.2-GA</version>
+			<version>3.20.0-GA</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<!-- 升级 Hibernate 传递依赖 -->
+			<!-- 提升 Hibernate 传递依赖 -->
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
-			<version>3.2.0.Final</version>
+			<version>3.2.1.Final</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<!-- 升级 Hibernate 传递依赖 -->
+			<!-- 提升 Hibernate 传递依赖 -->
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging-annotations</artifactId>
-			<version>1.2.0.Final</version>
+			<version>1.2.1.Final</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- provided -->
 		<!-- runtime -->
 		<dependency>
+			<!-- 提升 Hibernate 传递依赖 -->
+			<groupId>com.mchange</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.5.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
 			<!-- 替代 Hibernate 依赖 -->
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
-			<version>2.9.0</version>
+			<version>2.10.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-c3p0</artifactId>
-			<version>4.3.7.Final</version>
+			<version>4.3.11.Final</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-ehcache</artifactId>
-			<version>4.3.7.Final</version>
+			<version>4.3.11.Final</version>
 			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
 					<groupId>net.sf.ehcache</groupId>
 					<artifactId>ehcache-core</artifactId>
 				</exclusion>
@@ -128,25 +140,25 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<version>10.11.1.1</version>
+			<version>10.12.1.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>1.7.0</version>
+			<version>2.2.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>1.10.8</version>
+			<version>1.10.19</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
