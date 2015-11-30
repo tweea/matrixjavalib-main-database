@@ -37,6 +37,21 @@
 			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.javassist</groupId>
+					<artifactId>javassist</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging-annotations</artifactId>
+				</exclusion>
+				<exclusion>
 					<!-- 使用 javax.transaction-api 代替 -->
 					<groupId>org.jboss.spec.javax.transaction</groupId>
 					<artifactId>jboss-transaction-api_1.2_spec</artifactId>
@@ -54,6 +69,21 @@
 			<version>4.3.11.Final</version>
 			<scope>compile</scope>
 			<exclusions>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.javassist</groupId>
+					<artifactId>javassist</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging-annotations</artifactId>
+				</exclusion>
 				<exclusion>
 					<!-- 使用 javax.transaction-api 代替 -->
 					<groupId>org.jboss.spec.javax.transaction</groupId>
@@ -79,6 +109,13 @@
 			<artifactId>usertype.core</artifactId>
 			<version>4.0.0.GA</version>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-entitymanager</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<!-- 提升 Hibernate 传递依赖 -->
@@ -122,6 +159,23 @@
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>4.3.11.Final</version>
 			<scope>runtime</scope>
+			<exclusions>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging-annotations</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -133,6 +187,16 @@
 					<!-- 排除旧版本传递依赖 -->
 					<groupId>net.sf.ehcache</groupId>
 					<artifactId>ehcache-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging</artifactId>
+				</exclusion>
+				<exclusion>
+					<!-- 排除旧版本传递依赖 -->
+					<groupId>org.jboss.logging</groupId>
+					<artifactId>jboss-logging-annotations</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
