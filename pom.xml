@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>net.sf.matrixjavalib</groupId>
 		<artifactId>genesis7</artifactId>
-		<version>35</version>
+		<version>36</version>
 	</parent>
 	<dependencies>
 		<!-- compile -->
@@ -91,7 +91,7 @@
 			<!-- 提升 Hibernate 传递依赖 -->
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
-			<version>3.2.1.Final</version>
+			<version>3.1.4.Final</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
