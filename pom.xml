@@ -91,7 +91,7 @@
 			<!-- 提升 Hibernate 传递依赖 -->
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
-			<version>3.1.4.Final</version>
+			<version>3.1.4.GA</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
