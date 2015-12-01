@@ -175,7 +175,7 @@ public final class SessionFactoryManager
 		if (sessionFactory != null) {
 			try {
 				sessionFactory.close();
-				LOG.info(factoryName + " 配置的 Hibernate SessionFactory 已关闭。");
+				LOG.info("{} 配置的 Hibernate SessionFactory 已关闭。", factoryName);
 			} catch (HibernateException e) {
 				LOG.error(factoryName + " 配置的 Hibernate SessionFactory 关闭失败。", e);
 			} finally {
@@ -184,7 +184,7 @@ public final class SessionFactoryManager
 		}
 		if (serviceRegistry != null) {
 			StandardServiceRegistryBuilder.destroy(serviceRegistry);
-			LOG.info(factoryName + " 配置的 Hibernate ServiceRegistry 已销毁。");
+			LOG.info("{} 配置的 Hibernate ServiceRegistry 已销毁。", factoryName);
 			serviceRegistry = null;
 		}
 		configuration = null;

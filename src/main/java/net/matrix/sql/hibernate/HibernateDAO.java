@@ -511,7 +511,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 	 * @param pageable
 	 *            分页参数
 	 */
-	private void applyPageable(final Criteria criteria, final Pageable pageable) {
+	private static void applyPageable(final Criteria criteria, final Pageable pageable) {
 		criteria.setFirstResult(pageable.getOffset());
 		criteria.setMaxResults(pageable.getPageSize());
 		if (pageable.getSort() != null) {
@@ -527,7 +527,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 	 * @param sort
 	 *            排序
 	 */
-	private void applySort(final Criteria criteria, final Sort sort) {
+	private static void applySort(final Criteria criteria, final Sort sort) {
 		for (Sort.Order order : sort) {
 			Order hibernateOrder;
 			if (order.isAscending()) {
@@ -549,7 +549,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 	 *            查询 HQL 语句
 	 * @return 查询总记录数 HQL 语句
 	 */
-	private String buildCountQueryString(final String selectHql) {
+	private static String buildCountQueryString(final String selectHql) {
 		// select 子句与 order by 子句会影响 count 查询,进行简单的排除.
 		String body = StringUtils.substringAfter(selectHql, "from");
 		body = StringUtils.substringBeforeLast(body, "order by");
