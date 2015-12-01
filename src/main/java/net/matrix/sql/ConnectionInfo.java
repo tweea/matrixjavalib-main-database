@@ -90,31 +90,44 @@ public class ConnectionInfo
 		}
 	}
 
+	/**
+	 * Driver 类名称。
+	 */
 	public String getDriverClass() {
 		return driverClass;
 	}
 
+	/**
+	 * 连接 URL。
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * 用户名。
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * 密码。
+	 */
 	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * 获得数据库类型。
-	 * 
-	 * @return 数据库类型
+	 * 数据库类型。
 	 */
 	public String getDatabaseType() {
 		return databaseType;
 	}
 
+	/**
+	 * Driver 名称。
+	 */
 	public String getDriverName() {
 		return driverName;
 	}

@@ -39,6 +39,9 @@ import net.matrix.lang.Reflections;
  *            主键类型
  */
 public class HibernateDAO<T, ID extends Serializable> {
+	/**
+	 * 日志记录器。
+	 */
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -87,6 +90,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+	 * 实体类。
+	 */
 	public Class<T> getEntityClass() {
 		return entityClass;
 	}
@@ -98,6 +104,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		return sessionFactory;
 	}
 
+	/**
+	 * 设置 sessionFactory。
+	 */
 	public void setSessionFactory(final SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
@@ -109,6 +118,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		return sessionFactory.getCurrentSession();
 	}
 
+	/**
+	 * 是否自动调用 flush()，默认为 false。
+	 */
 	public boolean isAutoFlush() {
 		return false;
 	}
@@ -123,6 +135,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		return entity;
 	}
 
+	/**
+	 * 保存新增或修改的对象。
+	 */
 	public <S extends T> Iterable<S> save(final Iterable<S> entities) {
 		List<S> result = new ArrayList<>();
 
@@ -143,6 +158,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		return (T) currentSession().get(entityClass, id);
 	}
 
+	/**
+	 * 判断对象是否持久化。
+	 */
 	public boolean exists(final ID id) {
 		return findOne(id) != null;
 	}
@@ -165,6 +183,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		return result;
 	}
 
+	/**
+	 * 统计数量。
+	 */
 	public long count() {
 		Criteria criteria = createCriteria();
 		criteria.setProjection(Projections.rowCount());
@@ -199,12 +220,18 @@ public class HibernateDAO<T, ID extends Serializable> {
 		logger.debug("delete entity: {}", entity);
 	}
 
+	/**
+	 * 删除对象。
+	 */
 	public void delete(final Iterable<? extends T> entities) {
 		for (T entity : entities) {
 			delete(entity);
 		}
 	}
 
+	/**
+	 * 删除对象。
+	 */
 	public void deleteAll() {
 		for (T entity : findAll()) {
 			delete(entity);
@@ -220,6 +247,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 		return criteria.list();
 	}
 
+	/**
+	 * 获取全部对象，支持分页。
+	 */
 	public Page<T> findAll(final Pageable pageable) {
 		long totalCount = count();
 
