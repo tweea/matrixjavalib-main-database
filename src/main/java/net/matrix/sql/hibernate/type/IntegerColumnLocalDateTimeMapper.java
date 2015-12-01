@@ -20,27 +20,27 @@ public class IntegerColumnLocalDateTimeMapper
 	 */
 	private String format;
 
-	public void setFormat(String format) {
+	public void setFormat(final String format) {
 		this.format = format;
 	}
 
 	@Override
-	public LocalDateTime fromNonNullValue(Integer value) {
+	public LocalDateTime fromNonNullValue(final Integer value) {
 		return fromNonNullString(value.toString());
 	}
 
 	@Override
-	public Integer toNonNullValue(LocalDateTime value) {
+	public Integer toNonNullValue(final LocalDateTime value) {
 		return Integer.valueOf(toNonNullString(value));
 	}
 
 	@Override
-	public LocalDateTime fromNonNullString(String s) {
+	public LocalDateTime fromNonNullString(final String s) {
 		return DateTimeFormat.forPattern(format).parseLocalDateTime(s);
 	}
 
 	@Override
-	public String toNonNullString(LocalDateTime value) {
+	public String toNonNullString(final LocalDateTime value) {
 		return DateTimeFormat.forPattern(format).print(value);
 	}
 }

@@ -108,7 +108,7 @@ public class BatchedPreparedStatement
 	 * @param result
 	 *            新的执行结果
 	 */
-	private void addBatchResult(int[] result) {
+	private void addBatchResult(final int[] result) {
 		batchResult = ArrayUtils.addAll(batchResult, result);
 	}
 
@@ -433,139 +433,139 @@ public class BatchedPreparedStatement
 	}
 
 	@Override
-	public void setBlob(int parameterIndex, InputStream inputStream, long length)
+	public void setBlob(final int parameterIndex, final InputStream inputStream, final long length)
 		throws SQLException {
 		statement.setBlob(parameterIndex, inputStream, length);
 	}
 
 	@Override
-	public void setBlob(int parameterIndex, InputStream inputStream)
+	public void setBlob(final int parameterIndex, final InputStream inputStream)
 		throws SQLException {
 		statement.setBlob(parameterIndex, inputStream);
 	}
 
 	@Override
-	public void setBoolean(int parameterIndex, boolean x)
+	public void setBoolean(final int parameterIndex, final boolean x)
 		throws SQLException {
 		statement.setBoolean(parameterIndex, x);
 	}
 
 	@Override
-	public void setByte(int parameterIndex, byte x)
+	public void setByte(final int parameterIndex, final byte x)
 		throws SQLException {
 		statement.setByte(parameterIndex, x);
 	}
 
 	@Override
-	public void setBytes(int parameterIndex, byte[] x)
+	public void setBytes(final int parameterIndex, final byte[] x)
 		throws SQLException {
 		statement.setBytes(parameterIndex, x);
 	}
 
 	@Override
-	public void setCharacterStream(int parameterIndex, Reader reader, int length)
+	public void setCharacterStream(final int parameterIndex, final Reader reader, final int length)
 		throws SQLException {
 		statement.setCharacterStream(parameterIndex, reader, length);
 	}
 
 	@Override
-	public void setCharacterStream(int parameterIndex, Reader reader, long length)
+	public void setCharacterStream(final int parameterIndex, final Reader reader, final long length)
 		throws SQLException {
 		statement.setCharacterStream(parameterIndex, reader, length);
 	}
 
 	@Override
-	public void setCharacterStream(int parameterIndex, Reader reader)
+	public void setCharacterStream(final int parameterIndex, final Reader reader)
 		throws SQLException {
 		statement.setCharacterStream(parameterIndex, reader);
 	}
 
 	@Override
-	public void setClob(int parameterIndex, Clob x)
+	public void setClob(final int parameterIndex, final Clob x)
 		throws SQLException {
 		statement.setClob(parameterIndex, x);
 	}
 
 	@Override
-	public void setClob(int parameterIndex, Reader reader, long length)
+	public void setClob(final int parameterIndex, final Reader reader, final long length)
 		throws SQLException {
 		statement.setClob(parameterIndex, reader, length);
 	}
 
 	@Override
-	public void setClob(int parameterIndex, Reader reader)
+	public void setClob(final int parameterIndex, final Reader reader)
 		throws SQLException {
 		statement.setClob(parameterIndex, reader);
 	}
 
 	@Override
-	public void setCursorName(String name)
+	public void setCursorName(final String name)
 		throws SQLException {
 		statement.setCursorName(name);
 	}
 
 	@Override
-	public void setDate(int parameterIndex, Date x)
+	public void setDate(final int parameterIndex, final Date x)
 		throws SQLException {
 		statement.setDate(parameterIndex, x);
 	}
 
 	@Override
-	public void setDate(int parameterIndex, Date x, Calendar cal)
+	public void setDate(final int parameterIndex, final Date x, final Calendar cal)
 		throws SQLException {
 		statement.setDate(parameterIndex, x, cal);
 	}
 
 	@Override
-	public void setDouble(int parameterIndex, double x)
+	public void setDouble(final int parameterIndex, final double x)
 		throws SQLException {
 		statement.setDouble(parameterIndex, x);
 	}
 
 	@Override
-	public void setEscapeProcessing(boolean enable)
+	public void setEscapeProcessing(final boolean enable)
 		throws SQLException {
 		statement.setEscapeProcessing(enable);
 	}
 
 	@Override
-	public void setFetchDirection(int direction)
+	public void setFetchDirection(final int direction)
 		throws SQLException {
 		statement.setFetchDirection(direction);
 	}
 
 	@Override
-	public void setFetchSize(int rows)
+	public void setFetchSize(final int rows)
 		throws SQLException {
 		statement.setFetchSize(rows);
 	}
 
 	@Override
-	public void setFloat(int parameterIndex, float x)
+	public void setFloat(final int parameterIndex, final float x)
 		throws SQLException {
 		statement.setFloat(parameterIndex, x);
 	}
 
 	@Override
-	public void setInt(int parameterIndex, int x)
+	public void setInt(final int parameterIndex, final int x)
 		throws SQLException {
 		statement.setInt(parameterIndex, x);
 	}
 
 	@Override
-	public void setLong(int parameterIndex, long x)
+	public void setLong(final int parameterIndex, final long x)
 		throws SQLException {
 		statement.setLong(parameterIndex, x);
 	}
 
 	@Override
-	public void setMaxFieldSize(int max)
+	public void setMaxFieldSize(final int max)
 		throws SQLException {
 		statement.setMaxFieldSize(max);
 	}
 
 	@Override
-	public void setMaxRows(int max)
+	public void setMaxRows(final int max)
 		throws SQLException {
 		statement.setMaxRows(max);
 	}

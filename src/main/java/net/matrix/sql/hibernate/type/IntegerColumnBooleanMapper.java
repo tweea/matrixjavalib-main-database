@@ -14,7 +14,7 @@ public class IntegerColumnBooleanMapper
 	private static final long serialVersionUID = 4205713919952452881L;
 
 	@Override
-	public Boolean fromNonNullValue(Integer i) {
+	public Boolean fromNonNullValue(final Integer i) {
 		if (i == 0) {
 			return Boolean.FALSE;
 		}
@@ -22,7 +22,7 @@ public class IntegerColumnBooleanMapper
 	}
 
 	@Override
-	public Integer toNonNullValue(Boolean value) {
+	public Integer toNonNullValue(final Boolean value) {
 		if (value) {
 			return 1;
 		} else {
@@ -31,7 +31,7 @@ public class IntegerColumnBooleanMapper
 	}
 
 	@Override
-	public Boolean fromNonNullString(String s) {
+	public Boolean fromNonNullString(final String s) {
 		if ("0".equals(s)) {
 			return Boolean.FALSE;
 		}
@@ -39,7 +39,7 @@ public class IntegerColumnBooleanMapper
 	}
 
 	@Override
-	public String toNonNullString(Boolean value) {
+	public String toNonNullString(final Boolean value) {
 		if (value) {
 			return "1";
 		} else {

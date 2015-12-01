@@ -25,7 +25,7 @@ public class LocalDateTimeAsIntegerType
 	public static final String DATE_FORMAT = "yyyyMMdd";
 
 	@Override
-	public void applyConfiguration(SessionFactory sessionFactory) {
+	public void applyConfiguration(final SessionFactory sessionFactory) {
 		super.applyConfiguration(sessionFactory);
 
 		IntegerColumnLocalDateTimeMapper columnMapper = getColumnMapper();

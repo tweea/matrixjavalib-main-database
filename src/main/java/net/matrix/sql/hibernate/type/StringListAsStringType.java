@@ -28,7 +28,7 @@ public class StringListAsStringType
 	private static final long serialVersionUID = 2068406929466129144L;
 
 	@Override
-	public List<String> nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+	public List<String> nullSafeGet(final ResultSet rs, final String[] names, final SessionImplementor session, final Object owner)
 		throws HibernateException, SQLException {
 		List<String> list = super.nullSafeGet(rs, names, session, owner);
 		if (list == null) {
@@ -38,7 +38,7 @@ public class StringListAsStringType
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+	public void nullSafeSet(final PreparedStatement st, final Object value, final int index, final SessionImplementor session)
 		throws HibernateException, SQLException {
 		if (value == null) {
 			st.setNull(index, Types.VARCHAR);
@@ -53,7 +53,7 @@ public class StringListAsStringType
 	}
 
 	@Override
-	public void applyConfiguration(SessionFactory sessionFactory) {
+	public void applyConfiguration(final SessionFactory sessionFactory) {
 		super.applyConfiguration(sessionFactory);
 
 		StringColumnStringListMapper columnMapper = getColumnMapper();

@@ -28,7 +28,7 @@ public class IntegerListAsStringType
 	private static final long serialVersionUID = 2068406929466129144L;
 
 	@Override
-	public List<Integer> nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+	public List<Integer> nullSafeGet(final ResultSet rs, final String[] names, final SessionImplementor session, final Object owner)
 		throws HibernateException, SQLException {
 		List<Integer> list = super.nullSafeGet(rs, names, session, owner);
 		if (list == null) {
@@ -38,7 +38,7 @@ public class IntegerListAsStringType
 	}
 
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+	public void nullSafeSet(final PreparedStatement st, final Object value, final int index, final SessionImplementor session)
 		throws HibernateException, SQLException {
 		if (value == null) {
 			st.setNull(index, Types.VARCHAR);
@@ -53,7 +53,7 @@ public class IntegerListAsStringType
 	}
 
 	@Override
-	public void applyConfiguration(SessionFactory sessionFactory) {
+	public void applyConfiguration(final SessionFactory sessionFactory) {
 		super.applyConfiguration(sessionFactory);
 
 		StringColumnIntegerListMapper columnMapper = getColumnMapper();

@@ -79,7 +79,7 @@ public final class SessionFactoryManager
 	 * @throws IllegalStateException
 	 *             还未命名实例
 	 */
-	public static SessionFactoryManager getInstance(String name) {
+	public static SessionFactoryManager getInstance(final String name) {
 		if (DEFAULT_NAME.equals(name)) {
 			return getInstance();
 		}
@@ -96,7 +96,7 @@ public final class SessionFactoryManager
 	 *            SessionFactory 名称
 	 * @return true 为已占用
 	 */
-	public static boolean isNameUsed(String name) {
+	public static boolean isNameUsed(final String name) {
 		return INSTANCES.containsKey(name);
 	}
 
@@ -108,7 +108,7 @@ public final class SessionFactoryManager
 	 * @throws IllegalStateException
 	 *             名称已被占用
 	 */
-	public static void nameSessionFactory(String name) {
+	public static void nameSessionFactory(final String name) {
 		synchronized (INSTANCES) {
 			if (isNameUsed(name)) {
 				throw new IllegalStateException("名称 " + name + " 已被占用");
@@ -127,7 +127,7 @@ public final class SessionFactoryManager
 	 * @throws IllegalStateException
 	 *             名称已被占用
 	 */
-	public static void nameSessionFactory(String name, String configResource) {
+	public static void nameSessionFactory(final String name, final String configResource) {
 		synchronized (INSTANCES) {
 			if (isNameUsed(name)) {
 				throw new IllegalStateException("名称 " + name + " 已被占用");
@@ -153,13 +153,13 @@ public final class SessionFactoryManager
 		}
 	}
 
-	private SessionFactoryManager(String name) {
+	private SessionFactoryManager(final String name) {
 		this.factoryName = name;
 		this.configResource = null;
 		this.threadContext = new ThreadLocal<>();
 	}
 
-	private SessionFactoryManager(String name, String configResource) {
+	private SessionFactoryManager(final String name, final String configResource) {
 		this.factoryName = name;
 		this.configResource = configResource;
 		this.threadContext = new ThreadLocal<>();

@@ -21,13 +21,13 @@ public class StringColumnIntegerListMapper
 
 	private Pattern pattern;
 
-	public void setSeparator(String separator) {
+	public void setSeparator(final String separator) {
 		this.separator = separator;
 		this.pattern = Pattern.compile(separator);
 	}
 
 	@Override
-	public List<Integer> fromNonNullValue(String value) {
+	public List<Integer> fromNonNullValue(final String value) {
 		List<Integer> result = new ArrayList<>();
 		String[] list = pattern.split(value);
 		for (String item : list) {
@@ -37,7 +37,7 @@ public class StringColumnIntegerListMapper
 	}
 
 	@Override
-	public String toNonNullValue(List<Integer> value) {
+	public String toNonNullValue(final List<Integer> value) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value.size(); i++) {
 			if (i != 0) {

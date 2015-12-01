@@ -24,7 +24,7 @@ public final class HQLs {
 	 * @param index
 	 *            序号
 	 */
-	public static void appendParameterName(StringBuilder sb, int index) {
+	public static void appendParameterName(final StringBuilder sb, final int index) {
 		sb.append(PARAMETER_PREFIX).append(index);
 	}
 
@@ -34,7 +34,7 @@ public final class HQLs {
 	 * @param index
 	 *            序号
 	 */
-	public static String getParameterName(int index) {
+	public static String getParameterName(final int index) {
 		return PARAMETER_PREFIX[1] + Integer.toString(index);
 	}
 }
