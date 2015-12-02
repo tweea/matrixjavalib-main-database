@@ -106,7 +106,18 @@ public class AutoRollbackConnection
 	@Override
 	public void close()
 		throws SQLException {
-		connection.close();
+		if (connection.isClosed()) {
+			return;
+		}
+		if (connection.getAutoCommit()) {
+			connection.close();
+		} else {
+			try {
+				connection.rollback();
+			} finally {
+				connection.close();
+			}
+		}
 	}
 
 	@Override
