@@ -1312,11 +1312,11 @@ public final class HibernateHelper {
 							stmt.setObject(i + 1, params[i]);
 						}
 					}
-					ResultSet rlt = stmt.executeQuery();
-					if (!rlt.next()) {
+					ResultSet rs = stmt.executeQuery();
+					if (!rs.next()) {
 						return 0L;
 					}
-					return rlt.getLong(1);
+					return rs.getLong(1);
 				}
 			}
 		});
@@ -1349,11 +1349,11 @@ public final class HibernateHelper {
 							stmt.setObject(i + 1, params[i]);
 						}
 					}
-					ResultSet rlt = stmt.executeQuery();
+					ResultSet rs = stmt.executeQuery();
 					Long[] result = new Long[countNum];
-					if (rlt.next()) {
+					if (rs.next()) {
 						for (int i = 0; i < countNum; i++) {
-							result[i] = rlt.getLong(i + 1);
+							result[i] = rs.getLong(i + 1);
 						}
 					} else {
 						for (int i = 0; i < countNum; i++) {
