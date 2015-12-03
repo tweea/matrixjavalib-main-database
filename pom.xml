@@ -18,6 +18,12 @@
 	<dependencies>
 		<!-- compile -->
 		<dependency>
+			<groupId>commons-dbutils</groupId>
+			<artifactId>commons-dbutils</artifactId>
+			<version>1.6</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
 			<!-- 替代 Hibernate 依赖 -->
 			<groupId>javax.transaction</groupId>
 			<artifactId>javax.transaction-api</artifactId>

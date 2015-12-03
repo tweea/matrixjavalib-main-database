@@ -8,14 +8,15 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.dbutils.BasicRowProcessor;
+import org.apache.commons.dbutils.RowProcessor;
+import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Query;
@@ -23,8 +24,6 @@ import org.hibernate.Session;
 import org.hibernate.jdbc.ReturningWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import net.matrix.lang.Objects2;
 
 /**
  * Hibernate 实用类。
@@ -34,6 +33,10 @@ public final class HibernateHelper {
 	 * 日志记录器。
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(HibernateHelper.class);
+
+	private static final MapListHandler SQL_MAPLIST_HANDLER = new MapListHandler();
+
+	private static final RowProcessor ROW_PROCESSOR = new BasicRowProcessor();
 
 	/**
 	 * 阻止实例化。
@@ -1230,83 +1233,50 @@ public final class HibernateHelper {
 		return updateSQL(getTransactionContext(sessionFactoryName), sql, params);
 	}
 
-	public static List<Map<String, String>> querySQLAsMap(final Session session, final String sql)
+	public static List<Map<String, Object>> querySQLAsMap(final Session session, final String sql)
 		throws SQLException {
-		return doReturningWork(session, new ReturningWork<List<Map<String, String>>>() {
+		return doReturningWork(session, new ReturningWork<List<Map<String, Object>>>() {
 			@Override
-			public List<Map<String, String>> execute(Connection connection)
+			public List<Map<String, Object>> execute(Connection connection)
 				throws SQLException {
 				try (Statement stmt = connection.createStatement()) {
 					ResultSet rs = stmt.executeQuery(sql);
-
-					// field name
-					ResultSetMetaData meta = rs.getMetaData();
-					int count = meta.getColumnCount();
-					String[] str = new String[count];
-					for (int i = 0; i < count; i++) {
-						str[i] = meta.getColumnName(i + 1).toLowerCase();
-					}
-
-					List<Map<String, String>> table = new ArrayList<>();
-					while (rs.next()) {
-						Map<String, String> row = new HashMap<>();
-						for (int i = 0; i < count; i++) {
-							row.put(str[i], rs.getString(i + 1));
-						}
-						table.add(row);
-					}
-					return table;
+					return SQL_MAPLIST_HANDLER.handle(rs);
 				}
 			}
 		});
 	}
 
-	public static List<Map<String, String>> querySQLAsMap(final HibernateTransactionContext context, final String sql)
+	public static List<Map<String, Object>> querySQLAsMap(final HibernateTransactionContext context, final String sql)
 		throws SQLException {
 		return querySQLAsMap(getSession(context), sql);
 	}
 
-	public static List<Map<String, String>> querySQLAsMap(final String sql)
+	public static List<Map<String, Object>> querySQLAsMap(final String sql)
 		throws SQLException {
 		return querySQLAsMap(getTransactionContext(), sql);
 	}
 
-	public static List<Map<String, String>> querySQLAsMap(final String sessionFactoryName, final String sql)
+	public static List<Map<String, Object>> querySQLAsMap(final String sessionFactoryName, final String sql)
 		throws SQLException {
 		return querySQLAsMap(getTransactionContext(sessionFactoryName), sql);
 	}
 
-	public static List<Map<String, String>> querySQLPageAsMap(final Session session, final String sql, final int startNum, final int numPerPage)
+	public static List<Map<String, Object>> querySQLPageAsMap(final Session session, final String sql, final int startNum, final int numPerPage)
 		throws SQLException {
-		return doReturningWork(session, new ReturningWork<List<Map<String, String>>>() {
+		return doReturningWork(session, new ReturningWork<List<Map<String, Object>>>() {
 			@Override
-			public List<Map<String, String>> execute(Connection connection)
+			public List<Map<String, Object>> execute(Connection connection)
 				throws SQLException {
 				try (Statement stmt = connection.createStatement()) {
 					ResultSet rs = stmt.executeQuery(sql);
 
-					ResultSetMetaData meta = rs.getMetaData();
-					int count = meta.getColumnCount();
-					int i = 0;
-					String[] str = new String[count];
-					for (; i < count; i++) {
-						str[i] = meta.getColumnName(i + 1).toLowerCase();
+					List<Map<String, Object>> table = new ArrayList<>();
+					for (int index = 0; index < startNum && rs.next(); index++) {
 					}
-
-					List<Map<String, String>> table = new ArrayList<>();
-					int index = 0;
-					while (index < startNum && rs.next()) {
-						index++;
-					}
-					int j = 0;
-					while (rs.next() && j < numPerPage) {
-						Map<String, String> row = new HashMap<>();
-						for (i = 0; i < count; i++) {
-							String tem = Objects2.isNull(rs.getString(i + 1), "");
-							row.put(str[i], tem);
-						}
+					for (int index = 0; rs.next() && index < numPerPage; index++) {
+						Map<String, Object> row = ROW_PROCESSOR.toMap(rs);
 						table.add(row);
-						j += 1;
 					}
 					return table;
 				}
@@ -1314,18 +1284,18 @@ public final class HibernateHelper {
 		});
 	}
 
-	public static List<Map<String, String>> querySQLPageAsMap(final HibernateTransactionContext context, final String sql, final int startNum,
+	public static List<Map<String, Object>> querySQLPageAsMap(final HibernateTransactionContext context, final String sql, final int startNum,
 		final int numPerPage)
 			throws SQLException {
 		return querySQLPageAsMap(getSession(context), sql, startNum, numPerPage);
 	}
 
-	public static List<Map<String, String>> querySQLPageAsMap(final String sql, final int startNum, final int numPerPage)
+	public static List<Map<String, Object>> querySQLPageAsMap(final String sql, final int startNum, final int numPerPage)
 		throws SQLException {
 		return querySQLPageAsMap(getTransactionContext(), sql, startNum, numPerPage);
 	}
 
-	public static List<Map<String, String>> querySQLPageAsMap(final String sessionFactoryName, final String sql, final int startNum, final int numPerPage)
+	public static List<Map<String, Object>> querySQLPageAsMap(final String sessionFactoryName, final String sql, final int startNum, final int numPerPage)
 		throws SQLException {
 		return querySQLPageAsMap(getTransactionContext(sessionFactoryName), sql, startNum, numPerPage);
 	}
