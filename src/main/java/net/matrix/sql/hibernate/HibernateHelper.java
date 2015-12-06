@@ -1268,18 +1268,19 @@ public final class HibernateHelper {
 			@Override
 			public List<Map<String, Object>> execute(Connection connection)
 				throws SQLException {
+				List<Map<String, Object>> table = new ArrayList<>();
+
 				try (Statement stmt = connection.createStatement()) {
 					ResultSet rs = stmt.executeQuery(sql);
-
-					List<Map<String, Object>> table = new ArrayList<>();
 					for (int index = 0; index < startNum && rs.next(); index++) {
 					}
 					for (int index = 0; rs.next() && index < numPerPage; index++) {
 						Map<String, Object> row = ROW_PROCESSOR.toMap(rs);
 						table.add(row);
 					}
-					return table;
 				}
+
+				return table;
 			}
 		});
 	}
