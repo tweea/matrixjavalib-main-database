@@ -4,7 +4,7 @@
 
 	<!-- 基本属性 - 项目属性 -->
 	<artifactId>mxlib-db</artifactId>
-	<version>2.0.1-SNAPSHOT</version>
+	<version>2.0.1</version>
 	<packaging>jar</packaging>
 
 	<!-- 基本属性 - 属性 -->
@@ -273,6 +273,6 @@
 		<connection>scm:git:https://github.com/tweea/matrixjavalib-main-db.git</connection>
 		<developerConnection>scm:git:https://github.com/tweea/matrixjavalib-main-db.git</developerConnection>
 		<url>https://github.com/tweea/matrixjavalib-main-db</url>
-		<tag>HEAD</tag>
+		<tag>mxlib-db-2.0.1</tag>
 	</scm>
 </project>
