@@ -21,55 +21,55 @@ import org.jadira.usertype.spi.shared.ConfigurationHelper;
  * 将数据库中的字符串值作为整形列表值处理的类型。
  */
 public class IntegerListAsStringType
-	extends AbstractParameterizedUserType<List<Integer>, String, StringColumnIntegerListMapper> {
-	/**
-	 * 序列化。
-	 */
-	private static final long serialVersionUID = 2068406929466129144L;
+    extends AbstractParameterizedUserType<List<Integer>, String, StringColumnIntegerListMapper> {
+    /**
+     * 序列化。
+     */
+    private static final long serialVersionUID = 2068406929466129144L;
 
-	@Override
-	public List<Integer> nullSafeGet(final ResultSet rs, final String[] names, final SessionImplementor session, final Object owner)
-		throws HibernateException, SQLException {
-		List<Integer> list = super.nullSafeGet(rs, names, session, owner);
-		if (list == null) {
-			return new ArrayList();
-		}
-		return list;
-	}
+    @Override
+    public List<Integer> nullSafeGet(final ResultSet rs, final String[] names, final SessionImplementor session, final Object owner)
+        throws HibernateException, SQLException {
+        List<Integer> list = super.nullSafeGet(rs, names, session, owner);
+        if (list == null) {
+            return new ArrayList();
+        }
+        return list;
+    }
 
-	@Override
-	public void nullSafeSet(final PreparedStatement st, final Object value, final int index, final SessionImplementor session)
-		throws HibernateException, SQLException {
-		if (value == null) {
-			st.setNull(index, Types.VARCHAR);
-			return;
-		}
-		List<Integer> v = (List) value;
-		if (v.isEmpty()) {
-			st.setNull(index, Types.VARCHAR);
-			return;
-		}
-		super.nullSafeSet(st, value, index, session);
-	}
+    @Override
+    public void nullSafeSet(final PreparedStatement st, final Object value, final int index, final SessionImplementor session)
+        throws HibernateException, SQLException {
+        if (value == null) {
+            st.setNull(index, Types.VARCHAR);
+            return;
+        }
+        List<Integer> v = (List) value;
+        if (v.isEmpty()) {
+            st.setNull(index, Types.VARCHAR);
+            return;
+        }
+        super.nullSafeSet(st, value, index, session);
+    }
 
-	@Override
-	public void applyConfiguration(final SessionFactory sessionFactory) {
-		super.applyConfiguration(sessionFactory);
+    @Override
+    public void applyConfiguration(final SessionFactory sessionFactory) {
+        super.applyConfiguration(sessionFactory);
 
-		StringColumnIntegerListMapper columnMapper = getColumnMapper();
+        StringColumnIntegerListMapper columnMapper = getColumnMapper();
 
-		String separator = null;
-		if (getParameterValues() != null) {
-			separator = getParameterValues().getProperty("separator");
-		}
-		if (separator == null) {
-			separator = ConfigurationHelper.getProperty("separator");
-		}
+        String separator = null;
+        if (getParameterValues() != null) {
+            separator = getParameterValues().getProperty("separator");
+        }
+        if (separator == null) {
+            separator = ConfigurationHelper.getProperty("separator");
+        }
 
-		if (separator == null) {
-			columnMapper.setSeparator(",");
-		} else {
-			columnMapper.setSeparator(separator);
-		}
-	}
+        if (separator == null) {
+            columnMapper.setSeparator(",");
+        } else {
+            columnMapper.setSeparator(separator);
+        }
+    }
 }

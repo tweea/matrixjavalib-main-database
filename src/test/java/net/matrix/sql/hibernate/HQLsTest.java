@@ -11,10 +11,10 @@ import org.junit.Test;
  * Hibernate 测试
  */
 public class HQLsTest {
-	@Test
-	public void getParameterName()
-		throws Exception {
-		Assertions.assertThat(HQLs.getParameterName(0)).isEqualTo("p0");
-		Assertions.assertThat(HQLs.getParameterName(10)).isEqualTo("p10");
-	}
+    @Test
+    public void getParameterName()
+        throws Exception {
+        Assertions.assertThat(HQLs.getParameterName(0)).isEqualTo("p0");
+        Assertions.assertThat(HQLs.getParameterName(10)).isEqualTo("p10");
+    }
 }
