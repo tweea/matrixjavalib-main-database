@@ -42,7 +42,7 @@ public class BatchedPreparedStatementTest {
         assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
         assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(0);
         assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-        assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
+        assertThat(fieldSupport.fieldValue("batchResult", long[].class, batchedStatement)).isEmpty();
     }
 
     @Test
@@ -51,13 +51,16 @@ public class BatchedPreparedStatementTest {
         assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
         assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(3);
         assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-        assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
+        assertThat(fieldSupport.fieldValue("batchResult", long[].class, batchedStatement)).isEmpty();
     }
 
     @Test
     public void testAddBatch()
         throws SQLException {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
+        Mockito.when(statement.executeBatch()).thenReturn(new int[] {
+            1, 2
+        });
 
         assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
         batchedStatement.addBatch();

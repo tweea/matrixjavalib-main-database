@@ -28,14 +28,14 @@ import net.matrix.sql.ConnectionInfo;
 public final class SessionFactoryManager
     implements Resettable {
     /**
-     * 默认的 SessionFactory 名称。
-     */
-    public static final String DEFAULT_NAME = "";
-
-    /**
      * 日志记录器。
      */
     private static final Logger LOG = LoggerFactory.getLogger(SessionFactoryManager.class);
+
+    /**
+     * 默认的 SessionFactory 名称。
+     */
+    public static final String DEFAULT_NAME = "";
 
     /**
      * 所有的实例。
@@ -55,7 +55,7 @@ public final class SessionFactoryManager
     private SessionFactory sessionFactory;
 
     /**
-     * @return 默认实例
+     * 默认实例。
      */
     public static SessionFactoryManager getInstance() {
         SessionFactoryManager instance = INSTANCES.get(DEFAULT_NAME);
@@ -73,6 +73,8 @@ public final class SessionFactoryManager
     }
 
     /**
+     * 命名实例。
+     * 
      * @param name
      *     SessionFactory 名称
      * @return 实例
@@ -177,7 +179,7 @@ public final class SessionFactoryManager
                 sessionFactory.close();
                 LOG.info("{} 配置的 Hibernate SessionFactory 已关闭。", factoryName);
             } catch (HibernateException e) {
-                LOG.error(factoryName + " 配置的 Hibernate SessionFactory 关闭失败。", e);
+                LOG.error("{} 配置的 Hibernate SessionFactory 关闭失败。", factoryName, e);
             } finally {
                 sessionFactory = null;
             }

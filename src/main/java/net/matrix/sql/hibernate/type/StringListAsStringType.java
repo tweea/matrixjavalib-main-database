@@ -21,10 +21,7 @@ import org.jadira.usertype.spi.shared.ConfigurationHelper;
  */
 public class StringListAsStringType
     extends AbstractParameterizedUserType<List<String>, String, StringColumnStringListMapper> {
-    /**
-     * 序列化。
-     */
-    private static final long serialVersionUID = 2068406929466129144L;
+    private static final long serialVersionUID = -8673372663696152816L;
 
     @Override
     public List<String> nullSafeGet(final ResultSet resultSet, final String[] strings, final SharedSessionContractImplementor session, final Object object)

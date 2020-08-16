@@ -42,7 +42,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 日志记录器。
      */
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     /**
      * 实体类。
@@ -130,7 +130,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      */
     public <S extends T> S save(final S entity) {
         currentSession().save(entity);
-        logger.debug("save entity: {}", entity);
+        LOG.debug("save entity: {}", entity);
         autoFlush();
         return entity;
     }
@@ -143,7 +143,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
         for (S entity : entities) {
             currentSession().save(entity);
-            logger.debug("save entity: {}", entity);
+            LOG.debug("save entity: {}", entity);
             result.add(entity);
         }
         autoFlush();
@@ -201,7 +201,7 @@ public class HibernateDAO<T, ID extends Serializable> {
             throw new ObjectNotFoundException(id, entityClass.getSimpleName());
         }
         delete(entity);
-        logger.debug("delete entity {},id is {}", entityClass.getSimpleName(), id);
+        LOG.debug("delete entity {}, id is {}", entityClass.getSimpleName(), id);
     }
 
     /**
@@ -217,7 +217,7 @@ public class HibernateDAO<T, ID extends Serializable> {
         } else {
             session.delete(session.merge(entity));
         }
-        logger.debug("delete entity: {}", entity);
+        LOG.debug("delete entity: {}", entity);
     }
 
     /**

@@ -11,8 +11,5 @@ import org.jadira.usertype.spi.shared.AbstractSingleColumnUserType;
  */
 public class BooleanAsIntegerType
     extends AbstractSingleColumnUserType<Boolean, Integer, IntegerColumnBooleanMapper> {
-    /**
-     * 序列化。
-     */
     private static final long serialVersionUID = -1033841989530038459L;
 }

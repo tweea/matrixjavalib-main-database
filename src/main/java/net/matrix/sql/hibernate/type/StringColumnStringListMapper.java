@@ -15,7 +15,7 @@ import org.jadira.usertype.spi.shared.AbstractStringColumnMapper;
  */
 public class StringColumnStringListMapper
     extends AbstractStringColumnMapper<List<String>> {
-    private static final long serialVersionUID = -3448788221055335510L;
+    private static final long serialVersionUID = -3475442845411414073L;
 
     private String separator;
 

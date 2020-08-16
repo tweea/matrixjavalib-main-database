@@ -24,20 +24,20 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * 关闭时自动 rollback 的 Connection。
+ * 关闭时自动 rollback 的 {@link Connection}。
  */
 public class AutoRollbackConnection
     implements Connection {
     /**
-     * 被包装的 Connection。
+     * 被包装的 {@link Connection}。
      */
     private final Connection connection;
 
     /**
-     * 包装一个 Connection。
+     * 包装一个 {@link Connection}。
      * 
      * @param connection
-     *     被包装的 Connection
+     *     被包装的 {@link Connection}
      */
     public AutoRollbackConnection(final Connection connection) {
         this.connection = connection;

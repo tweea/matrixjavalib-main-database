@@ -15,10 +15,7 @@ import java.sql.SQLException;
  */
 public class ConnectionInfo
     implements Serializable {
-    /**
-     * serialVersionUID。
-     */
-    private static final long serialVersionUID = -7842286530934311836L;
+    private static final long serialVersionUID = -9075141485319668357L;
 
     // 连接信息
     /**
@@ -139,7 +136,7 @@ public class ConnectionInfo
      * @throws SQLException
      *     找不到驱动类或建立连接失败
      */
-    public final Connection getConnection()
+    public Connection getConnection()
         throws SQLException {
         try {
             Class.forName(driverClass);

@@ -14,10 +14,7 @@ import org.joda.time.LocalDateTime;
  */
 public class LocalDateTimeAsIntegerType
     extends AbstractParameterizedUserType<LocalDateTime, Integer, IntegerColumnLocalDateTimeMapper> {
-    /**
-     * 序列化。
-     */
-    private static final long serialVersionUID = -460554393165063180L;
+    private static final long serialVersionUID = -4966668259684491392L;
 
     /**
      * 仅有日期的格式。
