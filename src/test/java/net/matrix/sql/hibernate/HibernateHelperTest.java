@@ -4,33 +4,34 @@
  */
 package net.matrix.sql.hibernate;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.api.Assertions;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HibernateHelperTest {
-    @BeforeClass
-    public static void setUpBeforeClass()
-        throws Exception {
+    @BeforeAll
+    public static void beforeAll() {
         SessionFactoryManager.getInstance();
     }
 
     @Test
-    public void querySQLAsMap()
-        throws Exception {
+    public void testQuerySQLAsMap()
+        throws SQLException {
         List<Map<String, Object>> result = HibernateHelper.querySQLAsMap("VALUES ('abc'), ('123')");
-        Assertions.assertThat(result).hasSize(2);
-        Assertions.assertThat(result.get(0)).containsEntry("1", "abc");
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0)).containsEntry("1", "abc");
     }
 
     @Test
-    public void querySQLPageAsMap()
-        throws Exception {
+    public void testQuerySQLPageAsMap()
+        throws SQLException {
         List<Map<String, Object>> result = HibernateHelper.querySQLPageAsMap("VALUES ('abc'), ('123')", 1, 1);
-        Assertions.assertThat(result).hasSize(1);
-        Assertions.assertThat(result.get(0)).containsEntry("1", "123");
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0)).containsEntry("1", "123");
     }
 }

@@ -11,9 +11,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.jadira.usertype.spi.shared.AbstractParameterizedUserType;
 import org.jadira.usertype.spi.shared.ConfigurationHelper;
 
@@ -28,9 +27,9 @@ public class StringListAsStringType
     private static final long serialVersionUID = 2068406929466129144L;
 
     @Override
-    public List<String> nullSafeGet(final ResultSet rs, final String[] names, final SessionImplementor session, final Object owner)
-        throws HibernateException, SQLException {
-        List<String> list = super.nullSafeGet(rs, names, session, owner);
+    public List<String> nullSafeGet(final ResultSet resultSet, final String[] strings, final SharedSessionContractImplementor session, final Object object)
+        throws SQLException {
+        List<String> list = super.nullSafeGet(resultSet, strings, session, object);
         if (list == null) {
             return new ArrayList();
         }
@@ -38,18 +37,18 @@ public class StringListAsStringType
     }
 
     @Override
-    public void nullSafeSet(final PreparedStatement st, final Object value, final int index, final SessionImplementor session)
-        throws HibernateException, SQLException {
+    public void nullSafeSet(final PreparedStatement preparedStatement, final Object value, final int index, final SharedSessionContractImplementor session)
+        throws SQLException {
         if (value == null) {
-            st.setNull(index, Types.VARCHAR);
+            preparedStatement.setNull(index, Types.VARCHAR);
             return;
         }
         List<String> v = (List) value;
         if (v.isEmpty()) {
-            st.setNull(index, Types.VARCHAR);
+            preparedStatement.setNull(index, Types.VARCHAR);
             return;
         }
-        super.nullSafeSet(st, value, index, session);
+        super.nullSafeSet(preparedStatement, value, index, session);
     }
 
     @Override

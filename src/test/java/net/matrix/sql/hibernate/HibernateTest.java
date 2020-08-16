@@ -4,16 +4,18 @@
  */
 package net.matrix.sql.hibernate;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import java.sql.SQLException;
+
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Hibernate 测试
  */
 public class HibernateTest {
     @Test
-    public void testContextManager()
-        throws Exception {
+    public void testContextManager() {
         SessionFactoryManager mm = SessionFactoryManager.getInstance();
         HibernateTransactionContext tc0 = mm.getTransactionContext();
         HibernateTransactionContext tc1 = mm.getTransactionContext();
@@ -21,34 +23,24 @@ public class HibernateTest {
         HibernateTransactionContext tc01 = mm.getTransactionContext();
         HibernateTransactionContext tc11 = mm.getTransactionContext();
         HibernateTransactionContext tc21 = mm.getTransactionContext();
-        Assertions.assertThat(tc01).isSameAs(tc0);
-        Assertions.assertThat(tc11).isSameAs(tc1);
-        Assertions.assertThat(tc21).isSameAs(tc2);
+        assertThat(tc01).isSameAs(tc0);
+        assertThat(tc11).isSameAs(tc1);
+        assertThat(tc21).isSameAs(tc2);
     }
 
     @Test
     public void testCreateDrop()
-        throws Exception {
+        throws SQLException {
         SessionFactoryManager mm = SessionFactoryManager.getInstance();
-        Assertions.assertThat(mm.getTransactionContext()).isNotNull();
+        assertThat(mm.getTransactionContext()).isNotNull();
         mm.dropTransactionContext();
         mm.dropTransactionContext();
-        Assertions.assertThat(mm.getTransactionContext()).isNotNull();
+        assertThat(mm.getTransactionContext()).isNotNull();
     }
 
     @Test
     public void testTransactionContext()
-        throws Exception {
-        SessionFactoryManager mm = SessionFactoryManager.getInstance();
-        HibernateTransactionContext tc = mm.getTransactionContext();
-        tc.begin();
-        tc.commit();
-        tc.release();
-    }
-
-    @Test
-    public void testSetConfigName()
-        throws Exception {
+        throws SQLException {
         SessionFactoryManager mm = SessionFactoryManager.getInstance();
         HibernateTransactionContext tc = mm.getTransactionContext();
         tc.begin();

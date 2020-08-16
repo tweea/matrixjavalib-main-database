@@ -27,9 +27,6 @@ import org.joda.time.LocalDate;
 @Table(name = "TEST_USER")
 public class UserInfo
     implements Serializable {
-    /**
-     * serialVersionUID.
-     */
     private static final long serialVersionUID = -1218387201153161009L;
 
     @Id

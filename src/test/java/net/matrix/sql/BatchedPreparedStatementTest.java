@@ -7,72 +7,84 @@ package net.matrix.sql;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.util.introspection.FieldSupport;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class BatchedPreparedStatementTest {
+    private FieldSupport fieldSupport = FieldSupport.extraction();
+
+    private AutoCloseable mock;
+
     @Mock
     private PreparedStatement statement;
 
-    private FieldSupport fieldSupport = FieldSupport.extraction();
+    @BeforeEach
+    public void beforeEach() {
+        mock = MockitoAnnotations.openMocks(this);
+    }
 
-    @Before
-    public void before() {
-        MockitoAnnotations.initMocks(this);
+    @AfterEach
+    public void afterEach()
+        throws Exception {
+        mock.close();
     }
 
     @Test
-    public void testBatchedPreparedStatementPreparedStatement() {
+    public void testBatchedPreparedStatement() {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement);
-        Assertions.assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
-        Assertions.assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(0);
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-        Assertions.assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
+        assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
+        assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(0);
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+        assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
     }
 
     @Test
-    public void testBatchedPreparedStatementPreparedStatementInt() {
+    public void testBatchedPreparedStatement_withSize() {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3);
-        Assertions.assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
-        Assertions.assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(3);
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-        Assertions.assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
+        assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
+        assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(3);
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+        assertThat(fieldSupport.fieldValue("batchResult", int[].class, batchedStatement)).isEmpty();
     }
 
     @Test
     public void testAddBatch()
         throws SQLException {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
         batchedStatement.addBatch();
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(1);
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(1);
         batchedStatement.addBatch();
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
     }
 
     @Test
     public void testClearBatch()
         throws SQLException {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
         batchedStatement.addBatch();
         batchedStatement.clearBatch();
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
     }
 
     @Test
     public void testClose()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2)) {
-            Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+            assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
             batchedStatement.addBatch();
             batchedStatement.close();
-            Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+            assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
         }
     }
 
@@ -85,19 +97,20 @@ public class BatchedPreparedStatementTest {
         }, new int[] {
             3
         });
-        Assertions.assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
         batchedStatement.addBatch();
         batchedStatement.addBatch();
         batchedStatement.addBatch();
-        Assertions.assertThat(batchedStatement.executeBatch()).containsExactly(1, 2, 3);
+        assertThat(batchedStatement.executeBatch()).containsExactly(1, 2, 3);
     }
 
     @Test
     public void testIsWrapperFor()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
-            Assertions.assertThat(batchedStatement.isWrapperFor(Integer.class)).isFalse();
-            Assertions.assertThat(batchedStatement.isWrapperFor(PreparedStatement.class)).isTrue();
+            assertThat(batchedStatement.isWrapperFor(Integer.class)).isFalse();
+            assertThat(batchedStatement.isWrapperFor(PreparedStatement.class)).isTrue();
         }
     }
 
@@ -105,7 +118,7 @@ public class BatchedPreparedStatementTest {
     public void testUnwrap()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
-            Assertions.assertThat(batchedStatement.unwrap(PreparedStatement.class)).isSameAs(statement);
+            assertThat(batchedStatement.unwrap(PreparedStatement.class)).isSameAs(statement);
         }
     }
 }

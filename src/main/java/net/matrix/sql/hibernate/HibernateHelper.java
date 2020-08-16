@@ -19,9 +19,9 @@ import org.apache.commons.dbutils.RowProcessor;
 import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -333,7 +333,7 @@ public final class HibernateHelper {
     public static <T> T get(final Session session, final Class<T> objectClass, final Serializable primaryKey)
         throws SQLException {
         try {
-            return (T) session.get(objectClass, primaryKey);
+            return session.get(objectClass, primaryKey);
         } catch (HibernateException e) {
             throw new SQLException(e);
         }
@@ -1235,14 +1235,10 @@ public final class HibernateHelper {
 
     public static List<Map<String, Object>> querySQLAsMap(final Session session, final String sql)
         throws SQLException {
-        return doReturningWork(session, new ReturningWork<List<Map<String, Object>>>() {
-            @Override
-            public List<Map<String, Object>> execute(Connection connection)
-                throws SQLException {
-                try (Statement stmt = connection.createStatement()) {
-                    ResultSet rs = stmt.executeQuery(sql);
-                    return SQL_MAPLIST_HANDLER.handle(rs);
-                }
+        return doReturningWork(session, connection -> {
+            try (Statement stmt = connection.createStatement()) {
+                ResultSet rs = stmt.executeQuery(sql);
+                return SQL_MAPLIST_HANDLER.handle(rs);
             }
         });
     }
@@ -1264,24 +1260,20 @@ public final class HibernateHelper {
 
     public static List<Map<String, Object>> querySQLPageAsMap(final Session session, final String sql, final int startNum, final int numPerPage)
         throws SQLException {
-        return doReturningWork(session, new ReturningWork<List<Map<String, Object>>>() {
-            @Override
-            public List<Map<String, Object>> execute(Connection connection)
-                throws SQLException {
-                List<Map<String, Object>> table = new ArrayList<>();
+        return doReturningWork(session, connection -> {
+            List<Map<String, Object>> table = new ArrayList<>();
 
-                try (Statement stmt = connection.createStatement()) {
-                    ResultSet rs = stmt.executeQuery(sql);
-                    for (int index = 0; index < startNum && rs.next(); index++) {
-                    }
-                    for (int index = 0; rs.next() && index < numPerPage; index++) {
-                        Map<String, Object> row = ROW_PROCESSOR.toMap(rs);
-                        table.add(row);
-                    }
+            try (Statement stmt = connection.createStatement()) {
+                ResultSet rs = stmt.executeQuery(sql);
+                for (int index = 0; index < startNum && rs.next(); index++) {
                 }
-
-                return table;
+                for (int index = 0; rs.next() && index < numPerPage; index++) {
+                    Map<String, Object> row = ROW_PROCESSOR.toMap(rs);
+                    table.add(row);
+                }
             }
+
+            return table;
         });
     }
 

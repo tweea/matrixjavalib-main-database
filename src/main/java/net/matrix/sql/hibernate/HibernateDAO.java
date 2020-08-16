@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueResultException;
 import org.hibernate.ObjectNotFoundException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
@@ -21,6 +20,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -155,7 +155,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * 按 id 获取对象。
      */
     public T findOne(final ID id) {
-        return (T) currentSession().get(entityClass, id);
+        return currentSession().get(entityClass, id);
     }
 
     /**
@@ -471,7 +471,7 @@ public class HibernateDAO<T, ID extends Serializable> {
         }
 
         if (pageable != null) {
-            query.setFirstResult(pageable.getOffset());
+            query.setFirstResult((int) pageable.getOffset());
             query.setMaxResults(pageable.getPageSize());
         }
 
@@ -512,7 +512,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      *     分页参数
      */
     private static void applyPageable(final Criteria criteria, final Pageable pageable) {
-        criteria.setFirstResult(pageable.getOffset());
+        criteria.setFirstResult((int) pageable.getOffset());
         criteria.setMaxResults(pageable.getPageSize());
         if (pageable.getSort() != null) {
             applySort(criteria, pageable.getSort());
