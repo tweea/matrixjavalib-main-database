@@ -1,10 +1,11 @@
 /*
- * 版权所有 2014 Matrix。
+ * 版权所有 2020 Matrix。
  * 保留所有权利。
  */
 package net.matrix.sql.hibernate.type;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,9 +31,7 @@ public class StringColumnStringListMapper
     public List<String> fromNonNullValue(final String value) {
         List<String> result = new ArrayList<>();
         String[] list = pattern.split(value);
-        for (String item : list) {
-            result.add(item);
-        }
+        Collections.addAll(result, list);
         return result;
     }
 

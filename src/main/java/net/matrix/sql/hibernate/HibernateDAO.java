@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.sql.hibernate;
 
@@ -42,7 +42,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 日志记录器。
      */
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(HibernateDAO.class);
 
     /**
      * 实体类。

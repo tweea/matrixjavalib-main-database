@@ -1,13 +1,13 @@
 /*
- * Copyright(C) 2008 Matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.sql.hibernate;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -40,7 +40,7 @@ public final class SessionFactoryManager
     /**
      * 所有的实例。
      */
-    private static final Map<String, SessionFactoryManager> INSTANCES = new HashMap<>();
+    private static final Map<String, SessionFactoryManager> INSTANCES = new ConcurrentHashMap<>();
 
     private final String factoryName;
 
@@ -58,18 +58,7 @@ public final class SessionFactoryManager
      * 默认实例。
      */
     public static SessionFactoryManager getInstance() {
-        SessionFactoryManager instance = INSTANCES.get(DEFAULT_NAME);
-        if (instance != null) {
-            return instance;
-        }
-        synchronized (INSTANCES) {
-            instance = INSTANCES.get(DEFAULT_NAME);
-            if (instance == null) {
-                instance = new SessionFactoryManager(DEFAULT_NAME);
-                INSTANCES.put(DEFAULT_NAME, instance);
-            }
-        }
-        return instance;
+        return INSTANCES.computeIfAbsent(DEFAULT_NAME, SessionFactoryManager::new);
     }
 
     /**

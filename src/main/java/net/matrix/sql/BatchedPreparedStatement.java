@@ -1,6 +1,6 @@
 /*
- * Copyright(C) 2009 matrix
- * All right reserved.
+ * 版权所有 2020 Matrix。
+ * 保留所有权利。
  */
 package net.matrix.sql;
 
@@ -796,13 +796,13 @@ public class BatchedPreparedStatement
     }
 
     @Override
-    public long executeLargeUpdate(String sql, int columnIndexes[])
+    public long executeLargeUpdate(String sql, int[] columnIndexes)
         throws SQLException {
         return statement.executeLargeUpdate(sql, columnIndexes);
     }
 
     @Override
-    public long executeLargeUpdate(String sql, String columnNames[])
+    public long executeLargeUpdate(String sql, String[] columnNames)
         throws SQLException {
         return statement.executeLargeUpdate(sql, columnNames);
     }
