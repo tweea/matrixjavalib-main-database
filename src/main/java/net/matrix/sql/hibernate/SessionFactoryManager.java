@@ -23,7 +23,7 @@ import net.matrix.lang.Resettable;
 import net.matrix.sql.ConnectionInfo;
 
 /**
- * Hibernate SessionFactory 管理器。
+ * Hibernate {@link SessionFactory} 管理器。
  */
 public final class SessionFactoryManager
     implements Resettable {
@@ -33,7 +33,7 @@ public final class SessionFactoryManager
     private static final Logger LOG = LoggerFactory.getLogger(SessionFactoryManager.class);
 
     /**
-     * 默认的 SessionFactory 名称。
+     * 默认的 {@link SessionFactory} 名称。
      */
     public static final String DEFAULT_NAME = "";
 
@@ -65,7 +65,7 @@ public final class SessionFactoryManager
      * 命名实例。
      * 
      * @param name
-     *     SessionFactory 名称
+     *     {@link SessionFactory} 名称
      * @return 实例
      * @throws IllegalStateException
      *     还未命名实例
@@ -81,11 +81,11 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 判断 SessionFactory 名称是否已被占用。
+     * 判断 {@link SessionFactory} 名称是否已被占用。
      * 
      * @param name
-     *     SessionFactory 名称
-     * @return true 为已占用
+     *     {@link SessionFactory} 名称
+     * @return 是否已被占用
      */
     public static boolean isNameUsed(final String name) {
         return INSTANCES.containsKey(name);
@@ -95,7 +95,7 @@ public final class SessionFactoryManager
      * 命名默认配置文件到指定名称。
      * 
      * @param name
-     *     SessionFactory 名称
+     *     {@link SessionFactory} 名称
      * @throws IllegalStateException
      *     名称已被占用
      */
@@ -112,9 +112,9 @@ public final class SessionFactoryManager
      * 命名一个配置文件到指定名称。
      * 
      * @param name
-     *     SessionFactory 名称
+     *     {@link SessionFactory} 名称
      * @param configResource
-     *     SessionFactory 配置资源
+     *     {@link SessionFactory} 配置资源
      * @throws IllegalStateException
      *     名称已被占用
      */
@@ -128,7 +128,7 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 清除所有 SessionFactory 配置。
+     * 清除所有 {@link SessionFactory} 配置。
      */
     public static void clearAll() {
         resetAll();
@@ -136,7 +136,7 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 重置所有 SessionFactory 配置。
+     * 重置所有 {@link SessionFactory} 配置。
      */
     public static void resetAll() {
         for (SessionFactoryManager instance : INSTANCES.values()) {
@@ -157,9 +157,7 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 关闭 SessionFactory。
-     * 
-     * @see net.matrix.lang.Resettable#reset()
+     * 关闭 {@link SessionFactory}。
      */
     @Override
     public void reset() {
@@ -182,9 +180,9 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 获取 SessionFactory 配置。
+     * 获取 {@link SessionFactory} 配置。
      * 
-     * @return SessionFactory 配置
+     * @return {@link SessionFactory} 配置
      */
     public Configuration getConfiguration()
         throws SQLException {
@@ -205,9 +203,9 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 获取 ServiceRegistry。
+     * 获取 {@link ServiceRegistry}。
      * 
-     * @return ServiceRegistry
+     * @return {@link ServiceRegistry}
      */
     public ServiceRegistry getServiceRegistry()
         throws SQLException {
@@ -227,9 +225,9 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 获取 SessionFactory。
+     * 获取 {@link SessionFactory}。
      * 
-     * @return SessionFactory
+     * @return {@link SessionFactory}
      */
     public SessionFactory getSessionFactory()
         throws SQLException {
@@ -249,9 +247,9 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 使用 SessionFactory 建立 Session。
+     * 使用 {@link SessionFactory} 建立 {@link Session}。
      * 
-     * @return 新建的 Session
+     * @return 新建的 {@link Session}
      * @throws SQLException
      *     建立失败
      */
@@ -299,7 +297,7 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 获取 SessionFactory 相关连接信息。
+     * 获取 {@link SessionFactory} 相关连接信息。
      * 
      * @return 连接信息
      * @throws SQLException

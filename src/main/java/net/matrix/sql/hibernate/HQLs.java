@@ -5,7 +5,7 @@
 package net.matrix.sql.hibernate;
 
 /**
- * HQL 工具类。
+ * HQL 工具。
  */
 public final class HQLs {
     private static final char[] PARAMETER_PREFIX = {

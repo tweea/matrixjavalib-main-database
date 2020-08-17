@@ -31,12 +31,12 @@ import org.springframework.data.domain.Sort;
 import net.matrix.lang.Reflections;
 
 /**
- * 封装 Hibernate 原生 API 的 DAO 泛型基类。
+ * 封装 Hibernate 原生 API 的泛型 DAO 基类。
  * 
  * @param <T>
- *     实体类型
+ *     实体
  * @param <ID>
- *     主键类型
+ *     主键
  */
 public class HibernateDAO<T, ID extends Serializable> {
     /**
@@ -98,21 +98,21 @@ public class HibernateDAO<T, ID extends Serializable> {
     }
 
     /**
-     * 取得 sessionFactory。
+     * 获取 {@link SessionFactory}。
      */
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 
     /**
-     * 设置 sessionFactory。
+     * 设置 {@link SessionFactory}。
      */
     public void setSessionFactory(final SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     /**
-     * 取得当前 Session。
+     * 获取当前 {@link Session}。
      */
     public Session currentSession() {
         return sessionFactory.getCurrentSession();
@@ -327,20 +327,20 @@ public class HibernateDAO<T, ID extends Serializable> {
     }
 
     /**
-     * 按HQL查询对象列表.
+     * 按 HQL 查询对象列表。
      * 
      * @param param
-     *     数量可变的参数,按顺序绑定.
+     *     数量可变的参数，按顺序绑定
      */
     public List<T> find(final String hql, final Object... param) {
         return createQuery(hql, param).list();
     }
 
     /**
-     * 按HQL查询对象列表.
+     * 按 HQL 查询对象列表。
      * 
      * @param param
-     *     命名参数,按名称绑定.
+     *     命名参数，按名称绑定
      */
     public List<T> find(final String hql, final Map<String, ?> param) {
         return createQuery(hql, param).list();
@@ -363,53 +363,53 @@ public class HibernateDAO<T, ID extends Serializable> {
     }
 
     /**
-     * 按HQL查询唯一对象.
+     * 按 HQL 查询唯一对象。
      * 
      * @param param
-     *     数量可变的参数,按顺序绑定.
+     *     数量可变的参数，按顺序绑定
      */
     public T findUnique(final String hql, final Object... param) {
         return (T) createQuery(hql, param).uniqueResult();
     }
 
     /**
-     * 按HQL查询唯一对象.
+     * 按 HQL 查询唯一对象。
      * 
      * @param param
-     *     命名参数,按名称绑定.
+     *     命名参数，按名称绑定
      */
     public T findUnique(final String hql, final Map<String, ?> param) {
         return (T) createQuery(hql, param).uniqueResult();
     }
 
     /**
-     * 执行HQL进行批量修改/删除操作.
+     * 执行 HQL 进行批量修改、删除操作。
      * 
      * @param param
-     *     数量可变的参数,按顺序绑定.
-     * @return 更新记录数.
+     *     数量可变的参数，按顺序绑定
+     * @return 更新记录数
      */
     public int batchExecute(final String hql, final Object... param) {
         return createQuery(hql, param).executeUpdate();
     }
 
     /**
-     * 执行HQL进行批量修改/删除操作.
+     * 执行 HQL 进行批量修改、删除操作。
      * 
      * @param param
-     *     命名参数,按名称绑定.
-     * @return 更新记录数.
+     *     命名参数，按名称绑定
+     * @return 更新记录数
      */
     public int batchExecute(final String hql, final Map<String, ?> param) {
         return createQuery(hql, param).executeUpdate();
     }
 
     /**
-     * 根据查询HQL与参数列表创建Query对象.
-     * 与find()方法可进行更加灵活的操作.
+     * 根据查询 HQL 与参数列表创建 Query 对象。
+     * 与 find() 方法可进行更加灵活的操作。
      * 
      * @param param
-     *     数量可变的参数,按顺序绑定.
+     *     数量可变的参数，按顺序绑定
      */
     public Query createQuery(final String hql, final Object... param) {
         Query query = currentSession().createQuery(hql);
@@ -422,11 +422,11 @@ public class HibernateDAO<T, ID extends Serializable> {
     }
 
     /**
-     * 根据查询HQL与参数列表创建Query对象.
-     * 与find()方法可进行更加灵活的操作.
+     * 根据查询 HQL 与参数列表创建 Query 对象。
+     * 与 find() 方法可进行更加灵活的操作。
      * 
      * @param param
-     *     命名参数,按名称绑定.
+     *     命名参数，按名称绑定
      */
     public Query createQuery(final String hql, final Map<String, ?> param) {
         Query query = currentSession().createQuery(hql);
@@ -480,7 +480,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 为 Criteria 添加 distinct transformer。
-     * 预加载关联对象的 HQL 会引起主对象重复，需要进行distinct处理。
+     * 预加载关联对象的 HQL 会引起主对象重复，需要进行 distinct 处理。
      */
     public void distinct(final Criteria criteria) {
         criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
@@ -488,7 +488,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 为 Query 添加 distinct transformer。
-     * 预加载关联对象的 HQL 会引起主对象重复，需要进行distinct处理。
+     * 预加载关联对象的 HQL 会引起主对象重复，需要进行 distinct 处理。
      */
     public void distinct(final Query query) {
         query.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);

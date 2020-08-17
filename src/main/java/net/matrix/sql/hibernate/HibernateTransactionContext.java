@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,17 +26,17 @@ public class HibernateTransactionContext {
     private Transaction transaction;
 
     /**
-     * 使用默认的 SessionFactory 构建。
+     * 构建使用默认 {@link SessionFactory} 的实例。
      */
     public HibernateTransactionContext() {
         this.sessionFactoryName = SessionFactoryManager.DEFAULT_NAME;
     }
 
     /**
-     * 使用指定的 SessionFactory 名称构建。
+     * 构建使用指定 {@link SessionFactory} 的实例。
      * 
      * @param sessionFactoryName
-     *     SessionFactory 名称
+     *     {@link SessionFactory} 名称
      */
     public HibernateTransactionContext(final String sessionFactoryName) {
         if (sessionFactoryName == null) {
@@ -46,11 +47,11 @@ public class HibernateTransactionContext {
     }
 
     /**
-     * 获取对应的 Hibernate Session。
+     * 获取对应的 Hibernate {@link Session}。
      * 
-     * @return Hibernate Session
+     * @return Hibernate {@link Session}
      * @throws SQLException
-     *     建立 Session 失败
+     *     建立 {@link Session} 失败
      */
     public Session getSession()
         throws SQLException {

@@ -7,6 +7,7 @@ package net.matrix.sql;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -19,7 +20,7 @@ public class ConnectionInfo
 
     // 连接信息
     /**
-     * Driver 类名称。
+     * {@link Driver} 类名。
      */
     private final String driverClass;
 
@@ -45,7 +46,7 @@ public class ConnectionInfo
     private String databaseType;
 
     /**
-     * Driver 名称。
+     * {@link Driver} 名称。
      */
     private String driverName;
 
@@ -53,7 +54,7 @@ public class ConnectionInfo
      * 构造并获取连接信息。
      * 
      * @param driverClass
-     *     Driver 类名称
+     *     {@link Driver} 类名
      * @param url
      *     连接 URL
      * @param username
@@ -88,7 +89,7 @@ public class ConnectionInfo
     }
 
     /**
-     * Driver 类名称。
+     * {@link Driver} 类名。
      */
     public String getDriverClass() {
         return driverClass;
@@ -123,7 +124,7 @@ public class ConnectionInfo
     }
 
     /**
-     * Driver 名称。
+     * {@link Driver} 名称。
      */
     public String getDriverName() {
         return driverName;

@@ -25,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Hibernate 实用类。
+ * Hibernate 工具。
  */
 public final class HibernateHelper {
     /**
@@ -44,14 +44,14 @@ public final class HibernateHelper {
     }
 
     /**
-     * 获得 Hibernate 数据库连接管理对象。
+     * 获取 Hibernate 数据库连接管理对象。
      */
     private static HibernateTransactionContext getTransactionContext() {
         return SessionFactoryManager.getInstance().getTransactionContext();
     }
 
     /**
-     * 获得 Hibernate 数据库连接管理对象。
+     * 获取 Hibernate 数据库连接管理对象。
      */
     private static HibernateTransactionContext getTransactionContext(final String sessionFactoryName) {
         return SessionFactoryManager.getInstance(sessionFactoryName).getTransactionContext();
@@ -327,7 +327,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static <T> T get(final Session session, final Class<T> objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -339,7 +339,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static <T> T get(final HibernateTransactionContext context, final Class<T> objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -347,7 +347,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static <T> T get(final Class<T> objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -355,7 +355,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static <T> T get(final String sessionFactoryName, final Class<T> objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -363,7 +363,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static Map<String, Object> getAsMap(final Session session, final Class objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -375,7 +375,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static Map<String, Object> getAsMap(final HibernateTransactionContext context, final Class objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -383,7 +383,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static Map<String, Object> getAsMap(final Class objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -391,7 +391,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据类型和主键从数据库中获得一个对象，若没有则返回 null。
+     * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
     public static Map<String, Object> getAsMap(final String sessionFactoryName, final Class objectClass, final Serializable primaryKey)
         throws SQLException {
@@ -536,7 +536,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final Session session, final String queryString, final Object... params)
         throws SQLException {
@@ -553,7 +553,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final HibernateTransactionContext context, final String queryString, final Object... params)
         throws SQLException {
@@ -561,7 +561,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final String queryString, final Object... params)
         throws SQLException {
@@ -569,7 +569,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final String sessionFactoryName, final String queryString, final Object... params)
         throws SQLException {
@@ -577,7 +577,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final Session session, final String queryString, final Iterable params)
         throws SQLException {
@@ -594,7 +594,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final HibernateTransactionContext context, final String queryString, final Iterable params)
         throws SQLException {
@@ -602,7 +602,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final String queryString, final Iterable params)
         throws SQLException {
@@ -610,7 +610,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final String sessionFactoryName, final String queryString, final Iterable params)
         throws SQLException {
@@ -618,7 +618,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final Session session, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -635,7 +635,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final HibernateTransactionContext context, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -643,7 +643,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -651,7 +651,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List queryAll(final String sessionFactoryName, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -659,7 +659,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final Session session, final String queryString, final Object... params)
         throws SQLException {
@@ -676,7 +676,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final HibernateTransactionContext context, final String queryString, final Object... params)
         throws SQLException {
@@ -684,7 +684,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final String queryString, final Object... params)
         throws SQLException {
@@ -692,7 +692,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final String sessionFactoryName, final String queryString, final Object... params)
         throws SQLException {
@@ -700,7 +700,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final Session session, final String queryString, final Iterable params)
         throws SQLException {
@@ -717,7 +717,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final HibernateTransactionContext context, final String queryString, final Iterable params)
         throws SQLException {
@@ -725,7 +725,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final String queryString, final Iterable params)
         throws SQLException {
@@ -733,7 +733,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final String sessionFactoryName, final String queryString, final Iterable params)
         throws SQLException {
@@ -741,7 +741,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final Session session, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -758,7 +758,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final HibernateTransactionContext context, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -766,7 +766,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -774,7 +774,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
     public static List<Map<String, Object>> queryAllAsMap(final String sessionFactoryName, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -782,7 +782,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final Session session, final String queryString, final int startNum, final int maxResults, final Object... params)
         throws SQLException {
@@ -801,7 +801,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final HibernateTransactionContext context, final String queryString, final int startNum, final int maxResults,
         final Object... params)
@@ -810,7 +810,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final String queryString, final int startNum, final int maxResults, final Object... params)
         throws SQLException {
@@ -818,7 +818,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final String sessionFactoryName, final String queryString, final int startNum, final int maxResults, final Object... params)
         throws SQLException {
@@ -826,7 +826,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final Session session, final String queryString, final int startNum, final int maxResults, final Iterable params)
         throws SQLException {
@@ -845,7 +845,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final HibernateTransactionContext context, final String queryString, final int startNum, final int maxResults,
         final Iterable params)
@@ -854,7 +854,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final String queryString, final int startNum, final int maxResults, final Iterable params)
         throws SQLException {
@@ -862,7 +862,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final String sessionFactoryName, final String queryString, final int startNum, final int maxResults, final Iterable params)
         throws SQLException {
@@ -870,7 +870,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final Session session, final String queryString, final int startNum, final int maxResults, final Map<String, ?> params)
         throws SQLException {
@@ -889,7 +889,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final HibernateTransactionContext context, final String queryString, final int startNum, final int maxResults,
         final Map<String, ?> params)
@@ -898,7 +898,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final String queryString, final int startNum, final int maxResults, final Map<String, ?> params)
         throws SQLException {
@@ -906,7 +906,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List queryPage(final String sessionFactoryName, final String queryString, final int startNum, final int maxResults,
         final Map<String, ?> params)
@@ -915,7 +915,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final Session session, final String queryString, final int startNum, final int maxResults,
         final Object... params)
@@ -935,7 +935,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final HibernateTransactionContext context, final String queryString, final int startNum,
         final int maxResults, final Object... params)
@@ -944,7 +944,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final String queryString, final int startNum, final int maxResults, final Object... params)
         throws SQLException {
@@ -952,7 +952,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final String sessionFactoryName, final String queryString, final int startNum, final int maxResults,
         final Object... params)
@@ -961,7 +961,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final Session session, final String queryString, final int startNum, final int maxResults,
         final Iterable params)
@@ -981,7 +981,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final HibernateTransactionContext context, final String queryString, final int startNum,
         final int maxResults, final Iterable params)
@@ -990,7 +990,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final String queryString, final int startNum, final int maxResults, final Iterable params)
         throws SQLException {
@@ -998,7 +998,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final String sessionFactoryName, final String queryString, final int startNum, final int maxResults,
         final Iterable params)
@@ -1007,7 +1007,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final Session session, final String queryString, final int startNum, final int maxResults,
         final Map<String, ?> params)
@@ -1027,7 +1027,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final HibernateTransactionContext context, final String queryString, final int startNum,
         final int maxResults, final Map<String, ?> params)
@@ -1036,7 +1036,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final String queryString, final int startNum, final int maxResults, final Map<String, ?> params)
         throws SQLException {
@@ -1044,7 +1044,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得对象列表，限定起始结果和行数。
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
     public static List<Map<String, Object>> queryPageAsMap(final String sessionFactoryName, final String queryString, final int startNum, final int maxResults,
         final Map<String, ?> params)
@@ -1053,7 +1053,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final Session session, final String queryString, final Object... params)
         throws SQLException {
@@ -1074,7 +1074,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final HibernateTransactionContext context, final String queryString, final Object... params)
         throws SQLException {
@@ -1082,7 +1082,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final String queryString, final Object... params)
         throws SQLException {
@@ -1090,7 +1090,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final String sessionFactoryName, final String queryString, final Object... params)
         throws SQLException {
@@ -1098,7 +1098,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final Session session, final String queryString, final Iterable params)
         throws SQLException {
@@ -1116,7 +1116,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final HibernateTransactionContext context, final String queryString, final Iterable params)
         throws SQLException {
@@ -1124,7 +1124,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final String queryString, final Iterable params)
         throws SQLException {
@@ -1132,7 +1132,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final String sessionFactoryName, final String queryString, final Iterable params)
         throws SQLException {
@@ -1140,7 +1140,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final Session session, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -1158,7 +1158,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final HibernateTransactionContext context, final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -1166,7 +1166,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final String queryString, final Map<String, ?> params)
         throws SQLException {
@@ -1174,7 +1174,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获得整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
      */
     public static long queryCount(final String sessionFactoryName, final String queryString, final Map<String, ?> params)
         throws SQLException {
