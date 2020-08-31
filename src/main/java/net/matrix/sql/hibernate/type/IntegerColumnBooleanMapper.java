@@ -11,7 +11,7 @@ import org.jadira.usertype.spi.shared.AbstractIntegerColumnMapper;
  */
 public class IntegerColumnBooleanMapper
     extends AbstractIntegerColumnMapper<Boolean> {
-    private static final long serialVersionUID = -6619043943941463311L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public Boolean fromNonNullValue(final Integer i) {

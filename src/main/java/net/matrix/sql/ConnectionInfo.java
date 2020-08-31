@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public class ConnectionInfo
     implements Serializable {
-    private static final long serialVersionUID = -9075141485319668357L;
+    private static final long serialVersionUID = 1L;
 
     // 连接信息
     /**

@@ -13,7 +13,7 @@ import org.joda.time.format.DateTimeFormat;
  */
 public class IntegerColumnLocalDateTimeMapper
     extends AbstractIntegerColumnMapper<LocalDateTime> {
-    private static final long serialVersionUID = 4579783240564961981L;
+    private static final long serialVersionUID = 1L;
 
     /**
      * 日期格式。
