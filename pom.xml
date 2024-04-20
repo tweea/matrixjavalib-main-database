@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- 基本属性 - 项目属性 -->
-    <artifactId>mxlib-db</artifactId>
-    <version>2.1.2-SNAPSHOT</version>
+    <artifactId>mxlib-database</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <!-- 基本属性 - 属性 -->
@@ -12,8 +12,8 @@
     <!-- 基本属性 - 项目关系 -->
     <parent>
         <groupId>net.sf.matrixjavalib</groupId>
-        <artifactId>genesis8</artifactId>
-        <version>40</version>
+        <artifactId>genesis11</artifactId>
+        <version>41</version>
     </parent>
     <dependencies>
         <!-- compile -->
@@ -284,19 +284,19 @@
     <!-- 构建设置 -->
 
     <!-- 项目信息 -->
-    <name>Matrix :: 数据库类库</name>
-    <description>访问数据库的公共方法。</description>
+    <name>Matrix :: 数据库工具</name>
+    <description>数据库工具</description>
     <inceptionYear>2008</inceptionYear>
 
     <!-- 构建环境 -->
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/tweea/matrixjavalib-main-db/issues</url>
+        <url>https://github.com/tweea/matrixjavalib-main-database/issues</url>
     </issueManagement>
     <scm>
-        <connection>scm:git:https://github.com/tweea/matrixjavalib-main-db.git</connection>
-        <developerConnection>scm:git:https://github.com/tweea/matrixjavalib-main-db.git</developerConnection>
-        <url>https://github.com/tweea/matrixjavalib-main-db</url>
+        <connection>scm:git:https://github.com/tweea/matrixjavalib-main-database.git</connection>
+        <developerConnection>scm:git:https://github.com/tweea/matrixjavalib-main-database.git</developerConnection>
+        <url>https://github.com/tweea/matrixjavalib-main-database</url>
         <tag>HEAD</tag>
     </scm>
 </project>

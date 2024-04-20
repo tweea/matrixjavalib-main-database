@@ -1,4 +1,4 @@
-matrixjavalib-main-db
-=====================
+matrixjavalib-main-database
+===========================
 
-matrixjavalib 数据库类库
+数据库工具
