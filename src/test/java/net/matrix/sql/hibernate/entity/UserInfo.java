@@ -5,6 +5,7 @@
 package net.matrix.sql.hibernate.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
 
 /**
  * 用户信息。
@@ -35,7 +33,6 @@ public class UserInfo
 
     private String mm;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     private LocalDate csrq;
 
     private String xb;

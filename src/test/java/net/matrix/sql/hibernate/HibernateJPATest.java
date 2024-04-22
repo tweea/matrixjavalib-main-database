@@ -4,6 +4,7 @@
  */
 package net.matrix.sql.hibernate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,7 +13,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import org.joda.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 import net.matrix.sql.hibernate.entity.UserInfo;
@@ -35,7 +35,7 @@ public class HibernateJPATest {
         UserInfo user = new UserInfo();
         user.setYhm("abc");
         user.setMm("abc");
-        user.setCsrq(new LocalDate(2011, 1, 18));
+        user.setCsrq(LocalDate.of(2011, 1, 18));
         em.persist(user);
         et.commit();
         // 查询
@@ -47,6 +47,6 @@ public class HibernateJPATest {
         user = result.get(0);
         assertThat(user.getYhm()).isEqualTo("abc");
         assertThat(user.getMm()).isEqualTo("abc");
-        assertThat(user.getCsrq()).isEqualTo(new LocalDate(2011, 1, 18));
+        assertThat(user.getCsrq()).isEqualTo(LocalDate.of(2011, 1, 18));
     }
 }

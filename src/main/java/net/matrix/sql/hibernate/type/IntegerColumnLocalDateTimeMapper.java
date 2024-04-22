@@ -4,9 +4,11 @@
  */
 package net.matrix.sql.hibernate.type;
 
+import java.time.LocalDateTime;
+
 import org.jadira.usertype.spi.shared.AbstractIntegerColumnMapper;
-import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
+
+import net.matrix.java.time.DateTimeFormatterMx;
 
 /**
  * 映射日期时间值到整形字段。
@@ -36,11 +38,11 @@ public class IntegerColumnLocalDateTimeMapper
 
     @Override
     public LocalDateTime fromNonNullString(final String s) {
-        return DateTimeFormat.forPattern(format).parseLocalDateTime(s);
+        return DateTimeFormatterMx.parseLocalDateTime(s, format);
     }
 
     @Override
     public String toNonNullString(final LocalDateTime value) {
-        return DateTimeFormat.forPattern(format).print(value);
+        return DateTimeFormatterMx.format(value, format);
     }
 }

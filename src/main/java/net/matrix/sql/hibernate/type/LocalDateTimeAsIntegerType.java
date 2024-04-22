@@ -4,10 +4,11 @@
  */
 package net.matrix.sql.hibernate.type;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.SessionFactory;
 import org.jadira.usertype.spi.shared.AbstractParameterizedUserType;
 import org.jadira.usertype.spi.shared.ConfigurationHelper;
-import org.joda.time.LocalDateTime;
 
 /**
  * 将数据库中的整形值作为日期时间值处理的类型。

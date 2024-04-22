@@ -28,7 +28,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-import net.matrix.lang.Reflections;
+import net.matrix.java.lang.ClassMx;
 
 /**
  * 封装 Hibernate 原生 API 的泛型 DAO 基类。
@@ -58,7 +58,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * 通过子类的泛型定义取得实体类型。
      */
     public HibernateDAO() {
-        this.entityClass = Reflections.getClassGenricType(getClass());
+        this.entityClass = ClassMx.getParameterizedType(getClass(), 0);
     }
 
     /**
@@ -75,7 +75,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * 通过子类的泛型定义取得实体类型。
      */
     public HibernateDAO(final SessionFactory sessionFactory) {
-        this.entityClass = Reflections.getClassGenricType(getClass());
+        this.entityClass = ClassMx.getParameterizedType(getClass(), 0);
         this.sessionFactory = sessionFactory;
     }
 
