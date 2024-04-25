@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.sql;
@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.SQLXML;
 import java.sql.Savepoint;
+import java.sql.ShardingKey;
 import java.sql.Statement;
 import java.sql.Struct;
 import java.util.Map;
@@ -24,35 +25,23 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * 关闭时自动 rollback 的 {@link Connection}。
+ * 包装数据库连接，关闭连接时自动回滚事务。
  */
 public class AutoRollbackConnection
     implements Connection {
     /**
-     * 被包装的 {@link Connection}。
+     * 被包装的数据库连接。
      */
     private final Connection connection;
 
     /**
-     * 包装一个 {@link Connection}。
+     * 构造器，指定被包装的数据库连接。
      * 
      * @param connection
-     *     被包装的 {@link Connection}
+     *     被包装的数据库连接。
      */
-    public AutoRollbackConnection(final Connection connection) {
+    public AutoRollbackConnection(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public <T> T unwrap(final Class<T> iface)
-        throws SQLException {
-        return connection.unwrap(iface);
-    }
-
-    @Override
-    public boolean isWrapperFor(final Class<?> iface)
-        throws SQLException {
-        return connection.isWrapperFor(iface);
     }
 
     @Override
@@ -62,25 +51,25 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql)
+    public PreparedStatement prepareStatement(String sql)
         throws SQLException {
         return connection.prepareStatement(sql);
     }
 
     @Override
-    public CallableStatement prepareCall(final String sql)
+    public CallableStatement prepareCall(String sql)
         throws SQLException {
         return connection.prepareCall(sql);
     }
 
     @Override
-    public String nativeSQL(final String sql)
+    public String nativeSQL(String sql)
         throws SQLException {
         return connection.nativeSQL(sql);
     }
 
     @Override
-    public void setAutoCommit(final boolean autoCommit)
+    public void setAutoCommit(boolean autoCommit)
         throws SQLException {
         connection.setAutoCommit(autoCommit);
     }
@@ -133,7 +122,7 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public void setReadOnly(final boolean readOnly)
+    public void setReadOnly(boolean readOnly)
         throws SQLException {
         connection.setReadOnly(readOnly);
     }
@@ -145,7 +134,7 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public void setCatalog(final String catalog)
+    public void setCatalog(String catalog)
         throws SQLException {
         connection.setCatalog(catalog);
     }
@@ -157,7 +146,7 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public void setTransactionIsolation(final int level)
+    public void setTransactionIsolation(int level)
         throws SQLException {
         connection.setTransactionIsolation(level);
     }
@@ -181,19 +170,19 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public Statement createStatement(final int resultSetType, final int resultSetConcurrency)
+    public Statement createStatement(int resultSetType, int resultSetConcurrency)
         throws SQLException {
         return connection.createStatement(resultSetType, resultSetConcurrency);
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency)
+    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)
         throws SQLException {
         return connection.prepareStatement(sql, resultSetType, resultSetConcurrency);
     }
 
     @Override
-    public CallableStatement prepareCall(final String sql, final int resultSetType, final int resultSetConcurrency)
+    public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency)
         throws SQLException {
         return connection.prepareCall(sql, resultSetType, resultSetConcurrency);
     }
@@ -205,13 +194,13 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public void setTypeMap(final Map<String, Class<?>> map)
+    public void setTypeMap(Map<String, Class<?>> map)
         throws SQLException {
         connection.setTypeMap(map);
     }
 
     @Override
-    public void setHoldability(final int holdability)
+    public void setHoldability(int holdability)
         throws SQLException {
         connection.setHoldability(holdability);
     }
@@ -229,55 +218,55 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public Savepoint setSavepoint(final String name)
+    public Savepoint setSavepoint(String name)
         throws SQLException {
         return connection.setSavepoint(name);
     }
 
     @Override
-    public void rollback(final Savepoint savepoint)
+    public void rollback(Savepoint savepoint)
         throws SQLException {
         connection.rollback(savepoint);
     }
 
     @Override
-    public void releaseSavepoint(final Savepoint savepoint)
+    public void releaseSavepoint(Savepoint savepoint)
         throws SQLException {
         connection.releaseSavepoint(savepoint);
     }
 
     @Override
-    public Statement createStatement(final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
+    public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability)
         throws SQLException {
         return connection.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
+    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
         throws SQLException {
         return connection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
-    public CallableStatement prepareCall(final String sql, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability)
+    public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability)
         throws SQLException {
         return connection.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int autoGeneratedKeys)
+    public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys)
         throws SQLException {
         return connection.prepareStatement(sql, autoGeneratedKeys);
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final int[] columnIndexes)
+    public PreparedStatement prepareStatement(String sql, int[] columnIndexes)
         throws SQLException {
         return connection.prepareStatement(sql, columnIndexes);
     }
 
     @Override
-    public PreparedStatement prepareStatement(final String sql, final String[] columnNames)
+    public PreparedStatement prepareStatement(String sql, String[] columnNames)
         throws SQLException {
         return connection.prepareStatement(sql, columnNames);
     }
@@ -307,25 +296,25 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public boolean isValid(final int timeout)
+    public boolean isValid(int timeout)
         throws SQLException {
         return connection.isValid(timeout);
     }
 
     @Override
-    public void setClientInfo(final String name, final String value)
+    public void setClientInfo(String name, String value)
         throws SQLClientInfoException {
         connection.setClientInfo(name, value);
     }
 
     @Override
-    public void setClientInfo(final Properties properties)
+    public void setClientInfo(Properties properties)
         throws SQLClientInfoException {
         connection.setClientInfo(properties);
     }
 
     @Override
-    public String getClientInfo(final String name)
+    public String getClientInfo(String name)
         throws SQLException {
         return connection.getClientInfo(name);
     }
@@ -337,19 +326,19 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public Array createArrayOf(final String typeName, final Object[] elements)
+    public Array createArrayOf(String typeName, Object[] elements)
         throws SQLException {
         return connection.createArrayOf(typeName, elements);
     }
 
     @Override
-    public Struct createStruct(final String typeName, final Object[] attributes)
+    public Struct createStruct(String typeName, Object[] attributes)
         throws SQLException {
         return connection.createStruct(typeName, attributes);
     }
 
     @Override
-    public void setSchema(final String schema)
+    public void setSchema(String schema)
         throws SQLException {
         connection.setSchema(schema);
     }
@@ -361,13 +350,13 @@ public class AutoRollbackConnection
     }
 
     @Override
-    public void abort(final Executor executor)
+    public void abort(Executor executor)
         throws SQLException {
         connection.abort(executor);
     }
 
     @Override
-    public void setNetworkTimeout(final Executor executor, final int milliseconds)
+    public void setNetworkTimeout(Executor executor, int milliseconds)
         throws SQLException {
         connection.setNetworkTimeout(executor, milliseconds);
     }
@@ -376,5 +365,53 @@ public class AutoRollbackConnection
     public int getNetworkTimeout()
         throws SQLException {
         return connection.getNetworkTimeout();
+    }
+
+    @Override
+    public void beginRequest()
+        throws SQLException {
+        connection.beginRequest();
+    }
+
+    @Override
+    public void endRequest()
+        throws SQLException {
+        connection.endRequest();
+    }
+
+    @Override
+    public boolean setShardingKeyIfValid(ShardingKey shardingKey, ShardingKey superShardingKey, int timeout)
+        throws SQLException {
+        return connection.setShardingKeyIfValid(shardingKey, superShardingKey, timeout);
+    }
+
+    @Override
+    public boolean setShardingKeyIfValid(ShardingKey shardingKey, int timeout)
+        throws SQLException {
+        return connection.setShardingKeyIfValid(shardingKey, timeout);
+    }
+
+    @Override
+    public void setShardingKey(ShardingKey shardingKey, ShardingKey superShardingKey)
+        throws SQLException {
+        connection.setShardingKey(shardingKey, superShardingKey);
+    }
+
+    @Override
+    public void setShardingKey(ShardingKey shardingKey)
+        throws SQLException {
+        connection.setShardingKey(shardingKey);
+    }
+
+    @Override
+    public <T> T unwrap(Class<T> iface)
+        throws SQLException {
+        return connection.unwrap(iface);
+    }
+
+    @Override
+    public boolean isWrapperFor(Class<?> iface)
+        throws SQLException {
+        return connection.isWrapperFor(iface);
     }
 }
