@@ -76,9 +76,8 @@ public class AutoRollbackConnectionTest {
     @Test
     public void testClose_realConnection()
         throws SQLException {
-        String driverClass = "org.apache.derby.jdbc.EmbeddedDriver";
         String url = "jdbc:derby:memory:mx_base;create=true";
-        ConnectionInfo info = new ConnectionInfo(driverClass, url, "", "");
+        ConnectionInfo info = new ConnectionInfo(url, "", "");
         Connection connection = info.getConnection();
 
         try (Connection autoRollbackConnection = new AutoRollbackConnection(connection)) {

@@ -306,10 +306,9 @@ public final class SessionFactoryManager
     public ConnectionInfo getConnectionInfo()
         throws SQLException {
         Properties properties = getConfiguration().getProperties();
-        String driver = properties.getProperty(AvailableSettings.DRIVER);
         String url = properties.getProperty(AvailableSettings.URL);
         String user = properties.getProperty(AvailableSettings.USER);
         String pass = properties.getProperty(AvailableSettings.PASS);
-        return new ConnectionInfo(driver, url, user, pass);
+        return new ConnectionInfo(url, user, pass);
     }
 }
