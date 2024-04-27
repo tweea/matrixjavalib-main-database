@@ -406,12 +406,18 @@ public class AutoRollbackConnection
     @Override
     public <T> T unwrap(Class<T> iface)
         throws SQLException {
+        if (iface.isAssignableFrom(connection.getClass())) {
+            return (T) connection;
+        }
         return connection.unwrap(iface);
     }
 
     @Override
     public boolean isWrapperFor(Class<?> iface)
         throws SQLException {
+        if (iface.isAssignableFrom(connection.getClass())) {
+            return true;
+        }
         return connection.isWrapperFor(iface);
     }
 }

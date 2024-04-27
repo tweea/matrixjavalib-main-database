@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.sql;
@@ -37,16 +37,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testBatchedPreparedStatement() {
-        PreparedStatement batchedStatement = new BatchedPreparedStatement(statement);
-        assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
-        assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(0);
-        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-        assertThat(fieldSupport.fieldValue("batchResult", long[].class, batchedStatement)).isEmpty();
-    }
-
-    @Test
-    public void testBatchedPreparedStatement_withSize() {
+    public void testNew_batchSize() {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3);
         assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
         assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(3);
@@ -70,17 +61,6 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testClearBatch()
-        throws SQLException {
-        PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
-
-        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-        batchedStatement.addBatch();
-        batchedStatement.clearBatch();
-        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
-    }
-
-    @Test
     public void testClose()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2)) {
@@ -89,6 +69,17 @@ public class BatchedPreparedStatementTest {
             batchedStatement.close();
             assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
         }
+    }
+
+    @Test
+    public void testClearBatch()
+        throws SQLException {
+        PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
+
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
+        batchedStatement.addBatch();
+        batchedStatement.clearBatch();
+        assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
     }
 
     @Test
@@ -109,19 +100,19 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testIsWrapperFor()
+    public void testUnwrap()
         throws SQLException {
-        try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
-            assertThat(batchedStatement.isWrapperFor(Integer.class)).isFalse();
-            assertThat(batchedStatement.isWrapperFor(PreparedStatement.class)).isTrue();
+        try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3)) {
+            assertThat(batchedStatement.unwrap(PreparedStatement.class)).isSameAs(statement);
         }
     }
 
     @Test
-    public void testUnwrap()
+    public void testIsWrapperFor()
         throws SQLException {
-        try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement)) {
-            assertThat(batchedStatement.unwrap(PreparedStatement.class)).isSameAs(statement);
+        try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3)) {
+            assertThat(batchedStatement.isWrapperFor(Integer.class)).isFalse();
+            assertThat(batchedStatement.isWrapperFor(PreparedStatement.class)).isTrue();
         }
     }
 }
