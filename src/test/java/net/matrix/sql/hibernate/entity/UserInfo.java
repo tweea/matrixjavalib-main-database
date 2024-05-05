@@ -22,7 +22,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "UserInfo.findAll", query = "select o from UserInfo o"),
     @NamedQuery(name = "UserInfo.findAll.size", query = "select count(o) from UserInfo o")
 })
-@Table(name = "TEST_USER")
+@Table(name = "TEST_USER_INFO")
 public class UserInfo
     implements Serializable {
     private static final long serialVersionUID = -1218387201153161009L;
