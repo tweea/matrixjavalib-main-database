@@ -102,17 +102,11 @@ public class HibernateTransactionContext {
 
     /**
      * 撤销事务。
-     * 
-     * @throws SQLException
-     *     撤销失败
      */
-    public void rollback()
-        throws SQLException {
+    public void rollback() {
         if (transaction != null) {
             try {
                 transaction.rollback();
-            } catch (HibernateException ex) {
-                throw new SQLException(ex);
             } finally {
                 transaction = null;
             }

@@ -82,13 +82,11 @@ public final class HibernateHelper {
         getTransactionContext(sessionFactoryName).commit();
     }
 
-    public static void rollbackTransaction()
-        throws SQLException {
+    public static void rollbackTransaction() {
         getTransactionContext().rollback();
     }
 
-    public static void rollbackTransaction(final String sessionFactoryName)
-        throws SQLException {
+    public static void rollbackTransaction(final String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).rollback();
     }
 

@@ -1,29 +1,30 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.sql.hibernate;
 
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.AvailableSettings;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.engine.config.spi.ConfigurationService;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.matrix.lang.Resettable;
 import net.matrix.sql.ConnectionInfo;
+import net.matrix.text.ResourceBundleMessageFormatter;
 
 /**
- * Hibernate {@link SessionFactory} 管理器。
+ * Hibernate 会话工厂管理器。
  */
 public final class SessionFactoryManager
     implements Resettable {
@@ -33,7 +34,12 @@ public final class SessionFactoryManager
     private static final Logger LOG = LoggerFactory.getLogger(SessionFactoryManager.class);
 
     /**
-     * 默认的 {@link SessionFactory} 名称。
+     * 区域相关资源。
+     */
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter(SessionFactoryManager.class).useCurrentLocale();
+
+    /**
+     * 默认的实例名称。
      */
     public static final String DEFAULT_NAME = "";
 
@@ -42,101 +48,109 @@ public final class SessionFactoryManager
      */
     private static final Map<String, SessionFactoryManager> INSTANCES = new ConcurrentHashMap<>();
 
-    private final String factoryName;
+    /**
+     * 实例名称。
+     */
+    private final String name;
 
+    /**
+     * Hibernate 配置资源。
+     */
     private final String configResource;
 
-    private final ThreadLocal<HibernateTransactionContext> threadContext;
-
-    private Configuration configuration;
-
+    /**
+     * Hibernate 服务注册表。
+     */
     private ServiceRegistry serviceRegistry;
 
+    /**
+     * Hibernate 会话工厂。
+     */
     private SessionFactory sessionFactory;
 
     /**
-     * 默认实例。
+     * 线程内 Hibernate 事务上下文。
+     */
+    private final ThreadLocal<HibernateTransactionContext> threadContext;
+
+    /**
+     * 获取默认名称实例。
+     * 
+     * @return 实例。
      */
     public static SessionFactoryManager getInstance() {
         return INSTANCES.computeIfAbsent(DEFAULT_NAME, SessionFactoryManager::new);
     }
 
     /**
-     * 命名实例。
+     * 获取特定名称实例。
      * 
      * @param name
-     *     {@link SessionFactory} 名称
-     * @return 实例
+     *     实例名称。
+     * @return 实例。
      * @throws IllegalStateException
-     *     还未命名实例
+     *     实例名称未命名。
      */
-    public static SessionFactoryManager getInstance(final String name) {
+    public static SessionFactoryManager getInstance(String name) {
         if (DEFAULT_NAME.equals(name)) {
             return getInstance();
         }
-        if (!isNameUsed(name)) {
-            throw new IllegalStateException("名称 " + name + " 没有命名");
+
+        SessionFactoryManager instance = INSTANCES.get(name);
+        if (instance == null) {
+            throw new IllegalStateException(RBMF.format("实例名称 {0} 未命名", name));
         }
-        return INSTANCES.get(name);
+
+        return instance;
     }
 
     /**
-     * 判断 {@link SessionFactory} 名称是否已被占用。
+     * 判断实例名称是否已命名。
      * 
      * @param name
-     *     {@link SessionFactory} 名称
-     * @return 是否已被占用
+     *     实例名称。
+     * @return 是否已命名。
      */
-    public static boolean isNameUsed(final String name) {
+    public static boolean isNamed(String name) {
         return INSTANCES.containsKey(name);
     }
 
     /**
-     * 命名默认配置文件到指定名称。
+     * 命名实例名称，使用默认配置资源。
      * 
      * @param name
-     *     {@link SessionFactory} 名称
+     *     实例名称。
      * @throws IllegalStateException
-     *     名称已被占用
+     *     实例名称已命名。
      */
-    public static void nameSessionFactory(final String name) {
-        synchronized (INSTANCES) {
-            if (isNameUsed(name)) {
-                throw new IllegalStateException("名称 " + name + " 已被占用");
-            }
-            INSTANCES.put(name, new SessionFactoryManager(name));
+    public static void nameInstance(String name) {
+        if (isNamed(name)) {
+            throw new IllegalStateException(RBMF.format("实例名称 {0} 已命名", name));
         }
+
+        INSTANCES.computeIfAbsent(name, SessionFactoryManager::new);
     }
 
     /**
-     * 命名一个配置文件到指定名称。
+     * 命名实例名称，使用指定配置资源。
      * 
      * @param name
-     *     {@link SessionFactory} 名称
+     *     实例名称。
      * @param configResource
-     *     {@link SessionFactory} 配置资源
+     *     Hibernate 配置资源。
      * @throws IllegalStateException
-     *     名称已被占用
+     *     实例名称已命名。
      */
-    public static void nameSessionFactory(final String name, final String configResource) {
-        synchronized (INSTANCES) {
-            if (isNameUsed(name)) {
-                throw new IllegalStateException("名称 " + name + " 已被占用");
-            }
-            INSTANCES.put(name, new SessionFactoryManager(name, configResource));
+    public static void nameInstance(String name, String configResource) {
+        if (isNamed(name)) {
+            throw new IllegalStateException(RBMF.format("实例名称 {0} 已命名", name));
         }
+
+        INSTANCES.computeIfAbsent(name, key -> new SessionFactoryManager(name, configResource));
     }
 
     /**
-     * 清除所有 {@link SessionFactory} 配置。
-     */
-    public static void clearAll() {
-        resetAll();
-        INSTANCES.clear();
-    }
-
-    /**
-     * 重置所有 {@link SessionFactory} 配置。
+     * 重置所有实例。
      */
     public static void resetAll() {
         for (SessionFactoryManager instance : INSTANCES.values()) {
@@ -144,146 +158,115 @@ public final class SessionFactoryManager
         }
     }
 
-    private SessionFactoryManager(final String name) {
-        this.factoryName = name;
+    /**
+     * 清除所有实例。
+     */
+    public static void clearAll() {
+        resetAll();
+        INSTANCES.clear();
+    }
+
+    private SessionFactoryManager(String name) {
+        this.name = name;
         this.configResource = null;
         this.threadContext = new ThreadLocal<>();
     }
 
-    private SessionFactoryManager(final String name, final String configResource) {
-        this.factoryName = name;
+    private SessionFactoryManager(String name, String configResource) {
+        this.name = name;
         this.configResource = configResource;
         this.threadContext = new ThreadLocal<>();
     }
 
     /**
-     * 关闭 {@link SessionFactory}。
+     * 获取实例名称。
      */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 获取 Hibernate 配置资源。
+     */
+    public String getConfigResource() {
+        return configResource;
+    }
+
     @Override
     public void reset() {
         if (sessionFactory != null) {
             try {
                 sessionFactory.close();
-                LOG.info("{} 配置的 Hibernate SessionFactory 已关闭。", factoryName);
             } catch (HibernateException e) {
-                LOG.error("{} 配置的 Hibernate SessionFactory 关闭失败。", factoryName, e);
+                LOG.error(RBMF.get("实例 {} 的 Hibernate 会话工厂关闭失败。"), name, e);
             } finally {
                 sessionFactory = null;
             }
         }
         if (serviceRegistry != null) {
-            StandardServiceRegistryBuilder.destroy(serviceRegistry);
-            LOG.info("{} 配置的 Hibernate ServiceRegistry 已销毁。", factoryName);
-            serviceRegistry = null;
-        }
-        configuration = null;
-    }
-
-    /**
-     * 获取 {@link SessionFactory} 配置。
-     * 
-     * @return {@link SessionFactory} 配置
-     */
-    public Configuration getConfiguration()
-        throws SQLException {
-        try {
-            if (configuration == null) {
-                if (configResource == null) {
-                    LOG.info("读取默认的 Hibernate 配置。");
-                    configuration = new Configuration().configure();
-                } else {
-                    LOG.info("读取 {} 的 Hibernate 配置。", configResource);
-                    configuration = new Configuration().configure(configResource);
-                }
+            try {
+                StandardServiceRegistryBuilder.destroy(serviceRegistry);
+            } finally {
+                serviceRegistry = null;
             }
-            return configuration;
-        } catch (HibernateException e) {
-            throw new SQLException(e);
         }
     }
 
     /**
-     * 获取 {@link ServiceRegistry}。
+     * 获取 Hibernate 服务注册表。
      * 
-     * @return {@link ServiceRegistry}
+     * @return Hibernate 服务注册表。
      */
-    public ServiceRegistry getServiceRegistry()
-        throws SQLException {
-        try {
-            if (serviceRegistry == null) {
-                if (DEFAULT_NAME.equals(factoryName)) {
-                    LOG.info("以默认配置构建 Hibernate ServiceRegistry。");
-                } else {
-                    LOG.info("以 {} 配置构建 Hibernate ServiceRegistry。", factoryName);
-                }
-                serviceRegistry = new StandardServiceRegistryBuilder().applySettings(getConfiguration().getProperties()).build();
+    public ServiceRegistry getServiceRegistry() {
+        if (serviceRegistry == null) {
+            if (configResource == null) {
+                serviceRegistry = new StandardServiceRegistryBuilder().configure().build();
+            } else {
+                serviceRegistry = new StandardServiceRegistryBuilder().configure(configResource).build();
             }
-            return serviceRegistry;
-        } catch (HibernateException e) {
-            throw new SQLException(e);
         }
+        return serviceRegistry;
     }
 
     /**
-     * 获取 {@link SessionFactory}。
+     * 获取 Hibernate 会话工厂。
      * 
-     * @return {@link SessionFactory}
+     * @return Hibernate 会话工厂。
      */
-    public SessionFactory getSessionFactory()
-        throws SQLException {
-        try {
-            if (sessionFactory == null) {
-                if (DEFAULT_NAME.equals(factoryName)) {
-                    LOG.info("以默认配置构建 Hibernate SessionFactory。");
-                } else {
-                    LOG.info("以 {} 配置构建 Hibernate SessionFactory。", factoryName);
-                }
-                sessionFactory = getConfiguration().buildSessionFactory(getServiceRegistry());
-            }
-            return sessionFactory;
-        } catch (HibernateException e) {
-            throw new SQLException(e);
+    public SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            sessionFactory = new MetadataSources(getServiceRegistry()).buildMetadata().buildSessionFactory();
         }
+        return sessionFactory;
     }
 
     /**
-     * 使用 {@link SessionFactory} 建立 {@link Session}。
+     * 使用 Hibernate 会话工厂建立 Hibernate 会话。
      * 
-     * @return 新建的 {@link Session}
-     * @throws SQLException
-     *     建立失败
+     * @return Hibernate 会话。
      */
-    public Session createSession()
-        throws SQLException {
-        try {
-            return getSessionFactory().openSession();
-        } catch (HibernateException e) {
-            throw new SQLException(e);
-        }
+    public Session createSession() {
+        return getSessionFactory().openSession();
     }
 
     /**
-     * 获取当前顶层事务上下文，没有则建立。
+     * 获取当前线程的顶层事务上下文，没有则建立。
      * 
-     * @return 当前顶层事务上下文
+     * @return 顶层事务上下文。
      */
     public HibernateTransactionContext getTransactionContext() {
         HibernateTransactionContext context = threadContext.get();
         if (context == null) {
-            context = new HibernateTransactionContext(factoryName);
+            context = new HibernateTransactionContext(name);
             threadContext.set(context);
         }
         return context;
     }
 
     /**
-     * 丢弃顶层事务上下文。
-     * 
-     * @throws SQLException
-     *     回滚发生错误
+     * 丢弃当前线程的顶层事务上下文。
      */
-    public void dropTransactionContext()
-        throws SQLException {
+    public void dropTransactionContext() {
         HibernateTransactionContext context = threadContext.get();
         if (context == null) {
             return;
@@ -297,18 +280,18 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 获取 {@link SessionFactory} 相关连接信息。
+     * 获取数据库连接信息。
      * 
-     * @return 连接信息
+     * @return 数据库连接信息。
      * @throws SQLException
-     *     信息获取失败
+     *     获取失败。
      */
     public ConnectionInfo getConnectionInfo()
         throws SQLException {
-        Properties properties = getConfiguration().getProperties();
-        String url = properties.getProperty(AvailableSettings.URL);
-        String user = properties.getProperty(AvailableSettings.USER);
-        String pass = properties.getProperty(AvailableSettings.PASS);
+        Map<String, Object> settings = getServiceRegistry().getService(ConfigurationService.class).getSettings();
+        String url = (String) settings.get(AvailableSettings.URL);
+        String user = (String) settings.get(AvailableSettings.USER);
+        String pass = (String) settings.get(AvailableSettings.PASS);
         return new ConnectionInfo(url, user, pass);
     }
 }
