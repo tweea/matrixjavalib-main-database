@@ -250,21 +250,21 @@ public final class SessionFactoryManager
     }
 
     /**
-     * 获取当前线程的顶层事务上下文，没有则建立。
+     * 获取当前线程的事务上下文，没有则建立。
      * 
-     * @return 顶层事务上下文。
+     * @return 事务上下文。
      */
     public HibernateTransactionContext getTransactionContext() {
         HibernateTransactionContext context = threadContext.get();
         if (context == null) {
-            context = new HibernateTransactionContext(name);
+            context = new HibernateTransactionContext(this);
             threadContext.set(context);
         }
         return context;
     }
 
     /**
-     * 丢弃当前线程的顶层事务上下文。
+     * 丢弃当前线程的事务上下文。
      */
     public void dropTransactionContext() {
         HibernateTransactionContext context = threadContext.get();

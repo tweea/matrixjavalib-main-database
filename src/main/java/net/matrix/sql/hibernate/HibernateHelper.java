@@ -57,28 +57,23 @@ public final class HibernateHelper {
         return SessionFactoryManager.getInstance(sessionFactoryName).getTransactionContext();
     }
 
-    private static Session getSession(final HibernateTransactionContext context)
-        throws SQLException {
+    private static Session getSession(final HibernateTransactionContext context) {
         return context.getSession();
     }
 
-    public static void beginTransaction()
-        throws SQLException {
+    public static void beginTransaction() {
         getTransactionContext().begin();
     }
 
-    public static void beginTransaction(final String sessionFactoryName)
-        throws SQLException {
+    public static void beginTransaction(final String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).begin();
     }
 
-    public static void commitTransaction()
-        throws SQLException {
+    public static void commitTransaction() {
         getTransactionContext().commit();
     }
 
-    public static void commitTransaction(final String sessionFactoryName)
-        throws SQLException {
+    public static void commitTransaction(final String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).commit();
     }
 

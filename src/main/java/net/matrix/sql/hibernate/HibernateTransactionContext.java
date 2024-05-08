@@ -1,102 +1,91 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.sql.hibernate;
 
-import java.sql.SQLException;
+import javax.persistence.PersistenceException;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import net.matrix.text.ResourceBundleMessageFormatter;
 
 /**
  * Hibernate 事务上下文。
  */
 public class HibernateTransactionContext {
+    /**
+     * 日志记录器。
+     */
     private static final Logger LOG = LoggerFactory.getLogger(HibernateTransactionContext.class);
 
-    private final String sessionFactoryName;
+    /**
+     * 区域相关资源。
+     */
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter(HibernateTransactionContext.class).useCurrentLocale();
 
+    /**
+     * Hibernate 会话工厂管理器。
+     */
+    private final SessionFactoryManager sessionFactoryManager;
+
+    /**
+     * Hibernate 会话。
+     */
     private Session session;
 
+    /**
+     * Hibernate 事务。
+     */
     private Transaction transaction;
 
     /**
-     * 构建使用默认 {@link SessionFactory} 的实例。
+     * 构造器，使用指定 Hibernate 会话工厂管理器。
+     * 
+     * @param sessionFactoryManager
+     *     Hibernate 会话工厂管理器。
      */
-    public HibernateTransactionContext() {
-        this.sessionFactoryName = SessionFactoryManager.DEFAULT_NAME;
+    public HibernateTransactionContext(SessionFactoryManager sessionFactoryManager) {
+        this.sessionFactoryManager = sessionFactoryManager;
     }
 
     /**
-     * 构建使用指定 {@link SessionFactory} 的实例。
+     * 获取 Hibernate 会话。
      * 
-     * @param sessionFactoryName
-     *     {@link SessionFactory} 名称
+     * @return Hibernate 会话。
      */
-    public HibernateTransactionContext(final String sessionFactoryName) {
-        if (sessionFactoryName == null) {
-            this.sessionFactoryName = SessionFactoryManager.DEFAULT_NAME;
-        } else {
-            this.sessionFactoryName = sessionFactoryName;
-        }
-    }
-
-    /**
-     * 获取对应的 Hibernate {@link Session}。
-     * 
-     * @return Hibernate {@link Session}
-     * @throws SQLException
-     *     建立 {@link Session} 失败
-     */
-    public Session getSession()
-        throws SQLException {
+    public Session getSession() {
         if (session == null) {
-            try {
-                session = SessionFactoryManager.getInstance(sessionFactoryName).createSession();
-            } catch (HibernateException ex) {
-                throw new SQLException(ex);
-            }
+            session = sessionFactoryManager.createSession();
         }
         return session;
     }
 
     /**
      * 启动事务。
-     * 
-     * @throws SQLException
-     *     启动失败
      */
-    public void begin()
-        throws SQLException {
+    public void begin() {
         if (transaction == null) {
-            try {
-                transaction = getSession().beginTransaction();
-            } catch (HibernateException ex) {
-                throw new SQLException(ex);
-            }
+            transaction = getSession().beginTransaction();
         }
     }
 
     /**
      * 提交事务。
-     * 
-     * @throws SQLException
-     *     提交失败
      */
-    public void commit()
-        throws SQLException {
-        if (transaction != null) {
-            try {
-                transaction.commit();
-                transaction = null;
-            } catch (HibernateException ex) {
-                throw new SQLException(ex);
-            }
+    public void commit() {
+        if (transaction == null) {
+            return;
+        }
+
+        try {
+            transaction.commit();
+        } finally {
+            transaction = null;
         }
     }
 
@@ -104,12 +93,14 @@ public class HibernateTransactionContext {
      * 撤销事务。
      */
     public void rollback() {
-        if (transaction != null) {
-            try {
-                transaction.rollback();
-            } finally {
-                transaction = null;
-            }
+        if (transaction == null) {
+            return;
+        }
+
+        try {
+            transaction.rollback();
+        } finally {
+            transaction = null;
         }
     }
 
@@ -122,8 +113,8 @@ public class HibernateTransactionContext {
                 if (transaction.isActive()) {
                     transaction.rollback();
                 }
-            } catch (HibernateException ex) {
-                LOG.warn("Hibernate 事务回滚失败", ex);
+            } catch (PersistenceException e) {
+                LOG.warn(RBMF.get("撤销 Hibernate 事务失败"), e);
             } finally {
                 transaction = null;
             }
@@ -131,9 +122,8 @@ public class HibernateTransactionContext {
         if (session != null) {
             try {
                 session.close();
-                LOG.debug("Hibernate 会话结束");
-            } catch (HibernateException ex) {
-                LOG.warn("Hibernate 会话结束失败", ex);
+            } catch (HibernateException e) {
+                LOG.warn(RBMF.get("关闭 Hibernate 会话失败"), e);
             } finally {
                 session = null;
             }
