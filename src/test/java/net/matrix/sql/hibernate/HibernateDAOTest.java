@@ -8,10 +8,6 @@ import java.util.List;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,22 +20,13 @@ import net.matrix.sql.hibernate.entity.User;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HibernateDAOTest {
-    private static ServiceRegistry serviceRegistry;
-
     private static SessionFactory sessionFactory;
 
     private Transaction transaction;
 
     @BeforeAll
     public static void beforeAll() {
-        serviceRegistry = new StandardServiceRegistryBuilder().configure().build();
-        sessionFactory = new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
-    }
-
-    @AfterAll
-    public static void afterAll() {
-        sessionFactory.close();
-        StandardServiceRegistryBuilder.destroy(serviceRegistry);
+        sessionFactory = SessionFactoryManager.getInstance().getSessionFactory();
     }
 
     @BeforeEach
