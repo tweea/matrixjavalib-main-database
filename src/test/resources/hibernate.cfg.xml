@@ -11,6 +11,9 @@
         <property name="format_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
         <property name="current_session_context_class">thread</property>
+
+        <mapping class="net.matrix.sql.hibernate.entity.IntegerListAsStringTestEntity" />
+        <mapping class="net.matrix.sql.hibernate.entity.IntegerListAsStringTypeEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.User" />
     </session-factory>
 </hibernate-configuration>
