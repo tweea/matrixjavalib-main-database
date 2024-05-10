@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 import com.google.common.collect.Lists;
 
 import net.matrix.sql.hibernate.SessionFactoryManager;
-import net.matrix.sql.hibernate.entity.IntegerListAsStringTestEntity;
-import net.matrix.sql.hibernate.entity.IntegerListAsStringTypeEntity;
+import net.matrix.sql.hibernate.entity.IntegerListAsCharTestEntity;
+import net.matrix.sql.hibernate.entity.IntegerListAsCharTypeEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegerListAsStringTypeTest {
+public class IntegerListAsCharTypeTest {
     private static SessionFactory sessionFactory;
 
     private Transaction transaction;
@@ -44,12 +44,25 @@ public class IntegerListAsStringTypeTest {
     public void testSave() {
         Session session = sessionFactory.getCurrentSession();
 
-        IntegerListAsStringTypeEntity typeEntity = new IntegerListAsStringTypeEntity();
+        IntegerListAsCharTypeEntity typeEntity = new IntegerListAsCharTypeEntity();
         typeEntity.setValue(Lists.newArrayList(1, 2, 3));
         session.save(typeEntity);
         session.flush();
 
-        IntegerListAsStringTestEntity testEntity = session.get(IntegerListAsStringTestEntity.class, typeEntity.getId());
+        IntegerListAsCharTestEntity testEntity = session.get(IntegerListAsCharTestEntity.class, typeEntity.getId());
         assertThat(testEntity.getValue()).isEqualTo("1#2#3");
+    }
+
+    @Test
+    public void testLoad() {
+        Session session = sessionFactory.getCurrentSession();
+
+        IntegerListAsCharTestEntity testEntity = new IntegerListAsCharTestEntity();
+        testEntity.setValue("1#2#3");
+        session.save(testEntity);
+        session.flush();
+
+        IntegerListAsCharTypeEntity typeEntity = session.get(IntegerListAsCharTypeEntity.class, testEntity.getId());
+        assertThat(typeEntity.getValue()).containsExactly(1, 2, 3);
     }
 }

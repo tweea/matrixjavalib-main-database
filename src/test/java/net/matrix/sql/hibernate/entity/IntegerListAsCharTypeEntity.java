@@ -4,22 +4,27 @@
  */
 package net.matrix.sql.hibernate.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "TEST_INTEGER_LIST_STRING")
-public class IntegerListAsStringTestEntity {
+@Table(name = "TEST_INTEGER_LIST_CHAR")
+public class IntegerListAsCharTypeEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
-    private String value;
+    @Type(type = "net.matrix.sql.hibernate.type.IntegerListAsCharType", parameters = @Parameter(name = "separator", value = "#"))
+    private List<Integer> value;
 
     public String getId() {
         return id;
@@ -29,11 +34,11 @@ public class IntegerListAsStringTestEntity {
         this.id = id;
     }
 
-    public String getValue() {
+    public List<Integer> getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(List<Integer> value) {
         this.value = value;
     }
 }
