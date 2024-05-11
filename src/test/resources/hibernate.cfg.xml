@@ -18,6 +18,8 @@
         <mapping class="net.matrix.sql.hibernate.entity.LocalDateAsNumericTypeEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.LocalDateTimeAsNumericTestEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.LocalDateTimeAsNumericTypeEntity" />
+        <mapping class="net.matrix.sql.hibernate.entity.LocalTimeAsNumericTestEntity" />
+        <mapping class="net.matrix.sql.hibernate.entity.LocalTimeAsNumericTypeEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.StringListAsCharTestEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.StringListAsCharTypeEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.User" />
