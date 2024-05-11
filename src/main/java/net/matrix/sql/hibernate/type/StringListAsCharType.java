@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.sql.hibernate.type;
@@ -17,42 +17,42 @@ import org.jadira.usertype.spi.shared.AbstractParameterizedUserType;
 import org.jadira.usertype.spi.shared.ConfigurationHelper;
 
 /**
- * 将数据库中的字符串值作为字符串列表值处理的类型。
+ * 将数据库中的字符字段映射为 Java 中的字符串列表类型。
  */
-public class StringListAsStringType
-    extends AbstractParameterizedUserType<List<String>, String, StringColumnStringListMapper> {
-    private static final long serialVersionUID = -8673372663696152816L;
+public class StringListAsCharType
+    extends AbstractParameterizedUserType<List<String>, String, StringListAsCharMapper> {
+    private static final long serialVersionUID = 1L;
 
     @Override
-    public List<String> nullSafeGet(final ResultSet resultSet, final String[] strings, final SharedSessionContractImplementor session, final Object object)
+    public List<String> nullSafeGet(ResultSet resultSet, String[] strings, SharedSessionContractImplementor session, Object object)
         throws SQLException {
         List<String> list = super.nullSafeGet(resultSet, strings, session, object);
         if (list == null) {
-            return new ArrayList();
+            list = new ArrayList();
         }
         return list;
     }
 
     @Override
-    public void nullSafeSet(final PreparedStatement preparedStatement, final Object value, final int index, final SharedSessionContractImplementor session)
+    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index, SharedSessionContractImplementor session)
         throws SQLException {
         if (value == null) {
             preparedStatement.setNull(index, Types.VARCHAR);
             return;
         }
-        List<String> v = (List) value;
-        if (v.isEmpty()) {
+
+        List<String> list = (List) value;
+        if (list.isEmpty()) {
             preparedStatement.setNull(index, Types.VARCHAR);
             return;
         }
+
         super.nullSafeSet(preparedStatement, value, index, session);
     }
 
     @Override
-    public void applyConfiguration(final SessionFactory sessionFactory) {
+    public void applyConfiguration(SessionFactory sessionFactory) {
         super.applyConfiguration(sessionFactory);
-
-        StringColumnStringListMapper columnMapper = getColumnMapper();
 
         String separator = null;
         if (getParameterValues() != null) {
@@ -61,11 +61,11 @@ public class StringListAsStringType
         if (separator == null) {
             separator = ConfigurationHelper.getProperty("separator");
         }
-
         if (separator == null) {
-            columnMapper.setSeparator(",");
-        } else {
-            columnMapper.setSeparator(separator);
+            separator = ",";
         }
+
+        StringListAsCharMapper columnMapper = getColumnMapper();
+        columnMapper.setSeparator(separator);
     }
 }

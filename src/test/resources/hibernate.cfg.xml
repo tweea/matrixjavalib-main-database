@@ -14,6 +14,8 @@
 
         <mapping class="net.matrix.sql.hibernate.entity.IntegerListAsCharTestEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.IntegerListAsCharTypeEntity" />
+        <mapping class="net.matrix.sql.hibernate.entity.StringListAsCharTestEntity" />
+        <mapping class="net.matrix.sql.hibernate.entity.StringListAsCharTypeEntity" />
         <mapping class="net.matrix.sql.hibernate.entity.User" />
     </session-factory>
 </hibernate-configuration>
