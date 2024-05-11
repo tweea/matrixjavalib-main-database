@@ -18,6 +18,9 @@ public class StringListAsCharMapper
     extends AbstractStringColumnMapper<List<String>> {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 分隔符。
+     */
     private String separator;
 
     public void setSeparator(String separator) {
