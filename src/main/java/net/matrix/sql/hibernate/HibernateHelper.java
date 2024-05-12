@@ -322,14 +322,14 @@ public final class HibernateHelper {
             return;
         }
         for (int i = 0; i < parameters.length; i++) {
-            query.setParameter(HQLs.getParameterName(i), parameters[i]);
+            query.setParameter(HQLmx.getParameterName(i), parameters[i]);
         }
     }
 
     private static void setQueryParameter(Query query, Iterable parameters) {
         int i = 0;
         for (Object param : parameters) {
-            query.setParameter(HQLs.getParameterName(i), param);
+            query.setParameter(HQLmx.getParameterName(i), param);
             i++;
         }
     }

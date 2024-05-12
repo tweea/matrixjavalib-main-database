@@ -8,18 +8,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HQLsTest {
+public class HQLmxTest {
     @Test
     public void testAppendParameterName() {
         StringBuilder hql = new StringBuilder();
 
-        HQLs.appendParameterName(hql, 0);
+        HQLmx.appendParameterName(hql, 0);
         assertThat(hql.toString()).isEqualTo(":p0");
     }
 
     @Test
     public void testGetParameterName() {
-        assertThat(HQLs.getParameterName(0)).isEqualTo("p0");
-        assertThat(HQLs.getParameterName(10)).isEqualTo("p10");
+        assertThat(HQLmx.getParameterName(0)).isEqualTo("p0");
+        assertThat(HQLmx.getParameterName(10)).isEqualTo("p10");
     }
 }
