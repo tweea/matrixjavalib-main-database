@@ -13,7 +13,7 @@ import org.jadira.usertype.spi.shared.AbstractStringColumnMapper;
 import net.matrix.java.lang.ObjectMx;
 
 /**
- * 将数据库中的字符字段映射为 Java 中的整形列表类型。
+ * 将数据库中的字符字段映射为 Java 中的整型列表类型。
  */
 public class IntegerListAsCharMapper
     extends AbstractStringColumnMapper<List<Integer>> {

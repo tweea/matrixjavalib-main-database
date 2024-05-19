@@ -20,10 +20,10 @@ public class LocalDateAsNumericMapper
     /**
      * 日期格式。
      */
-    private String format;
+    private String pattern;
 
-    public void setFormat(String format) {
-        this.format = format;
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LocalDateAsNumericMapper
 
     @Override
     public LocalDate fromNonNullString(String s) {
-        return DateTimeFormatterMx.parseLocalDate(s, format);
+        return DateTimeFormatterMx.parseLocalDate(s, pattern);
     }
 
     @Override
@@ -43,6 +43,6 @@ public class LocalDateAsNumericMapper
 
     @Override
     public String toNonNullString(LocalDate value) {
-        return DateTimeFormatterMx.format(value, format);
+        return DateTimeFormatterMx.format(value, pattern);
     }
 }

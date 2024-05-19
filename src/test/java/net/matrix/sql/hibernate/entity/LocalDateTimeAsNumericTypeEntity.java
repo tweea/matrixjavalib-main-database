@@ -23,7 +23,7 @@ public class LocalDateTimeAsNumericTypeEntity {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
-    @Type(type = "net.matrix.sql.hibernate.type.LocalDateTimeAsNumericType", parameters = @Parameter(name = "format", value = "yyyyMMddHHmmss"))
+    @Type(type = "net.matrix.sql.hibernate.type.LocalDateTimeAsNumericType", parameters = @Parameter(name = "pattern", value = "yyyyMMddHHmmss"))
     private LocalDateTime value;
 
     public String getId() {

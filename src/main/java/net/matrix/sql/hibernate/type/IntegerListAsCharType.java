@@ -17,7 +17,7 @@ import org.jadira.usertype.spi.shared.AbstractParameterizedUserType;
 import org.jadira.usertype.spi.shared.ConfigurationHelper;
 
 /**
- * 将数据库中的字符字段映射为 Java 中的整形列表类型。
+ * 将数据库中的字符字段映射为 Java 中的整型列表类型。
  */
 public class IntegerListAsCharType
     extends AbstractParameterizedUserType<List<Integer>, String, IntegerListAsCharMapper> {

@@ -866,7 +866,7 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(Session session, String queryString, Object... params) {
         try {
@@ -884,28 +884,28 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(HibernateTransactionContext context, String queryString, Object... params) {
         return queryCount(getSession(context), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(String queryString, Object... params) {
         return queryCount(getTransactionContext(), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(String sessionFactoryName, String queryString, Object... params) {
         return queryCount(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(Session session, String queryString, Iterable params) {
         Query query = session.createQuery(queryString);
@@ -918,28 +918,28 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(HibernateTransactionContext context, String queryString, Iterable params) {
         return queryCount(getSession(context), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(String queryString, Iterable params) {
         return queryCount(getTransactionContext(), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(String sessionFactoryName, String queryString, Iterable params) {
         return queryCount(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(Session session, String queryString, Map<String, ?> params) {
         Query query = session.createQuery(queryString);
@@ -952,21 +952,21 @@ public final class HibernateHelper {
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(HibernateTransactionContext context, String queryString, Map<String, ?> params) {
         return queryCount(getSession(context), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(String queryString, Map<String, ?> params) {
         return queryCount(getTransactionContext(), queryString, params);
     }
 
     /**
-     * 根据 HQL 查询字符串和参数从数据库中获取整形返回值。
+     * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(String sessionFactoryName, String queryString, Map<String, ?> params) {
         return queryCount(getTransactionContext(sessionFactoryName), queryString, params);

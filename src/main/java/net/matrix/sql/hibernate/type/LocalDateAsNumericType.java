@@ -21,18 +21,18 @@ public class LocalDateAsNumericType
     public void applyConfiguration(SessionFactory sessionFactory) {
         super.applyConfiguration(sessionFactory);
 
-        String format = null;
+        String pattern = null;
         if (getParameterValues() != null) {
-            format = getParameterValues().getProperty("format");
+            pattern = getParameterValues().getProperty("pattern");
         }
-        if (format == null) {
-            format = ConfigurationHelper.getProperty("format");
+        if (pattern == null) {
+            pattern = ConfigurationHelper.getProperty("pattern");
         }
-        if (format == null) {
-            format = "yyyyMMdd";
+        if (pattern == null) {
+            pattern = "yyyyMMdd";
         }
 
         LocalDateAsNumericMapper columnMapper = getColumnMapper();
-        columnMapper.setFormat(format);
+        columnMapper.setPattern(pattern);
     }
 }
