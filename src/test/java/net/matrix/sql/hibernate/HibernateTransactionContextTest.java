@@ -10,11 +10,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HibernateTransactionContextTest {
+class HibernateTransactionContextTest {
     private FieldSupport fieldSupport = FieldSupport.extraction();
 
     @Test
-    public void testNew() {
+    void testNew() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 
         HibernateTransactionContext context = new HibernateTransactionContext(manager);
@@ -22,7 +22,7 @@ public class HibernateTransactionContextTest {
     }
 
     @Test
-    public void testGetSession() {
+    void testGetSession() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
         HibernateTransactionContext context = new HibernateTransactionContext(manager);
 
@@ -30,7 +30,7 @@ public class HibernateTransactionContextTest {
     }
 
     @Test
-    public void testBegin() {
+    void testBegin() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
         HibernateTransactionContext context = new HibernateTransactionContext(manager);
 
@@ -39,7 +39,7 @@ public class HibernateTransactionContextTest {
     }
 
     @Test
-    public void testCommit() {
+    void testCommit() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
         HibernateTransactionContext context = new HibernateTransactionContext(manager);
         context.begin();
@@ -49,7 +49,7 @@ public class HibernateTransactionContextTest {
     }
 
     @Test
-    public void testRollback() {
+    void testRollback() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
         HibernateTransactionContext context = new HibernateTransactionContext(manager);
         context.begin();
@@ -59,7 +59,7 @@ public class HibernateTransactionContextTest {
     }
 
     @Test
-    public void testRelease() {
+    void testRelease() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
         HibernateTransactionContext context = new HibernateTransactionContext(manager);
         context.begin();

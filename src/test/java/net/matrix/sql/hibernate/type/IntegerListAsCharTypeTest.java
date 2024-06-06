@@ -20,28 +20,28 @@ import net.matrix.sql.hibernate.entity.IntegerListAsCharTypeEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class IntegerListAsCharTypeTest {
-    private static SessionFactory sessionFactory;
+class IntegerListAsCharTypeTest {
+    static SessionFactory sessionFactory;
 
-    private Transaction transaction;
+    Transaction transaction;
 
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
         sessionFactory = SessionFactoryManager.getInstance().getSessionFactory();
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         transaction = sessionFactory.getCurrentSession().beginTransaction();
     }
 
     @AfterEach
-    public void afterEach() {
+    void afterEach() {
         transaction.rollback();
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         Session session = sessionFactory.getCurrentSession();
 
         IntegerListAsCharTypeEntity typeEntity = new IntegerListAsCharTypeEntity();
@@ -54,7 +54,7 @@ public class IntegerListAsCharTypeTest {
     }
 
     @Test
-    public void testLoad() {
+    void testLoad() {
         Session session = sessionFactory.getCurrentSession();
 
         IntegerListAsCharTestEntity testEntity = new IntegerListAsCharTestEntity();

@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HQLmxTest {
+class HQLmxTest {
     @Test
-    public void testAppendParameterName() {
+    void testAppendParameterName() {
         StringBuilder hql = new StringBuilder();
 
         HQLmx.appendParameterName(hql, 0);
@@ -18,7 +18,7 @@ public class HQLmxTest {
     }
 
     @Test
-    public void testGetParameterName() {
+    void testGetParameterName() {
         assertThat(HQLmx.getParameterName(0)).isEqualTo("p0");
         assertThat(HQLmx.getParameterName(10)).isEqualTo("p10");
     }

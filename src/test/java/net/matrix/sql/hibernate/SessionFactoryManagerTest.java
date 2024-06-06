@@ -14,9 +14,9 @@ import net.matrix.sql.ConnectionInfo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SessionFactoryManagerTest {
+class SessionFactoryManagerTest {
     @Test
-    public void testGetInstance() {
+    void testGetInstance() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
         assertThat(manager.getName()).isEqualTo(SessionFactoryManager.DEFAULT_NAME);
 
@@ -25,7 +25,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testGetInstance_name() {
+    void testGetInstance_name() {
         String name = "getInstance";
         SessionFactoryManager.nameInstance(name);
 
@@ -34,7 +34,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testIsNamed() {
+    void testIsNamed() {
         String name = "isNamed";
         SessionFactoryManager.nameInstance(name);
 
@@ -42,7 +42,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testResetAll() {
+    void testResetAll() {
         String name = "resetAll";
         SessionFactoryManager.nameInstance(name);
 
@@ -51,7 +51,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testClearAll() {
+    void testClearAll() {
         String name = "clearAll";
         SessionFactoryManager.nameInstance(name);
 
@@ -60,7 +60,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testReset() {
+    void testReset() {
         String name = "reset";
         SessionFactoryManager.nameInstance(name);
         SessionFactoryManager manager = SessionFactoryManager.getInstance(name);
@@ -70,21 +70,21 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testGetServiceRegistry() {
+    void testGetServiceRegistry() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 
         assertThat(manager.getServiceRegistry()).isNotNull();
     }
 
     @Test
-    public void testGetSessionFactory() {
+    void testGetSessionFactory() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 
         assertThat(manager.getSessionFactory()).isNotNull();
     }
 
     @Test
-    public void testCreateSession() {
+    void testCreateSession() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 
         try (Session session = manager.createSession()) {
@@ -93,7 +93,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testGetTransactionContext() {
+    void testGetTransactionContext() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 
         HibernateTransactionContext context1 = manager.getTransactionContext();
@@ -102,7 +102,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testDropTransactionContext() {
+    void testDropTransactionContext() {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 
         assertThat(manager.getTransactionContext()).isNotNull();
@@ -112,7 +112,7 @@ public class SessionFactoryManagerTest {
     }
 
     @Test
-    public void testGetConnectionInfo()
+    void testGetConnectionInfo()
         throws SQLException {
         SessionFactoryManager manager = SessionFactoryManager.getInstance();
 

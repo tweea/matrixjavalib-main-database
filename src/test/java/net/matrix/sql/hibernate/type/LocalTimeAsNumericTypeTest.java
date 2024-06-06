@@ -20,28 +20,28 @@ import net.matrix.sql.hibernate.entity.LocalTimeAsNumericTypeEntity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LocalTimeAsNumericTypeTest {
-    private static SessionFactory sessionFactory;
+class LocalTimeAsNumericTypeTest {
+    static SessionFactory sessionFactory;
 
-    private Transaction transaction;
+    Transaction transaction;
 
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
         sessionFactory = SessionFactoryManager.getInstance().getSessionFactory();
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         transaction = sessionFactory.getCurrentSession().beginTransaction();
     }
 
     @AfterEach
-    public void afterEach() {
+    void afterEach() {
         transaction.rollback();
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         Session session = sessionFactory.getCurrentSession();
 
         LocalTimeAsNumericTypeEntity typeEntity = new LocalTimeAsNumericTypeEntity();
@@ -54,7 +54,7 @@ public class LocalTimeAsNumericTypeTest {
     }
 
     @Test
-    public void testLoad() {
+    void testLoad() {
         Session session = sessionFactory.getCurrentSession();
 
         LocalTimeAsNumericTestEntity testEntity = new LocalTimeAsNumericTestEntity();

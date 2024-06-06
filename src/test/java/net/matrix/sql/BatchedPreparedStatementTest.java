@@ -17,27 +17,27 @@ import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BatchedPreparedStatementTest {
-    private FieldSupport fieldSupport = FieldSupport.extraction();
+class BatchedPreparedStatementTest {
+    FieldSupport fieldSupport = FieldSupport.extraction();
 
-    private AutoCloseable mock;
+    AutoCloseable mock;
 
     @Mock
-    private PreparedStatement statement;
+    PreparedStatement statement;
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         mock = MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
-    public void afterEach()
+    void afterEach()
         throws Exception {
         mock.close();
     }
 
     @Test
-    public void testNew_batchSize() {
+    void testNew_batchSize() {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3);
         assertThat(fieldSupport.fieldValue("statement", PreparedStatement.class, batchedStatement)).isSameAs(statement);
         assertThat(fieldSupport.fieldValue("batchSize", Integer.class, batchedStatement)).isEqualTo(3);
@@ -46,7 +46,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testAddBatch()
+    void testAddBatch()
         throws SQLException {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
         Mockito.when(statement.executeBatch()).thenReturn(new int[] {
@@ -61,7 +61,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testClose()
+    void testClose()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2)) {
             assertThat(fieldSupport.fieldValue("batchCount", Integer.class, batchedStatement)).isEqualTo(0);
@@ -72,7 +72,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testClearBatch()
+    void testClearBatch()
         throws SQLException {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
 
@@ -83,7 +83,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testExecuteBatch()
+    void testExecuteBatch()
         throws SQLException {
         PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 2);
         Mockito.when(statement.executeBatch()).thenReturn(new int[] {
@@ -100,7 +100,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testUnwrap()
+    void testUnwrap()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3)) {
             assertThat(batchedStatement.unwrap(PreparedStatement.class)).isSameAs(statement);
@@ -108,7 +108,7 @@ public class BatchedPreparedStatementTest {
     }
 
     @Test
-    public void testIsWrapperFor()
+    void testIsWrapperFor()
         throws SQLException {
         try (PreparedStatement batchedStatement = new BatchedPreparedStatement(statement, 3)) {
             assertThat(batchedStatement.isWrapperFor(Integer.class)).isFalse();

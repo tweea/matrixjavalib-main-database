@@ -19,28 +19,28 @@ import net.matrix.sql.hibernate.entity.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HibernateDAOTest {
-    private static SessionFactory sessionFactory;
+class HibernateDAOTest {
+    static SessionFactory sessionFactory;
 
-    private Transaction transaction;
+    Transaction transaction;
 
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
         sessionFactory = SessionFactoryManager.getInstance().getSessionFactory();
     }
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         transaction = sessionFactory.getCurrentSession().beginTransaction();
     }
 
     @AfterEach
-    public void afterEach() {
+    void afterEach() {
         transaction.rollback();
     }
 
     @Test
-    public void testNew() {
+    void testNew() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory) {
         };
         assertThat(dao.getEntityClass()).isSameAs(User.class);
@@ -49,7 +49,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testNew_class() {
+    void testNew_class() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         assertThat(dao.getEntityClass()).isSameAs(User.class);
         assertThat(dao.getSessionFactory()).isSameAs(sessionFactory);
@@ -57,7 +57,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testSave() {
+    void testSave() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
 
@@ -67,7 +67,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testSaveAll() {
+    void testSaveAll() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user1 = new User();
         User user2 = new User();
@@ -80,7 +80,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testFindById() {
+    void testFindById() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -92,7 +92,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testExistsById() {
+    void testExistsById() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -102,7 +102,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testFindAll() {
+    void testFindAll() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -114,7 +114,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testFindAllById() {
+    void testFindAllById() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -126,7 +126,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testCount() {
+    void testCount() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -136,7 +136,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testDeleteById() {
+    void testDeleteById() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -147,7 +147,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -158,7 +158,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testDeleteAllById() {
+    void testDeleteAllById() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -169,7 +169,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testDeleteAll_iterable() {
+    void testDeleteAll_iterable() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -180,7 +180,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testDeleteAll() {
+    void testDeleteAll() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user = new User();
         user.setName("test");
@@ -191,7 +191,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testFindAll_sort() {
+    void testFindAll_sort() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user1 = new User();
         user1.setName("test1");
@@ -206,7 +206,7 @@ public class HibernateDAOTest {
     }
 
     @Test
-    public void testFindAll_pageable() {
+    void testFindAll_pageable() {
         HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory, User.class);
         User user1 = new User();
         user1.setName("test1");

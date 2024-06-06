@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ConnectionInfoTest {
-    private String url = "jdbc:derby:memory:mx_base;create=true";
+class ConnectionInfoTest {
+    String url = "jdbc:derby:memory:mx_base;create=true";
 
     @Test
-    public void testNew()
+    void testNew()
         throws SQLException {
         ConnectionInfo info = new ConnectionInfo(url, "", "");
         assertThat(info.getUrl()).isEqualTo(url);
@@ -26,7 +26,7 @@ public class ConnectionInfoTest {
     }
 
     @Test
-    public void testGetConnection()
+    void testGetConnection()
         throws SQLException {
         ConnectionInfo info = new ConnectionInfo(url, "", "");
 

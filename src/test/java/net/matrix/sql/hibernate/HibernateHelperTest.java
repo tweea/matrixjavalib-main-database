@@ -12,21 +12,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HibernateHelperTest {
+class HibernateHelperTest {
     @BeforeAll
-    public static void beforeAll() {
+    static void beforeAll() {
         SessionFactoryManager.getInstance();
     }
 
     @Test
-    public void testQuerySQLAsMap() {
+    void testQuerySQLAsMap() {
         List<Map<String, Object>> result = HibernateHelper.querySQLAsMap("VALUES ('abc'), ('123')");
         assertThat(result).hasSize(2);
         assertThat(result.get(0)).containsEntry("1", "abc");
     }
 
     @Test
-    public void testQuerySQLPageAsMap() {
+    void testQuerySQLPageAsMap() {
         List<Map<String, Object>> result = HibernateHelper.querySQLPageAsMap("VALUES ('abc'), ('123')", 1, 1);
         assertThat(result).hasSize(1);
         assertThat(result.get(0)).containsEntry("1", "123");

@@ -15,9 +15,9 @@ import org.mockito.Mockito;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-public class AutoRollbackConnectionTest {
+class AutoRollbackConnectionTest {
     @Test
-    public void testClose()
+    void testClose()
         throws SQLException {
         Connection connection = Mockito.mock(Connection.class);
 
@@ -31,7 +31,7 @@ public class AutoRollbackConnectionTest {
     }
 
     @Test
-    public void testClose_rollbackFail()
+    void testClose_rollbackFail()
         throws SQLException {
         Connection connection = Mockito.mock(Connection.class);
         Mockito.doThrow(SQLException.class).when(connection).rollback();
@@ -48,7 +48,7 @@ public class AutoRollbackConnectionTest {
     }
 
     @Test
-    public void testClose_withAutoCommit()
+    void testClose_withAutoCommit()
         throws SQLException {
         Connection connection = Mockito.mock(Connection.class);
         Mockito.when(connection.getAutoCommit()).thenReturn(true);
@@ -62,7 +62,7 @@ public class AutoRollbackConnectionTest {
     }
 
     @Test
-    public void testClose_closed()
+    void testClose_closed()
         throws SQLException {
         Connection connection = Mockito.mock(Connection.class);
         Mockito.when(connection.isClosed()).thenReturn(true);
@@ -74,7 +74,7 @@ public class AutoRollbackConnectionTest {
     }
 
     @Test
-    public void testClose_realConnection()
+    void testClose_realConnection()
         throws SQLException {
         String url = "jdbc:derby:memory:mx_base;create=true";
         ConnectionInfo info = new ConnectionInfo(url, "", "");
