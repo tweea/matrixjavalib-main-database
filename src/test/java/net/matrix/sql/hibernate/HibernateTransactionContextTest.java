@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HibernateTransactionContextTest {
-    private FieldSupport fieldSupport = FieldSupport.extraction();
+    FieldSupport fieldSupport = FieldSupport.extraction();
 
     @Test
     void testNew() {
