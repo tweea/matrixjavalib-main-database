@@ -4,6 +4,8 @@
  */
 package net.matrix.sql.hibernate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.PersistenceException;
 
 import org.hibernate.HibernateException;
@@ -31,16 +33,19 @@ public class HibernateTransactionContext {
     /**
      * Hibernate 会话工厂管理器。
      */
+    @Nonnull
     private final SessionFactoryManager sessionFactoryManager;
 
     /**
      * Hibernate 会话。
      */
+    @Nullable
     private Session session;
 
     /**
      * Hibernate 事务。
      */
+    @Nullable
     private Transaction transaction;
 
     /**
@@ -49,7 +54,7 @@ public class HibernateTransactionContext {
      * @param sessionFactoryManager
      *     Hibernate 会话工厂管理器。
      */
-    public HibernateTransactionContext(SessionFactoryManager sessionFactoryManager) {
+    public HibernateTransactionContext(@Nonnull SessionFactoryManager sessionFactoryManager) {
         this.sessionFactoryManager = sessionFactoryManager;
     }
 
@@ -58,6 +63,7 @@ public class HibernateTransactionContext {
      * 
      * @return Hibernate 会话。
      */
+    @Nonnull
     public Session getSession() {
         if (session == null) {
             session = sessionFactoryManager.createSession();

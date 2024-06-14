@@ -28,6 +28,8 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 /**
@@ -63,7 +65,7 @@ public class BatchedPreparedStatement
      * @param batchSize
      *     批量执行的最大数量。
      */
-    public BatchedPreparedStatement(PreparedStatement statement, int batchSize) {
+    public BatchedPreparedStatement(@Nonnull PreparedStatement statement, int batchSize) {
         this.statement = statement;
         this.batchSize = batchSize;
         this.batchCount = 0;

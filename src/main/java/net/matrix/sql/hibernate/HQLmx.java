@@ -4,9 +4,13 @@
  */
 package net.matrix.sql.hibernate;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * HQL 工具。
  */
+@ThreadSafe
 public final class HQLmx {
     private static final char[] PARAMETER_PREFIX = {
         ':', 'p'
@@ -26,7 +30,7 @@ public final class HQLmx {
      * @param index
      *     序号。
      */
-    public static void appendParameterName(StringBuilder hql, int index) {
+    public static void appendParameterName(@Nonnull StringBuilder hql, int index) {
         hql.append(PARAMETER_PREFIX).append(index);
     }
 
@@ -36,6 +40,7 @@ public final class HQLmx {
      * @param index
      *     序号。
      */
+    @Nonnull
     public static String getParameterName(int index) {
         return PARAMETER_PREFIX[1] + Integer.toString(index);
     }

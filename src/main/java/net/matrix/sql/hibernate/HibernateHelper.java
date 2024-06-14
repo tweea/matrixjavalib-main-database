@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
+
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.RowProcessor;
 import org.apache.commons.dbutils.handlers.MapListHandler;
@@ -25,6 +29,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Hibernate 工具。
  */
+@ThreadSafe
 public final class HibernateHelper {
     /**
      * 日志记录器。
@@ -44,6 +49,7 @@ public final class HibernateHelper {
     /**
      * 获取 Hibernate 事务上下文。
      */
+    @Nonnull
     private static HibernateTransactionContext getTransactionContext() {
         return SessionFactoryManager.getInstance().getTransactionContext();
     }
@@ -51,7 +57,8 @@ public final class HibernateHelper {
     /**
      * 获取 Hibernate 事务上下文。
      */
-    private static HibernateTransactionContext getTransactionContext(String sessionFactoryName) {
+    @Nonnull
+    private static HibernateTransactionContext getTransactionContext(@Nonnull String sessionFactoryName) {
         return SessionFactoryManager.getInstance(sessionFactoryName).getTransactionContext();
     }
 
@@ -63,7 +70,7 @@ public final class HibernateHelper {
         getTransactionContext().begin();
     }
 
-    public static void beginTransaction(String sessionFactoryName) {
+    public static void beginTransaction(@Nonnull String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).begin();
     }
 
@@ -71,7 +78,7 @@ public final class HibernateHelper {
         getTransactionContext().commit();
     }
 
-    public static void commitTransaction(String sessionFactoryName) {
+    public static void commitTransaction(@Nonnull String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).commit();
     }
 
@@ -79,7 +86,7 @@ public final class HibernateHelper {
         getTransactionContext().rollback();
     }
 
-    public static void rollbackTransaction(String sessionFactoryName) {
+    public static void rollbackTransaction(@Nonnull String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).rollback();
     }
 
@@ -87,126 +94,130 @@ public final class HibernateHelper {
         getTransactionContext().release();
     }
 
-    public static void releaseTransaction(String sessionFactoryName) {
+    public static void releaseTransaction(@Nonnull String sessionFactoryName) {
         getTransactionContext(sessionFactoryName).release();
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static <T> T merge(Session session, T object) {
+    @Nonnull
+    public static <T> T merge(@Nonnull Session session, @Nonnull T object) {
         return (T) session.merge(object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static <T> T merge(HibernateTransactionContext context, T object) {
+    @Nonnull
+    public static <T> T merge(@Nonnull HibernateTransactionContext context, @Nonnull T object) {
         return merge(getSession(context), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static <T> T merge(T object) {
+    @Nonnull
+    public static <T> T merge(@Nonnull T object) {
         return merge(getTransactionContext(), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static <T> T merge(String sessionFactoryName, T object) {
+    @Nonnull
+    public static <T> T merge(@Nonnull String sessionFactoryName, @Nonnull T object) {
         return merge(getTransactionContext(sessionFactoryName), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(Session session, Object object) {
+    public static Serializable create(@Nonnull Session session, @Nonnull Object object) {
         return session.save(object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(HibernateTransactionContext context, Object object) {
+    public static Serializable create(@Nonnull HibernateTransactionContext context, @Nonnull Object object) {
         return create(getSession(context), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(Object object) {
+    public static Serializable create(@Nonnull Object object) {
         return create(getTransactionContext(), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(String sessionFactoryName, Object object) {
+    public static Serializable create(@Nonnull String sessionFactoryName, @Nonnull Object object) {
         return create(getTransactionContext(sessionFactoryName), object);
     }
 
     /**
      * 向数据库中更新一个对象。
      */
-    public static void update(Session session, Object object) {
+    public static void update(@Nonnull Session session, @Nonnull Object object) {
         session.update(object);
     }
 
     /**
      * 向数据库中更新一个对象。
      */
-    public static void update(HibernateTransactionContext context, Object object) {
+    public static void update(@Nonnull HibernateTransactionContext context, @Nonnull Object object) {
         update(getSession(context), object);
     }
 
     /**
      * 向数据库中更新一个对象。
      */
-    public static void update(Object object) {
+    public static void update(@Nonnull Object object) {
         update(getTransactionContext(), object);
     }
 
     /**
      * 向数据库中更新一个对象。
      */
-    public static void update(String sessionFactoryName, Object object) {
+    public static void update(@Nonnull String sessionFactoryName, @Nonnull Object object) {
         update(getTransactionContext(sessionFactoryName), object);
     }
 
     /**
      * 向数据库中存储或更新一个对象。
      */
-    public static void createOrUpdate(Session session, Object object) {
+    public static void createOrUpdate(@Nonnull Session session, @Nonnull Object object) {
         session.saveOrUpdate(object);
     }
 
     /**
      * 向数据库中存储或更新一个对象。
      */
-    public static void createOrUpdate(HibernateTransactionContext context, Object object) {
+    public static void createOrUpdate(@Nonnull HibernateTransactionContext context, @Nonnull Object object) {
         createOrUpdate(getSession(context), object);
     }
 
     /**
      * 向数据库中存储或更新一个对象。
      */
-    public static void createOrUpdate(Object object) {
+    public static void createOrUpdate(@Nonnull Object object) {
         createOrUpdate(getTransactionContext(), object);
     }
 
     /**
      * 向数据库中存储或更新一个对象。
      */
-    public static void createOrUpdate(String sessionFactoryName, Object object) {
+    public static void createOrUpdate(@Nonnull String sessionFactoryName, @Nonnull Object object) {
         createOrUpdate(getTransactionContext(sessionFactoryName), object);
     }
 
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(Session session, Object object) {
+    public static void delete(@Nonnull Session session, @Nonnull Object object) {
         Object oldObject = session.merge(object);
         session.delete(oldObject);
     }
@@ -214,28 +225,28 @@ public final class HibernateHelper {
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(HibernateTransactionContext context, Object object) {
+    public static void delete(@Nonnull HibernateTransactionContext context, @Nonnull Object object) {
         delete(getSession(context), object);
     }
 
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(Object object) {
+    public static void delete(@Nonnull Object object) {
         delete(getTransactionContext(), object);
     }
 
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(String sessionFactoryName, Object object) {
+    public static void delete(@Nonnull String sessionFactoryName, @Nonnull Object object) {
         delete(getTransactionContext(sessionFactoryName), object);
     }
 
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(Session session, Class objectClass, Serializable primaryKey) {
+    public static void delete(@Nonnull Session session, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         Object obj = session.load(objectClass, primaryKey);
         session.delete(obj);
     }
@@ -243,77 +254,85 @@ public final class HibernateHelper {
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(HibernateTransactionContext context, Class objectClass, Serializable primaryKey) {
+    public static void delete(@Nonnull HibernateTransactionContext context, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         delete(getSession(context), objectClass, primaryKey);
     }
 
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(Class objectClass, Serializable primaryKey) {
+    public static void delete(@Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         delete(getTransactionContext(), objectClass, primaryKey);
     }
 
     /**
      * 从数据库中删除一个对象。
      */
-    public static void delete(String sessionFactoryName, Class objectClass, Serializable primaryKey) {
+    public static void delete(@Nonnull String sessionFactoryName, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         delete(getTransactionContext(sessionFactoryName), objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static <T> T get(Session session, Class<T> objectClass, Serializable primaryKey) {
+    @Nullable
+    public static <T> T get(@Nonnull Session session, @Nonnull Class<T> objectClass, @Nonnull Serializable primaryKey) {
         return session.get(objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static <T> T get(HibernateTransactionContext context, Class<T> objectClass, Serializable primaryKey) {
+    @Nullable
+    public static <T> T get(@Nonnull HibernateTransactionContext context, @Nonnull Class<T> objectClass, @Nonnull Serializable primaryKey) {
         return get(getSession(context), objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static <T> T get(Class<T> objectClass, Serializable primaryKey) {
+    @Nullable
+    public static <T> T get(@Nonnull Class<T> objectClass, @Nonnull Serializable primaryKey) {
         return get(getTransactionContext(), objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static <T> T get(String sessionFactoryName, Class<T> objectClass, Serializable primaryKey) {
+    @Nullable
+    public static <T> T get(@Nonnull String sessionFactoryName, @Nonnull Class<T> objectClass, @Nonnull Serializable primaryKey) {
         return get(getTransactionContext(sessionFactoryName), objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static Map<String, Object> getAsMap(Session session, Class objectClass, Serializable primaryKey) {
+    @Nullable
+    public static Map<String, Object> getAsMap(@Nonnull Session session, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         return (Map) session.get(objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static Map<String, Object> getAsMap(HibernateTransactionContext context, Class objectClass, Serializable primaryKey) {
+    @Nullable
+    public static Map<String, Object> getAsMap(@Nonnull HibernateTransactionContext context, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         return getAsMap(getSession(context), objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static Map<String, Object> getAsMap(Class objectClass, Serializable primaryKey) {
+    @Nullable
+    public static Map<String, Object> getAsMap(@Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         return getAsMap(getTransactionContext(), objectClass, primaryKey);
     }
 
     /**
      * 根据类型和主键从数据库中获取一个对象，若没有则返回 null。
      */
-    public static Map<String, Object> getAsMap(String sessionFactoryName, Class objectClass, Serializable primaryKey) {
+    @Nullable
+    public static Map<String, Object> getAsMap(@Nonnull String sessionFactoryName, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
         return getAsMap(getTransactionContext(sessionFactoryName), objectClass, primaryKey);
     }
 
@@ -343,7 +362,7 @@ public final class HibernateHelper {
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(Session session, String queryString, Object... params) {
+    public static int execute(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         Query query = session.createQuery(queryString);
         setQueryParameter(query, params);
         return query.executeUpdate();
@@ -352,28 +371,28 @@ public final class HibernateHelper {
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(HibernateTransactionContext context, String queryString, Object... params) {
+    public static int execute(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, Object... params) {
         return execute(getSession(context), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(String queryString, Object... params) {
+    public static int execute(@Nonnull String queryString, Object... params) {
         return execute(getTransactionContext(), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(String sessionFactoryName, String queryString, Object... params) {
+    public static int execute(@Nonnull String sessionFactoryName, @Nonnull String queryString, Object... params) {
         return execute(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(Session session, String queryString, Iterable params) {
+    public static int execute(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
         Query query = session.createQuery(queryString);
         setQueryParameter(query, params);
         return query.executeUpdate();
@@ -382,28 +401,28 @@ public final class HibernateHelper {
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(HibernateTransactionContext context, String queryString, Iterable params) {
+    public static int execute(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Iterable params) {
         return execute(getSession(context), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(String queryString, Iterable params) {
+    public static int execute(@Nonnull String queryString, @Nonnull Iterable params) {
         return execute(getTransactionContext(), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(String sessionFactoryName, String queryString, Iterable params) {
+    public static int execute(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Iterable params) {
         return execute(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(Session session, String queryString, Map<String, ?> params) {
+    public static int execute(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         Query query = session.createQuery(queryString);
         setQueryParameter(query, params);
         return query.executeUpdate();
@@ -412,28 +431,29 @@ public final class HibernateHelper {
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(HibernateTransactionContext context, String queryString, Map<String, ?> params) {
+    public static int execute(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return execute(getSession(context), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(String queryString, Map<String, ?> params) {
+    public static int execute(@Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return execute(getTransactionContext(), queryString, params);
     }
 
     /**
      * 执行 HQL 语句。
      */
-    public static int execute(String sessionFactoryName, String queryString, Map<String, ?> params) {
+    public static int execute(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return execute(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(Session session, String queryString, Object... params) {
+    @Nonnull
+    public static List queryAll(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -447,28 +467,32 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(HibernateTransactionContext context, String queryString, Object... params) {
+    @Nonnull
+    public static List queryAll(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, Object... params) {
         return queryAll(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(String queryString, Object... params) {
+    @Nonnull
+    public static List queryAll(@Nonnull String queryString, Object... params) {
         return queryAll(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(String sessionFactoryName, String queryString, Object... params) {
+    @Nonnull
+    public static List queryAll(@Nonnull String sessionFactoryName, @Nonnull String queryString, Object... params) {
         return queryAll(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(Session session, String queryString, Iterable params) {
+    @Nonnull
+    public static List queryAll(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -482,28 +506,32 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(HibernateTransactionContext context, String queryString, Iterable params) {
+    @Nonnull
+    public static List queryAll(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Iterable params) {
         return queryAll(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(String queryString, Iterable params) {
+    @Nonnull
+    public static List queryAll(@Nonnull String queryString, @Nonnull Iterable params) {
         return queryAll(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(String sessionFactoryName, String queryString, Iterable params) {
+    @Nonnull
+    public static List queryAll(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Iterable params) {
         return queryAll(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(Session session, String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List queryAll(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -517,28 +545,32 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(HibernateTransactionContext context, String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List queryAll(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryAll(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List queryAll(@Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryAll(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List queryAll(String sessionFactoryName, String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List queryAll(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryAll(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(Session session, String queryString, Object... params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -552,28 +584,32 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(HibernateTransactionContext context, String queryString, Object... params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, Object... params) {
         return queryAllAsMap(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(String queryString, Object... params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull String queryString, Object... params) {
         return queryAllAsMap(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(String sessionFactoryName, String queryString, Object... params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull String sessionFactoryName, @Nonnull String queryString, Object... params) {
         return queryAllAsMap(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(Session session, String queryString, Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -587,28 +623,32 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(HibernateTransactionContext context, String queryString, Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Iterable params) {
         return queryAllAsMap(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(String queryString, Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull String queryString, @Nonnull Iterable params) {
         return queryAllAsMap(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(String sessionFactoryName, String queryString, Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Iterable params) {
         return queryAllAsMap(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(Session session, String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -622,28 +662,33 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(HibernateTransactionContext context, String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String queryString,
+        @Nonnull Map<String, ?> params) {
         return queryAllAsMap(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryAllAsMap(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表。
      */
-    public static List<Map<String, Object>> queryAllAsMap(String sessionFactoryName, String queryString, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryAllAsMap(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryAllAsMap(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(Session session, String queryString, int startNum, int maxResults, Object... params) {
+    @Nonnull
+    public static List queryPage(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults, Object... params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -659,28 +704,32 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(HibernateTransactionContext context, String queryString, int startNum, int maxResults, Object... params) {
+    @Nonnull
+    public static List queryPage(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, int startNum, int maxResults, Object... params) {
         return queryPage(getSession(context), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(String queryString, int startNum, int maxResults, Object... params) {
+    @Nonnull
+    public static List queryPage(@Nonnull String queryString, int startNum, int maxResults, Object... params) {
         return queryPage(getTransactionContext(), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(String sessionFactoryName, String queryString, int startNum, int maxResults, Object... params) {
+    @Nonnull
+    public static List queryPage(@Nonnull String sessionFactoryName, @Nonnull String queryString, int startNum, int maxResults, Object... params) {
         return queryPage(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(Session session, String queryString, int startNum, int maxResults, Iterable params) {
+    @Nonnull
+    public static List queryPage(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults, @Nonnull Iterable params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -696,28 +745,33 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(HibernateTransactionContext context, String queryString, int startNum, int maxResults, Iterable params) {
+    @Nonnull
+    public static List queryPage(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Iterable params) {
         return queryPage(getSession(context), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(String queryString, int startNum, int maxResults, Iterable params) {
+    @Nonnull
+    public static List queryPage(@Nonnull String queryString, int startNum, int maxResults, @Nonnull Iterable params) {
         return queryPage(getTransactionContext(), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(String sessionFactoryName, String queryString, int startNum, int maxResults, Iterable params) {
+    @Nonnull
+    public static List queryPage(@Nonnull String sessionFactoryName, @Nonnull String queryString, int startNum, int maxResults, @Nonnull Iterable params) {
         return queryPage(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(Session session, String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List queryPage(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults, @Nonnull Map<String, ?> params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -733,66 +787,35 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(HibernateTransactionContext context, String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List queryPage(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Map<String, ?> params) {
         return queryPage(getSession(context), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List queryPage(@Nonnull String queryString, int startNum, int maxResults, @Nonnull Map<String, ?> params) {
         return queryPage(getTransactionContext(), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List queryPage(String sessionFactoryName, String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List queryPage(@Nonnull String sessionFactoryName, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Map<String, ?> params) {
         return queryPage(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(Session session, String queryString, int startNum, int maxResults, Object... params) {
-        try {
-            Query query = session.createQuery(queryString);
-            setQueryParameter(query, params);
-            query.setFirstResult(startNum);
-            query.setMaxResults(maxResults);
-            return query.list();
-        } catch (ObjectNotFoundException e) {
-            LOG.trace("", e);
-            return new ArrayList();
-        }
-    }
-
-    /**
-     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
-     */
-    public static List<Map<String, Object>> queryPageAsMap(HibernateTransactionContext context, String queryString, int startNum, int maxResults,
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults,
         Object... params) {
-        return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
-    }
-
-    /**
-     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
-     */
-    public static List<Map<String, Object>> queryPageAsMap(String queryString, int startNum, int maxResults, Object... params) {
-        return queryPageAsMap(getTransactionContext(), queryString, startNum, maxResults, params);
-    }
-
-    /**
-     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
-     */
-    public static List<Map<String, Object>> queryPageAsMap(String sessionFactoryName, String queryString, int startNum, int maxResults, Object... params) {
-        return queryPageAsMap(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
-    }
-
-    /**
-     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
-     */
-    public static List<Map<String, Object>> queryPageAsMap(Session session, String queryString, int startNum, int maxResults, Iterable params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -808,29 +831,35 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(HibernateTransactionContext context, String queryString, int startNum, int maxResults,
-        Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, int startNum,
+        int maxResults, Object... params) {
         return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(String queryString, int startNum, int maxResults, Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull String queryString, int startNum, int maxResults, Object... params) {
         return queryPageAsMap(getTransactionContext(), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(String sessionFactoryName, String queryString, int startNum, int maxResults, Iterable params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull String sessionFactoryName, @Nonnull String queryString, int startNum, int maxResults,
+        Object... params) {
         return queryPageAsMap(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(Session session, String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Iterable params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -846,29 +875,77 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(HibernateTransactionContext context, String queryString, int startNum, int maxResults,
-        Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, int startNum,
+        int maxResults, @Nonnull Iterable params) {
         return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull String queryString, int startNum, int maxResults, @Nonnull Iterable params) {
         return queryPageAsMap(getTransactionContext(), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
      */
-    public static List<Map<String, Object>> queryPageAsMap(String sessionFactoryName, String queryString, int startNum, int maxResults, Map<String, ?> params) {
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull String sessionFactoryName, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Iterable params) {
+        return queryPageAsMap(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
+    }
+
+    /**
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
+     */
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Map<String, ?> params) {
+        try {
+            Query query = session.createQuery(queryString);
+            setQueryParameter(query, params);
+            query.setFirstResult(startNum);
+            query.setMaxResults(maxResults);
+            return query.list();
+        } catch (ObjectNotFoundException e) {
+            LOG.trace("", e);
+            return new ArrayList();
+        }
+    }
+
+    /**
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
+     */
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, int startNum,
+        int maxResults, @Nonnull Map<String, ?> params) {
+        return queryPageAsMap(getSession(context), queryString, startNum, maxResults, params);
+    }
+
+    /**
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
+     */
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull String queryString, int startNum, int maxResults, @Nonnull Map<String, ?> params) {
+        return queryPageAsMap(getTransactionContext(), queryString, startNum, maxResults, params);
+    }
+
+    /**
+     * 根据 HQL 查询字符串和参数从数据库中获取对象列表，限定起始结果和行数。
+     */
+    @Nonnull
+    public static List<Map<String, Object>> queryPageAsMap(@Nonnull String sessionFactoryName, @Nonnull String queryString, int startNum, int maxResults,
+        @Nonnull Map<String, ?> params) {
         return queryPageAsMap(getTransactionContext(sessionFactoryName), queryString, startNum, maxResults, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(Session session, String queryString, Object... params) {
+    public static long queryCount(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         try {
             Query query = session.createQuery(queryString);
             setQueryParameter(query, params);
@@ -886,28 +963,28 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(HibernateTransactionContext context, String queryString, Object... params) {
+    public static long queryCount(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, Object... params) {
         return queryCount(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(String queryString, Object... params) {
+    public static long queryCount(@Nonnull String queryString, Object... params) {
         return queryCount(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(String sessionFactoryName, String queryString, Object... params) {
+    public static long queryCount(@Nonnull String sessionFactoryName, @Nonnull String queryString, Object... params) {
         return queryCount(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(Session session, String queryString, Iterable params) {
+    public static long queryCount(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
         Query query = session.createQuery(queryString);
         setQueryParameter(query, params);
         Object r = query.uniqueResult();
@@ -920,28 +997,28 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(HibernateTransactionContext context, String queryString, Iterable params) {
+    public static long queryCount(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Iterable params) {
         return queryCount(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(String queryString, Iterable params) {
+    public static long queryCount(@Nonnull String queryString, @Nonnull Iterable params) {
         return queryCount(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(String sessionFactoryName, String queryString, Iterable params) {
+    public static long queryCount(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Iterable params) {
         return queryCount(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(Session session, String queryString, Map<String, ?> params) {
+    public static long queryCount(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         Query query = session.createQuery(queryString);
         setQueryParameter(query, params);
         Object r = query.uniqueResult();
@@ -954,29 +1031,29 @@ public final class HibernateHelper {
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(HibernateTransactionContext context, String queryString, Map<String, ?> params) {
+    public static long queryCount(@Nonnull HibernateTransactionContext context, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryCount(getSession(context), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(String queryString, Map<String, ?> params) {
+    public static long queryCount(@Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryCount(getTransactionContext(), queryString, params);
     }
 
     /**
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
-    public static long queryCount(String sessionFactoryName, String queryString, Map<String, ?> params) {
+    public static long queryCount(@Nonnull String sessionFactoryName, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         return queryCount(getTransactionContext(sessionFactoryName), queryString, params);
     }
 
-    public static <T> T doReturningWork(Session session, ReturningWork<T> work) {
+    public static <T> T doReturningWork(@Nonnull Session session, @Nonnull ReturningWork<T> work) {
         return session.doReturningWork(work);
     }
 
-    public static Integer updateSQL(Session session, String sql, Object... params) {
+    public static int updateSQL(@Nonnull Session session, @Nonnull String sql, Object... params) {
         return doReturningWork(session, connection -> {
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 if (params != null) {
@@ -989,19 +1066,20 @@ public final class HibernateHelper {
         });
     }
 
-    public static Integer updateSQL(HibernateTransactionContext context, String sql, Object... params) {
+    public static int updateSQL(@Nonnull HibernateTransactionContext context, @Nonnull String sql, Object... params) {
         return updateSQL(getSession(context), sql, params);
     }
 
-    public static Integer updateSQL(String sql, Object... params) {
+    public static int updateSQL(@Nonnull String sql, Object... params) {
         return updateSQL(getTransactionContext(), sql, params);
     }
 
-    public static Integer updateSQL(String sessionFactoryName, String sql, Object... params) {
+    public static int updateSQL(@Nonnull String sessionFactoryName, @Nonnull String sql, Object... params) {
         return updateSQL(getTransactionContext(sessionFactoryName), sql, params);
     }
 
-    public static List<Map<String, Object>> querySQLAsMap(Session session, String sql) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLAsMap(@Nonnull Session session, @Nonnull String sql) {
         return doReturningWork(session, connection -> {
             try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
                 return SQL_MAPLIST_HANDLER.handle(rs);
@@ -1009,19 +1087,23 @@ public final class HibernateHelper {
         });
     }
 
-    public static List<Map<String, Object>> querySQLAsMap(HibernateTransactionContext context, String sql) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String sql) {
         return querySQLAsMap(getSession(context), sql);
     }
 
-    public static List<Map<String, Object>> querySQLAsMap(String sql) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLAsMap(@Nonnull String sql) {
         return querySQLAsMap(getTransactionContext(), sql);
     }
 
-    public static List<Map<String, Object>> querySQLAsMap(String sessionFactoryName, String sql) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLAsMap(@Nonnull String sessionFactoryName, @Nonnull String sql) {
         return querySQLAsMap(getTransactionContext(sessionFactoryName), sql);
     }
 
-    public static List<Map<String, Object>> querySQLPageAsMap(Session session, String sql, int startNum, int numPerPage) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLPageAsMap(@Nonnull Session session, @Nonnull String sql, int startNum, int numPerPage) {
         return doReturningWork(session, connection -> {
             List<Map<String, Object>> table = new ArrayList<>();
 
@@ -1039,19 +1121,22 @@ public final class HibernateHelper {
         });
     }
 
-    public static List<Map<String, Object>> querySQLPageAsMap(HibernateTransactionContext context, String sql, int startNum, int numPerPage) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLPageAsMap(@Nonnull HibernateTransactionContext context, @Nonnull String sql, int startNum, int numPerPage) {
         return querySQLPageAsMap(getSession(context), sql, startNum, numPerPage);
     }
 
-    public static List<Map<String, Object>> querySQLPageAsMap(String sql, int startNum, int numPerPage) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLPageAsMap(@Nonnull String sql, int startNum, int numPerPage) {
         return querySQLPageAsMap(getTransactionContext(), sql, startNum, numPerPage);
     }
 
-    public static List<Map<String, Object>> querySQLPageAsMap(String sessionFactoryName, String sql, int startNum, int numPerPage) {
+    @Nonnull
+    public static List<Map<String, Object>> querySQLPageAsMap(@Nonnull String sessionFactoryName, @Nonnull String sql, int startNum, int numPerPage) {
         return querySQLPageAsMap(getTransactionContext(sessionFactoryName), sql, startNum, numPerPage);
     }
 
-    public static Long querySQLCount(Session session, String sql, Object... params) {
+    public static long querySQLCount(@Nonnull Session session, @Nonnull String sql, Object... params) {
         return doReturningWork(session, connection -> {
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 if (params != null) {
@@ -1069,19 +1154,20 @@ public final class HibernateHelper {
         });
     }
 
-    public static Long querySQLCount(HibernateTransactionContext context, String sql, Object... params) {
+    public static long querySQLCount(@Nonnull HibernateTransactionContext context, @Nonnull String sql, Object... params) {
         return querySQLCount(getSession(context), sql, params);
     }
 
-    public static Long querySQLCount(String sql, Object... params) {
+    public static long querySQLCount(@Nonnull String sql, Object... params) {
         return querySQLCount(getTransactionContext(), sql, params);
     }
 
-    public static Long querySQLCount(String sessionFactoryName, String sql, Object... params) {
+    public static long querySQLCount(@Nonnull String sessionFactoryName, @Nonnull String sql, Object... params) {
         return querySQLCount(getTransactionContext(sessionFactoryName), sql, params);
     }
 
-    public static Long[] querySQLCount(Session session, String sql, int countNum, Object... params) {
+    @Nonnull
+    public static long[] querySQLCount(@Nonnull Session session, @Nonnull String sql, int countNum, Object... params) {
         return doReturningWork(session, connection -> {
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 if (params != null) {
@@ -1090,7 +1176,7 @@ public final class HibernateHelper {
                     }
                 }
                 try (ResultSet rs = stmt.executeQuery()) {
-                    Long[] result = new Long[countNum];
+                    long[] result = new long[countNum];
                     if (rs.next()) {
                         for (int i = 0; i < countNum; i++) {
                             result[i] = rs.getLong(i + 1);
@@ -1106,15 +1192,18 @@ public final class HibernateHelper {
         });
     }
 
-    public static Long[] querySQLCount(HibernateTransactionContext context, String sql, int countNum, Object... params) {
+    @Nonnull
+    public static long[] querySQLCount(@Nonnull HibernateTransactionContext context, @Nonnull String sql, int countNum, Object... params) {
         return querySQLCount(getSession(context), sql, countNum, params);
     }
 
-    public static Long[] querySQLCount(String sql, int countNum, Object... params) {
+    @Nonnull
+    public static long[] querySQLCount(@Nonnull String sql, int countNum, Object... params) {
         return querySQLCount(getTransactionContext(), sql, countNum, params);
     }
 
-    public static Long[] querySQLCount(String sessionFactoryName, String sql, int countNum, Object... params) {
+    @Nonnull
+    public static long[] querySQLCount(@Nonnull String sessionFactoryName, @Nonnull String sql, int countNum, Object... params) {
         return querySQLCount(getTransactionContext(sessionFactoryName), sql, countNum, params);
     }
 }

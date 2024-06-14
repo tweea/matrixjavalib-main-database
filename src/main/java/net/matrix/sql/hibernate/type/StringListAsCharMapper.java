@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.apache.commons.lang3.StringUtils;
 import org.jadira.usertype.spi.shared.AbstractStringColumnMapper;
 
@@ -21,9 +23,10 @@ public class StringListAsCharMapper
     /**
      * 分隔符。
      */
+    @Nonnull
     private String separator;
 
-    public void setSeparator(String separator) {
+    public void setSeparator(@Nonnull String separator) {
         this.separator = separator;
     }
 

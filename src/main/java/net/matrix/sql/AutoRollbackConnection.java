@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+import javax.annotation.Nonnull;
+
 /**
  * 包装数据库连接，关闭连接时自动回滚事务。
  */
@@ -40,7 +42,7 @@ public class AutoRollbackConnection
      * @param connection
      *     被包装的数据库连接。
      */
-    public AutoRollbackConnection(Connection connection) {
+    public AutoRollbackConnection(@Nonnull Connection connection) {
         this.connection = connection;
     }
 

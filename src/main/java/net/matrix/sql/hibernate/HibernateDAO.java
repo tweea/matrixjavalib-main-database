@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
@@ -33,11 +35,13 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 实体类。
      */
+    @Nonnull
     private final Class<T> entityClass;
 
     /**
      * Hibernate 会话工厂。
      */
+    @Nonnull
     private final SessionFactory sessionFactory;
 
     /**
@@ -51,7 +55,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param sessionFactory
      *     Hibernate 会话工厂。
      */
-    public HibernateDAO(SessionFactory sessionFactory) {
+    public HibernateDAO(@Nonnull SessionFactory sessionFactory) {
         this.entityClass = ClassMx.getParameterizedType(getClass(), 0);
         this.sessionFactory = sessionFactory;
     }
@@ -64,7 +68,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param entityClass
      *     实体类。
      */
-    public HibernateDAO(SessionFactory sessionFactory, Class<T> entityClass) {
+    public HibernateDAO(@Nonnull SessionFactory sessionFactory, @Nonnull Class<T> entityClass) {
         this.entityClass = entityClass;
         this.sessionFactory = sessionFactory;
     }
@@ -72,6 +76,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 获取实体类。
      */
+    @Nonnull
     public Class<T> getEntityClass() {
         return entityClass;
     }
@@ -79,6 +84,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 获取 Hibernate 会话工厂。
      */
+    @Nonnull
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
@@ -103,6 +109,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 获取 Hibernate 当前会话。
      */
+    @Nonnull
     public Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -110,6 +117,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 获取 JPA 查询构建器。
      */
+    @Nonnull
     public CriteriaBuilder getCriteriaBuilder() {
         return sessionFactory.getCriteriaBuilder();
     }
@@ -120,7 +128,8 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param entity
      *     实体对象。
      */
-    public <S extends T> S save(S entity) {
+    @Nonnull
+    public <S extends T> S save(@Nonnull S entity) {
         Session session = getCurrentSession();
 
         session.saveOrUpdate(entity);
@@ -134,7 +143,8 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param entities
      *     实体对象集合。
      */
-    public <S extends T> List<S> saveAll(Iterable<S> entities) {
+    @Nonnull
+    public <S extends T> List<S> saveAll(@Nonnull Iterable<S> entities) {
         Session session = getCurrentSession();
 
         List<S> result = new ArrayList<>();
@@ -152,6 +162,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param id
      *     id。
      */
+    @Nonnull
     public Optional<T> findById(ID id) {
         Session session = getCurrentSession();
 
@@ -175,6 +186,7 @@ public class HibernateDAO<T, ID extends Serializable> {
     /**
      * 获取所有实体对象集合。
      */
+    @Nonnull
     public List<T> findAll() {
         Session session = getCurrentSession();
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
@@ -192,7 +204,8 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param ids
      *     id 集合。
      */
-    public List<T> findAllById(Iterable<ID> ids) {
+    @Nonnull
+    public List<T> findAllById(@Nonnull Iterable<ID> ids) {
         Session session = getCurrentSession();
 
         List<T> result = new ArrayList<>();
@@ -245,7 +258,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param entity
      *     实体对象。
      */
-    public void delete(T entity) {
+    public void delete(@Nonnull T entity) {
         Session session = getCurrentSession();
 
         if (session.contains(entity)) {
@@ -262,7 +275,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param ids
      *     id 集合。
      */
-    public void deleteAllById(Iterable<? extends ID> ids) {
+    public void deleteAllById(@Nonnull Iterable<? extends ID> ids) {
         Session session = getCurrentSession();
 
         for (ID id : ids) {
@@ -282,7 +295,7 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param entities
      *     实体对象集合。
      */
-    public void deleteAll(Iterable<? extends T> entities) {
+    public void deleteAll(@Nonnull Iterable<? extends T> entities) {
         Session session = getCurrentSession();
 
         for (T entity : entities) {
@@ -314,7 +327,8 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param sort
      *     排序参数。
      */
-    public List<T> findAll(Sort sort) {
+    @Nonnull
+    public List<T> findAll(@Nullable Sort sort) {
         Session session = getCurrentSession();
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
 
@@ -332,7 +346,8 @@ public class HibernateDAO<T, ID extends Serializable> {
      * @param pageable
      *     分页参数。
      */
-    public Page<T> findAll(Pageable pageable) {
+    @Nonnull
+    public Page<T> findAll(@Nonnull Pageable pageable) {
         Session session = getCurrentSession();
         CriteriaBuilder criteriaBuilder = getCriteriaBuilder();
 

@@ -6,6 +6,8 @@ package net.matrix.sql.hibernate.type;
 
 import java.time.LocalDate;
 
+import javax.annotation.Nonnull;
+
 import org.jadira.usertype.spi.shared.AbstractLongColumnMapper;
 
 import net.matrix.java.time.DateTimeFormatterMx;
@@ -20,9 +22,10 @@ public class LocalDateAsNumericMapper
     /**
      * 日期格式。
      */
+    @Nonnull
     private String pattern;
 
-    public void setPattern(String pattern) {
+    public void setPattern(@Nonnull String pattern) {
         this.pattern = pattern;
     }
 

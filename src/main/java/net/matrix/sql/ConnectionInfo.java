@@ -9,9 +9,14 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
 /**
  * 数据库连接信息。
  */
+@Immutable
 public class ConnectionInfo {
     // 连接信息
     /**
@@ -52,7 +57,7 @@ public class ConnectionInfo {
      * @throws SQLException
      *     获取元数据失败。
      */
-    public ConnectionInfo(String url, String user, String password)
+    public ConnectionInfo(@Nonnull String url, @Nullable String user, @Nullable String password)
         throws SQLException {
         this.url = url;
         this.user = user;
@@ -78,6 +83,7 @@ public class ConnectionInfo {
     /**
      * 获取 JDBC 连接地址。
      */
+    @Nonnull
     public String getUrl() {
         return url;
     }
@@ -85,6 +91,7 @@ public class ConnectionInfo {
     /**
      * 获取用户。
      */
+    @Nullable
     public String getUser() {
         return user;
     }
@@ -92,6 +99,7 @@ public class ConnectionInfo {
     /**
      * 获取密码。
      */
+    @Nullable
     public String getPassword() {
         return password;
     }
@@ -99,6 +107,7 @@ public class ConnectionInfo {
     /**
      * 获取数据库产品名称。
      */
+    @Nonnull
     public String getDatabaseProductName() {
         return databaseProductName;
     }
@@ -106,6 +115,7 @@ public class ConnectionInfo {
     /**
      * 获取 JDBC 驱动名称。
      */
+    @Nonnull
     public String getDriverName() {
         return driverName;
     }
@@ -117,6 +127,7 @@ public class ConnectionInfo {
      * @throws SQLException
      *     建立数据库连接失败。
      */
+    @Nonnull
     public Connection getConnection()
         throws SQLException {
         return DriverManager.getConnection(url, user, password);
