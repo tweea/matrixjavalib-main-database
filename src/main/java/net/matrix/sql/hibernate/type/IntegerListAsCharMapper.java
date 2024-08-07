@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang3.StringUtils;
 import org.jadira.usertype.spi.shared.AbstractStringColumnMapper;
 
-import net.matrix.java.lang.ObjectMx;
+import net.matrix.java.lang.NumberMx;
 
 /**
  * 将数据库中的字符字段映射为 Java 中的整型列表类型。
@@ -38,7 +38,7 @@ public class IntegerListAsCharMapper
         List<Integer> list = new ArrayList<>(valueParts.length);
         for (String valuePart : valueParts) {
             valuePart = StringUtils.trimToNull(valuePart);
-            list.add(ObjectMx.ifNotNullMap(valuePart, Integer::valueOf));
+            list.add(NumberMx.parseInteger(valuePart));
         }
         return list;
     }
