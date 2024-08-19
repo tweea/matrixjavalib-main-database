@@ -83,7 +83,7 @@ public final class SessionFactoryManager
 
     /**
      * 获取默认名称实例。
-     * 
+     *
      * @return 实例。
      */
     @Nonnull
@@ -93,7 +93,7 @@ public final class SessionFactoryManager
 
     /**
      * 获取特定名称实例。
-     * 
+     *
      * @param name
      *     实例名称。
      * @return 实例。
@@ -116,7 +116,7 @@ public final class SessionFactoryManager
 
     /**
      * 判断实例名称是否已命名。
-     * 
+     *
      * @param name
      *     实例名称。
      * @return 是否已命名。
@@ -127,7 +127,7 @@ public final class SessionFactoryManager
 
     /**
      * 命名实例名称，使用默认配置资源。
-     * 
+     *
      * @param name
      *     实例名称。
      * @throws IllegalStateException
@@ -143,7 +143,7 @@ public final class SessionFactoryManager
 
     /**
      * 命名实例名称，使用指定配置资源。
-     * 
+     *
      * @param name
      *     实例名称。
      * @param configResource
@@ -226,7 +226,7 @@ public final class SessionFactoryManager
 
     /**
      * 获取 Hibernate 服务注册表。
-     * 
+     *
      * @return Hibernate 服务注册表。
      */
     @Nonnull
@@ -243,7 +243,7 @@ public final class SessionFactoryManager
 
     /**
      * 获取 Hibernate 会话工厂。
-     * 
+     *
      * @return Hibernate 会话工厂。
      */
     @Nonnull
@@ -256,7 +256,7 @@ public final class SessionFactoryManager
 
     /**
      * 使用 Hibernate 会话工厂建立 Hibernate 会话。
-     * 
+     *
      * @return Hibernate 会话。
      */
     @Nonnull
@@ -266,7 +266,7 @@ public final class SessionFactoryManager
 
     /**
      * 获取当前线程的事务上下文，没有则建立。
-     * 
+     *
      * @return 事务上下文。
      */
     @Nonnull
@@ -297,7 +297,7 @@ public final class SessionFactoryManager
 
     /**
      * 获取数据库连接信息。
-     * 
+     *
      * @return 数据库连接信息。
      * @throws SQLException
      *     获取失败。

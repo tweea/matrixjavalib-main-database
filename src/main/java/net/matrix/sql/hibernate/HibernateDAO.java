@@ -51,7 +51,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 构造器，读取子类的泛型定义获取实体类。
-     * 
+     *
      * @param sessionFactory
      *     Hibernate 会话工厂。
      */
@@ -62,7 +62,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 构造器，使用指定的实体类。
-     * 
+     *
      * @param sessionFactory
      *     Hibernate 会话工厂。
      * @param entityClass
@@ -98,7 +98,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 设置是否自动调用 flush()。
-     * 
+     *
      * @param autoFlush
      *     是否自动调用 flush()。
      */
@@ -124,7 +124,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 保存实体对象。
-     * 
+     *
      * @param entity
      *     实体对象。
      */
@@ -139,7 +139,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 保存实体对象集合。
-     * 
+     *
      * @param entities
      *     实体对象集合。
      */
@@ -158,7 +158,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 按 id 获取实体对象。
-     * 
+     *
      * @param id
      *     id。
      */
@@ -172,7 +172,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 判断指定 id 是否存在对应实体对象。
-     * 
+     *
      * @param id
      *     id。
      */
@@ -200,7 +200,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 按 id 集合获取实体对象集合。
-     * 
+     *
      * @param ids
      *     id 集合。
      */
@@ -236,7 +236,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 按 id 删除实体对象。
-     * 
+     *
      * @param id
      *     id。
      */
@@ -254,7 +254,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 删除实体对象。
-     * 
+     *
      * @param entity
      *     实体对象。
      */
@@ -271,7 +271,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 按 id 集合删除实体对象集合。
-     * 
+     *
      * @param ids
      *     id 集合。
      */
@@ -291,7 +291,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 删除实体对象集合。
-     * 
+     *
      * @param entities
      *     实体对象集合。
      */
@@ -323,7 +323,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 获取所有实体对象集合，支持排序。
-     * 
+     *
      * @param sort
      *     排序参数。
      */
@@ -342,7 +342,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
     /**
      * 获取所有实体对象集合，支持分页。
-     * 
+     *
      * @param pageable
      *     分页参数。
      */

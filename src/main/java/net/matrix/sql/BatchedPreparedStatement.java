@@ -59,7 +59,7 @@ public class BatchedPreparedStatement
 
     /**
      * 构造器，指定被包装的数据库预编译语句和批量执行的最大数量。
-     * 
+     *
      * @param statement
      *     被包装的数据库预编译语句。
      * @param batchSize
@@ -97,7 +97,7 @@ public class BatchedPreparedStatement
 
     /**
      * 记录批量执行的结果。
-     * 
+     *
      * @param result
      *     批量执行的结果。
      */

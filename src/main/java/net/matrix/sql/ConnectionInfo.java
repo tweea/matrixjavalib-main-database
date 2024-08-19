@@ -47,7 +47,7 @@ public class ConnectionInfo {
 
     /**
      * 构造器，连接数据库获取元数据。
-     * 
+     *
      * @param url
      *     JDBC 连接地址。
      * @param user
@@ -67,7 +67,7 @@ public class ConnectionInfo {
 
     /**
      * 连接数据库获取元数据。
-     * 
+     *
      * @throws SQLException
      *     获取元数据失败。
      */
@@ -122,7 +122,7 @@ public class ConnectionInfo {
 
     /**
      * 建立数据库连接。
-     * 
+     *
      * @return 数据库连接。
      * @throws SQLException
      *     建立数据库连接失败。

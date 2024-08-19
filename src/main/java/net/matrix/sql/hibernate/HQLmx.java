@@ -24,7 +24,7 @@ public final class HQLmx {
 
     /**
      * 在 HQL 中拼入参数名，格式为“:p”加序号。
-     * 
+     *
      * @param hql
      *     HQL。
      * @param index
@@ -36,7 +36,7 @@ public final class HQLmx {
 
     /**
      * 生成参数名，格式为“p”加序号。
-     * 
+     *
      * @param index
      *     序号。
      */

@@ -38,7 +38,7 @@ public class AutoRollbackConnection
 
     /**
      * 构造器，指定被包装的数据库连接。
-     * 
+     *
      * @param connection
      *     被包装的数据库连接。
      */

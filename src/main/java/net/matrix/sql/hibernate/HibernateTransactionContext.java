@@ -50,7 +50,7 @@ public class HibernateTransactionContext {
 
     /**
      * 构造器，使用指定 Hibernate 会话工厂管理器。
-     * 
+     *
      * @param sessionFactoryManager
      *     Hibernate 会话工厂管理器。
      */
@@ -60,7 +60,7 @@ public class HibernateTransactionContext {
 
     /**
      * 获取 Hibernate 会话。
-     * 
+     *
      * @return Hibernate 会话。
      */
     @Nonnull
