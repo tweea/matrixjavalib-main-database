@@ -42,7 +42,7 @@ public class StringListAsCharMapper
     @Override
     public String toNonNullValue(List<String> value) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < value.size(); i++) {
+        for (int i = 0, size = value.size(); i < size; ++i) {
             String valuePart = value.get(i);
 
             if (i != 0) {

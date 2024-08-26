@@ -84,7 +84,7 @@ public class BatchedPreparedStatement
      */
     private void addBatchCount() {
         if (batchSize > 0) {
-            batchCount++;
+            ++batchCount;
         }
     }
 
@@ -114,7 +114,7 @@ public class BatchedPreparedStatement
 
     private int[] toIntArray(long[] longArray) {
         int[] intArray = new int[longArray.length];
-        for (int index = 0; index < longArray.length; index++) {
+        for (int index = 0; index < longArray.length; ++index) {
             intArray[index] = (int) longArray[index];
         }
         return intArray;
@@ -122,7 +122,7 @@ public class BatchedPreparedStatement
 
     private long[] toLongArray(int[] intArray) {
         long[] longArray = new long[intArray.length];
-        for (int index = 0; index < intArray.length; index++) {
+        for (int index = 0; index < intArray.length; ++index) {
             longArray[index] = intArray[index];
         }
         return longArray;

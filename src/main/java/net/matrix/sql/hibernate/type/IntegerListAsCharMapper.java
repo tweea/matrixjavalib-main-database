@@ -46,7 +46,7 @@ public class IntegerListAsCharMapper
     @Override
     public String toNonNullValue(List<Integer> value) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < value.size(); i++) {
+        for (int i = 0, size = value.size(); i < size; ++i) {
             Integer valuePart = value.get(i);
 
             if (i != 0) {

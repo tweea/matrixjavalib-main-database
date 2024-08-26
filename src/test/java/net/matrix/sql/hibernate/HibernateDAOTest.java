@@ -143,7 +143,7 @@ class HibernateDAOTest {
         dao.save(user);
 
         dao.deleteById(user.getId());
-        assertThat(dao.count()).isEqualTo(0L);
+        assertThat(dao.count()).isZero();
     }
 
     @Test
@@ -154,7 +154,7 @@ class HibernateDAOTest {
         dao.save(user);
 
         dao.delete(user);
-        assertThat(dao.count()).isEqualTo(0L);
+        assertThat(dao.count()).isZero();
     }
 
     @Test
@@ -165,7 +165,7 @@ class HibernateDAOTest {
         dao.save(user);
 
         dao.deleteAllById(List.of(user.getId()));
-        assertThat(dao.count()).isEqualTo(0L);
+        assertThat(dao.count()).isZero();
     }
 
     @Test
@@ -176,7 +176,7 @@ class HibernateDAOTest {
         dao.save(user);
 
         dao.deleteAll(List.of(user));
-        assertThat(dao.count()).isEqualTo(0L);
+        assertThat(dao.count()).isZero();
     }
 
     @Test
@@ -187,7 +187,7 @@ class HibernateDAOTest {
         dao.save(user);
 
         dao.deleteAll();
-        assertThat(dao.count()).isEqualTo(0L);
+        assertThat(dao.count()).isZero();
     }
 
     @Test

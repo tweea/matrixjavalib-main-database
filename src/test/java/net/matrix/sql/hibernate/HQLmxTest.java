@@ -14,7 +14,7 @@ class HQLmxTest {
         StringBuilder hql = new StringBuilder();
 
         HQLmx.appendParameterName(hql, 0);
-        assertThat(hql.toString()).isEqualTo(":p0");
+        assertThat(hql).hasToString(":p0");
     }
 
     @Test

@@ -340,7 +340,7 @@ public final class HibernateHelper {
         if (parameters == null) {
             return;
         }
-        for (int i = 0; i < parameters.length; i++) {
+        for (int i = 0; i < parameters.length; ++i) {
             query.setParameter(HQLmx.getParameterName(i), parameters[i]);
         }
     }
@@ -349,7 +349,7 @@ public final class HibernateHelper {
         int i = 0;
         for (Object param : parameters) {
             query.setParameter(HQLmx.getParameterName(i), param);
-            i++;
+            ++i;
         }
     }
 
@@ -1057,7 +1057,7 @@ public final class HibernateHelper {
         return doReturningWork(session, connection -> {
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 if (params != null) {
-                    for (int i = 0; i < params.length; i++) {
+                    for (int i = 0; i < params.length; ++i) {
                         stmt.setObject(i + 1, params[i]);
                     }
                 }
@@ -1108,10 +1108,10 @@ public final class HibernateHelper {
             List<Map<String, Object>> table = new ArrayList<>();
 
             try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-                for (int index = 0; index < startNum && rs.next(); index++) {
+                for (int index = 0; index < startNum && rs.next(); ++index) {
                     // 空循环，跳过前面的记录
                 }
-                for (int index = 0; rs.next() && index < numPerPage; index++) {
+                for (int index = 0; rs.next() && index < numPerPage; ++index) {
                     Map<String, Object> row = ROW_PROCESSOR.toMap(rs);
                     table.add(row);
                 }
@@ -1140,7 +1140,7 @@ public final class HibernateHelper {
         return doReturningWork(session, connection -> {
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 if (params != null) {
-                    for (int i = 0; i < params.length; i++) {
+                    for (int i = 0; i < params.length; ++i) {
                         stmt.setObject(i + 1, params[i]);
                     }
                 }
@@ -1171,18 +1171,18 @@ public final class HibernateHelper {
         return doReturningWork(session, connection -> {
             try (PreparedStatement stmt = connection.prepareStatement(sql)) {
                 if (params != null) {
-                    for (int i = 0; i < params.length; i++) {
+                    for (int i = 0; i < params.length; ++i) {
                         stmt.setObject(i + 1, params[i]);
                     }
                 }
                 try (ResultSet rs = stmt.executeQuery()) {
                     long[] result = new long[countNum];
                     if (rs.next()) {
-                        for (int i = 0; i < countNum; i++) {
+                        for (int i = 0; i < countNum; ++i) {
                             result[i] = rs.getLong(i + 1);
                         }
                     } else {
-                        for (int i = 0; i < countNum; i++) {
+                        for (int i = 0; i < countNum; ++i) {
                             result[i] = 0L;
                         }
                     }
