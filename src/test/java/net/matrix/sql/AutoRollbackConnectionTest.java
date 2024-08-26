@@ -51,7 +51,7 @@ class AutoRollbackConnectionTest {
     void testClose_withAutoCommit()
         throws SQLException {
         Connection connection = Mockito.mock(Connection.class);
-        Mockito.when(connection.getAutoCommit()).thenReturn(true);
+        Mockito.when(connection.getAutoCommit()).thenReturn(Boolean.TRUE);
 
         try (Connection autoRollbackConnection = new AutoRollbackConnection(connection)) {
         }
@@ -65,7 +65,7 @@ class AutoRollbackConnectionTest {
     void testClose_closed()
         throws SQLException {
         Connection connection = Mockito.mock(Connection.class);
-        Mockito.when(connection.isClosed()).thenReturn(true);
+        Mockito.when(connection.isClosed()).thenReturn(Boolean.TRUE);
 
         try (Connection autoRollbackConnection = new AutoRollbackConnection(connection)) {
         }
@@ -81,10 +81,11 @@ class AutoRollbackConnectionTest {
         Connection connection = info.getConnection();
 
         try (Connection autoRollbackConnection = new AutoRollbackConnection(connection)) {
-            PreparedStatement ps = autoRollbackConnection.prepareStatement("VALUES CURRENT_DATE");
-            ResultSet rs = ps.executeQuery();
-            assertThat(rs.next()).isTrue();
-            assertThat(rs.next()).isFalse();
+            try (PreparedStatement ps = autoRollbackConnection.prepareStatement("VALUES CURRENT_DATE")) {
+                ResultSet rs = ps.executeQuery();
+                assertThat(rs.next()).isTrue();
+                assertThat(rs.next()).isFalse();
+            }
         }
         assertThat(connection.isClosed()).isTrue();
     }

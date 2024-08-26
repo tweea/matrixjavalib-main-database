@@ -38,12 +38,12 @@ public class ConnectionInfo {
     /**
      * 数据库产品名称。
      */
-    private String databaseProductName;
+    private final String databaseProductName;
 
     /**
      * JDBC 驱动名称。
      */
-    private String driverName;
+    private final String driverName;
 
     /**
      * 构造器，连接数据库获取元数据。
@@ -62,17 +62,6 @@ public class ConnectionInfo {
         this.url = url;
         this.user = user;
         this.password = password;
-        readMetaData();
-    }
-
-    /**
-     * 连接数据库获取元数据。
-     *
-     * @throws SQLException
-     *     获取元数据失败。
-     */
-    private void readMetaData()
-        throws SQLException {
         try (Connection connection = getConnection()) {
             DatabaseMetaData metaData = connection.getMetaData();
             databaseProductName = metaData.getDatabaseProductName();
