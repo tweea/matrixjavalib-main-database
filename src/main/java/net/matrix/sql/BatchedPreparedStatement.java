@@ -799,30 +799,6 @@ public class BatchedPreparedStatement
     }
 
     @Override
-    public String enquoteLiteral(String val)
-        throws SQLException {
-        return statement.enquoteLiteral(val);
-    }
-
-    @Override
-    public String enquoteIdentifier(String identifier, boolean alwaysQuote)
-        throws SQLException {
-        return statement.enquoteIdentifier(identifier, alwaysQuote);
-    }
-
-    @Override
-    public boolean isSimpleIdentifier(String identifier)
-        throws SQLException {
-        return statement.isSimpleIdentifier(identifier);
-    }
-
-    @Override
-    public String enquoteNCharLiteral(String val)
-        throws SQLException {
-        return statement.enquoteNCharLiteral(val);
-    }
-
-    @Override
     public <T> T unwrap(Class<T> iface)
         throws SQLException {
         if (iface.isAssignableFrom(statement.getClass())) {

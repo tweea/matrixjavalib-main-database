@@ -4,6 +4,7 @@
  */
 package net.matrix.sql.hibernate;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -41,7 +42,7 @@ class HibernateDAOTest {
 
     @Test
     void testNew() {
-        HibernateDAO<User, String> dao = new HibernateDAO<>(sessionFactory) {
+        HibernateDAO<User, String> dao = new HibernateDAO<User, String>(sessionFactory) {
         };
         assertThat(dao.getEntityClass()).isSameAs(User.class);
         assertThat(dao.getSessionFactory()).isSameAs(sessionFactory);
@@ -74,7 +75,7 @@ class HibernateDAOTest {
 
         assertThat(user1.getId()).isNull();
         assertThat(user2.getId()).isNull();
-        dao.saveAll(List.of(user1, user2));
+        dao.saveAll(Arrays.asList(user1, user2));
         assertThat(user1.getId()).isNotNull();
         assertThat(user2.getId()).isNotNull();
     }
@@ -120,7 +121,7 @@ class HibernateDAOTest {
         user.setName("test");
         dao.save(user);
 
-        List<User> users = dao.findAllById(List.of(user.getId()));
+        List<User> users = dao.findAllById(Arrays.asList(user.getId()));
         assertThat(users).hasSize(1);
         assertThat(users.get(0).getName()).isEqualTo("test");
     }
@@ -164,7 +165,7 @@ class HibernateDAOTest {
         user.setName("test");
         dao.save(user);
 
-        dao.deleteAllById(List.of(user.getId()));
+        dao.deleteAllById(Arrays.asList(user.getId()));
         assertThat(dao.count()).isZero();
     }
 
@@ -175,7 +176,7 @@ class HibernateDAOTest {
         user.setName("test");
         dao.save(user);
 
-        dao.deleteAll(List.of(user));
+        dao.deleteAll(Arrays.asList(user));
         assertThat(dao.count()).isZero();
     }
 
@@ -197,7 +198,7 @@ class HibernateDAOTest {
         user1.setName("test1");
         User user2 = new User();
         user2.setName("test2");
-        dao.saveAll(List.of(user1, user2));
+        dao.saveAll(Arrays.asList(user1, user2));
 
         List<User> users = dao.findAll(Sort.by("name").descending());
         assertThat(users).hasSize(2);
@@ -212,7 +213,7 @@ class HibernateDAOTest {
         user1.setName("test1");
         User user2 = new User();
         user2.setName("test2");
-        dao.saveAll(List.of(user1, user2));
+        dao.saveAll(Arrays.asList(user1, user2));
 
         List<User> users = dao.findAll(PageRequest.of(0, 1, Sort.by("name").descending())).getContent();
         assertThat(users).hasSize(1);
