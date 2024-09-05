@@ -46,7 +46,7 @@ class IntegerListAsCharTypeTest {
 
         IntegerListAsCharTypeEntity typeEntity = new IntegerListAsCharTypeEntity();
         typeEntity.setValue(Lists.newArrayList(1, 2, 3));
-        session.save(typeEntity);
+        session.persist(typeEntity);
         session.flush();
 
         IntegerListAsCharTestEntity testEntity = session.get(IntegerListAsCharTestEntity.class, typeEntity.getId());
@@ -59,7 +59,7 @@ class IntegerListAsCharTypeTest {
 
         IntegerListAsCharTestEntity testEntity = new IntegerListAsCharTestEntity();
         testEntity.setValue("1#2#3");
-        session.save(testEntity);
+        session.persist(testEntity);
         session.flush();
 
         IntegerListAsCharTypeEntity typeEntity = session.get(IntegerListAsCharTypeEntity.class, testEntity.getId());

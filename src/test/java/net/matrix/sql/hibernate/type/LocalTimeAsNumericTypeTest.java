@@ -46,7 +46,7 @@ class LocalTimeAsNumericTypeTest {
 
         LocalTimeAsNumericTypeEntity typeEntity = new LocalTimeAsNumericTypeEntity();
         typeEntity.setValue(LocalTime.of(13, 25, 47));
-        session.save(typeEntity);
+        session.persist(typeEntity);
         session.flush();
 
         LocalTimeAsNumericTestEntity testEntity = session.get(LocalTimeAsNumericTestEntity.class, typeEntity.getId());
@@ -59,7 +59,7 @@ class LocalTimeAsNumericTypeTest {
 
         LocalTimeAsNumericTestEntity testEntity = new LocalTimeAsNumericTestEntity();
         testEntity.setValue(13_25_47L);
-        session.save(testEntity);
+        session.persist(testEntity);
         session.flush();
 
         LocalTimeAsNumericTypeEntity typeEntity = session.get(LocalTimeAsNumericTypeEntity.class, testEntity.getId());

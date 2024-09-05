@@ -22,6 +22,7 @@ import org.apache.commons.dbutils.handlers.MapListHandler;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.jdbc.ReturningWork;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,7 +104,7 @@ public final class HibernateHelper {
      */
     @Nonnull
     public static <T> T merge(@Nonnull Session session, @Nonnull T object) {
-        return (T) session.merge(object);
+        return session.merge(object);
     }
 
     /**
@@ -133,36 +134,36 @@ public final class HibernateHelper {
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(@Nonnull Session session, @Nonnull Object object) {
-        return session.save(object);
+    public static void create(@Nonnull Session session, @Nonnull Object object) {
+        session.persist(object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(@Nonnull HibernateTransactionContext context, @Nonnull Object object) {
-        return create(getSession(context), object);
+    public static void create(@Nonnull HibernateTransactionContext context, @Nonnull Object object) {
+        create(getSession(context), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(@Nonnull Object object) {
-        return create(getTransactionContext(), object);
+    public static void create(@Nonnull Object object) {
+        create(getTransactionContext(), object);
     }
 
     /**
      * 向数据库中存储一个对象。
      */
-    public static Serializable create(@Nonnull String sessionFactoryName, @Nonnull Object object) {
-        return create(getTransactionContext(sessionFactoryName), object);
+    public static void create(@Nonnull String sessionFactoryName, @Nonnull Object object) {
+        create(getTransactionContext(sessionFactoryName), object);
     }
 
     /**
      * 向数据库中更新一个对象。
      */
     public static void update(@Nonnull Session session, @Nonnull Object object) {
-        session.update(object);
+        session.merge(object);
     }
 
     /**
@@ -190,7 +191,11 @@ public final class HibernateHelper {
      * 向数据库中存储或更新一个对象。
      */
     public static void createOrUpdate(@Nonnull Session session, @Nonnull Object object) {
-        session.saveOrUpdate(object);
+        if (session.contains(object)) {
+            session.merge(object);
+        } else {
+            session.persist(object);
+        }
     }
 
     /**
@@ -219,7 +224,7 @@ public final class HibernateHelper {
      */
     public static void delete(@Nonnull Session session, @Nonnull Object object) {
         Object oldObject = session.merge(object);
-        session.delete(oldObject);
+        session.remove(oldObject);
     }
 
     /**
@@ -247,8 +252,8 @@ public final class HibernateHelper {
      * 从数据库中删除一个对象。
      */
     public static void delete(@Nonnull Session session, @Nonnull Class objectClass, @Nonnull Serializable primaryKey) {
-        Object obj = session.load(objectClass, primaryKey);
-        session.delete(obj);
+        Object obj = session.getReference(objectClass, primaryKey);
+        session.remove(obj);
     }
 
     /**
@@ -359,11 +364,34 @@ public final class HibernateHelper {
         }
     }
 
+    private static void setQueryParameter(MutationQuery query, Object... parameters) {
+        if (parameters == null) {
+            return;
+        }
+        for (int i = 0; i < parameters.length; ++i) {
+            query.setParameter(HQLmx.getParameterName(i), parameters[i]);
+        }
+    }
+
+    private static void setQueryParameter(MutationQuery query, Iterable parameters) {
+        int i = 0;
+        for (Object param : parameters) {
+            query.setParameter(HQLmx.getParameterName(i), param);
+            ++i;
+        }
+    }
+
+    private static void setQueryParameter(MutationQuery query, Map<String, ?> parameters) {
+        for (Map.Entry<String, ?> paramEntry : parameters.entrySet()) {
+            query.setParameter(paramEntry.getKey(), paramEntry.getValue());
+        }
+    }
+
     /**
      * 执行 HQL 语句。
      */
     public static int execute(@Nonnull Session session, @Nonnull String queryString, Object... params) {
-        Query query = session.createQuery(queryString);
+        MutationQuery query = session.createMutationQuery(queryString);
         setQueryParameter(query, params);
         return query.executeUpdate();
     }
@@ -393,7 +421,7 @@ public final class HibernateHelper {
      * 执行 HQL 语句。
      */
     public static int execute(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
-        Query query = session.createQuery(queryString);
+        MutationQuery query = session.createMutationQuery(queryString);
         setQueryParameter(query, params);
         return query.executeUpdate();
     }
@@ -423,7 +451,7 @@ public final class HibernateHelper {
      * 执行 HQL 语句。
      */
     public static int execute(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
-        Query query = session.createQuery(queryString);
+        MutationQuery query = session.createMutationQuery(queryString);
         setQueryParameter(query, params);
         return query.executeUpdate();
     }
@@ -455,7 +483,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List queryAll(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Object.class);
             setQueryParameter(query, params);
             return query.list();
         } catch (ObjectNotFoundException e) {
@@ -494,7 +522,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List queryAll(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Object.class);
             setQueryParameter(query, params);
             return query.list();
         } catch (ObjectNotFoundException e) {
@@ -533,7 +561,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List queryAll(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Object.class);
             setQueryParameter(query, params);
             return query.list();
         } catch (ObjectNotFoundException e) {
@@ -572,7 +600,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List<Map<String, Object>> queryAllAsMap(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Map.class);
             setQueryParameter(query, params);
             return query.list();
         } catch (ObjectNotFoundException e) {
@@ -611,7 +639,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List<Map<String, Object>> queryAllAsMap(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Map.class);
             setQueryParameter(query, params);
             return query.list();
         } catch (ObjectNotFoundException e) {
@@ -650,7 +678,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List<Map<String, Object>> queryAllAsMap(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Map.class);
             setQueryParameter(query, params);
             return query.list();
         } catch (ObjectNotFoundException e) {
@@ -690,7 +718,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List queryPage(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults, Object... params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Object.class);
             setQueryParameter(query, params);
             query.setFirstResult(startNum);
             query.setMaxResults(maxResults);
@@ -731,7 +759,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List queryPage(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults, @Nonnull Iterable params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Object.class);
             setQueryParameter(query, params);
             query.setFirstResult(startNum);
             query.setMaxResults(maxResults);
@@ -773,7 +801,7 @@ public final class HibernateHelper {
     @Nonnull
     public static List queryPage(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults, @Nonnull Map<String, ?> params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Object.class);
             setQueryParameter(query, params);
             query.setFirstResult(startNum);
             query.setMaxResults(maxResults);
@@ -817,7 +845,7 @@ public final class HibernateHelper {
     public static List<Map<String, Object>> queryPageAsMap(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults,
         Object... params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Map.class);
             setQueryParameter(query, params);
             query.setFirstResult(startNum);
             query.setMaxResults(maxResults);
@@ -861,7 +889,7 @@ public final class HibernateHelper {
     public static List<Map<String, Object>> queryPageAsMap(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults,
         @Nonnull Iterable params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Map.class);
             setQueryParameter(query, params);
             query.setFirstResult(startNum);
             query.setMaxResults(maxResults);
@@ -905,7 +933,7 @@ public final class HibernateHelper {
     public static List<Map<String, Object>> queryPageAsMap(@Nonnull Session session, @Nonnull String queryString, int startNum, int maxResults,
         @Nonnull Map<String, ?> params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Map.class);
             setQueryParameter(query, params);
             query.setFirstResult(startNum);
             query.setMaxResults(maxResults);
@@ -947,7 +975,7 @@ public final class HibernateHelper {
      */
     public static long queryCount(@Nonnull Session session, @Nonnull String queryString, Object... params) {
         try {
-            Query query = session.createQuery(queryString);
+            Query query = session.createQuery(queryString, Long.class);
             setQueryParameter(query, params);
             Object r = query.uniqueResult();
             if (r == null) {
@@ -985,7 +1013,7 @@ public final class HibernateHelper {
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(@Nonnull Session session, @Nonnull String queryString, @Nonnull Iterable params) {
-        Query query = session.createQuery(queryString);
+        Query query = session.createQuery(queryString, Long.class);
         setQueryParameter(query, params);
         Object r = query.uniqueResult();
         if (r == null) {
@@ -1019,7 +1047,7 @@ public final class HibernateHelper {
      * 根据 HQL 查询字符串和参数从数据库中获取整型返回值。
      */
     public static long queryCount(@Nonnull Session session, @Nonnull String queryString, @Nonnull Map<String, ?> params) {
-        Query query = session.createQuery(queryString);
+        Query query = session.createQuery(queryString, Long.class);
         setQueryParameter(query, params);
         Object r = query.uniqueResult();
         if (r == null) {

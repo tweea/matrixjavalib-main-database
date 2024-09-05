@@ -46,7 +46,7 @@ class StringListAsCharTypeTest {
 
         StringListAsCharTypeEntity typeEntity = new StringListAsCharTypeEntity();
         typeEntity.setValue(Lists.newArrayList("a", "b", "c"));
-        session.save(typeEntity);
+        session.persist(typeEntity);
         session.flush();
 
         StringListAsCharTestEntity testEntity = session.get(StringListAsCharTestEntity.class, typeEntity.getId());
@@ -59,7 +59,7 @@ class StringListAsCharTypeTest {
 
         StringListAsCharTestEntity testEntity = new StringListAsCharTestEntity();
         testEntity.setValue("a#b#c");
-        session.save(testEntity);
+        session.persist(testEntity);
         session.flush();
 
         StringListAsCharTypeEntity typeEntity = session.get(StringListAsCharTypeEntity.class, testEntity.getId());

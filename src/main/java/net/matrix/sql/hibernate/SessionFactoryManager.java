@@ -306,9 +306,9 @@ public final class SessionFactoryManager
     public ConnectionInfo getConnectionInfo()
         throws SQLException {
         Map<String, Object> settings = getServiceRegistry().getService(ConfigurationService.class).getSettings();
-        String url = (String) settings.get(AvailableSettings.URL);
-        String user = (String) settings.get(AvailableSettings.USER);
-        String pass = (String) settings.get(AvailableSettings.PASS);
-        return new ConnectionInfo(url, user, pass);
+        String url = (String) settings.get(AvailableSettings.JAKARTA_JDBC_URL);
+        String user = (String) settings.get(AvailableSettings.JAKARTA_JDBC_USER);
+        String password = (String) settings.get(AvailableSettings.JAKARTA_JDBC_PASSWORD);
+        return new ConnectionInfo(url, user, password);
     }
 }

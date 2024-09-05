@@ -5,28 +5,24 @@
 package net.matrix.sql.hibernate.type;
 
 import java.time.LocalDate;
+import java.util.Properties;
 
-import org.hibernate.SessionFactory;
-import org.jadira.usertype.spi.shared.AbstractParameterizedUserType;
-import org.jadira.usertype.spi.shared.ConfigurationHelper;
+import net.matrix.sql.hibernate.type.jadira.AbstractSingleColumnUserType;
 
 /**
  * 将数据库中的数值字段映射为 Java 中的本地日期类型。
  */
 public class LocalDateAsNumericType
-    extends AbstractParameterizedUserType<LocalDate, Long, LocalDateAsNumericMapper> {
+    extends AbstractSingleColumnUserType<LocalDate, Long, LocalDateAsNumericMapper> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public void applyConfiguration(SessionFactory sessionFactory) {
-        super.applyConfiguration(sessionFactory);
+    public void setParameterValues(Properties parameters) {
+        super.setParameterValues(parameters);
 
         String pattern = null;
-        if (getParameterValues() != null) {
-            pattern = getParameterValues().getProperty("pattern");
-        }
-        if (pattern == null) {
-            pattern = ConfigurationHelper.getProperty("pattern");
+        if (parameters != null) {
+            pattern = parameters.getProperty("pattern");
         }
         if (pattern == null) {
             pattern = "yyyyMMdd";

@@ -10,9 +10,9 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jadira.usertype.spi.shared.AbstractStringColumnMapper;
 
 import net.matrix.java.lang.NumberMx;
+import net.matrix.sql.hibernate.type.jadira.AbstractStringColumnMapper;
 
 /**
  * 将数据库中的字符字段映射为 Java 中的整型列表类型。

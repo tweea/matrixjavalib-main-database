@@ -6,24 +6,26 @@ package net.matrix.sql.hibernate.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UuidGenerator;
+
+import net.matrix.sql.hibernate.type.LocalDateTimeAsNumericType;
 
 @Entity
 @Table(name = "TEST_LOCAL_DATETIME_NUMERIC")
 public class LocalDateTimeAsNumericTypeEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    @UuidGenerator
     private String id;
 
-    @Type(type = "net.matrix.sql.hibernate.type.LocalDateTimeAsNumericType", parameters = @Parameter(name = "pattern", value = "yyyyMMddHHmmss"))
+    @Type(value = LocalDateTimeAsNumericType.class, parameters = @Parameter(name = "pattern", value = "yyyyMMddHHmmss"))
     private LocalDateTime value;
 
     public String getId() {

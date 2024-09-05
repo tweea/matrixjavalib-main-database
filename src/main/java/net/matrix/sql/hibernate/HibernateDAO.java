@@ -11,15 +11,17 @@ import java.util.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaDelete;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Root;
+
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.MutationQuery;
 import org.hibernate.query.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -132,7 +134,11 @@ public class HibernateDAO<T, ID extends Serializable> {
     public <S extends T> S save(@Nonnull S entity) {
         Session session = getCurrentSession();
 
-        session.saveOrUpdate(entity);
+        if (session.contains(entity)) {
+            session.merge(entity);
+        } else {
+            session.persist(entity);
+        }
         autoFlush(session);
         return entity;
     }
@@ -149,7 +155,11 @@ public class HibernateDAO<T, ID extends Serializable> {
 
         List<S> result = new ArrayList<>();
         for (S entity : entities) {
-            session.saveOrUpdate(entity);
+            if (session.contains(entity)) {
+                session.merge(entity);
+            } else {
+                session.persist(entity);
+            }
             result.add(entity);
         }
         autoFlush(session);
@@ -248,7 +258,7 @@ public class HibernateDAO<T, ID extends Serializable> {
             return;
         }
 
-        session.delete(entity);
+        session.remove(entity);
         autoFlush(session);
     }
 
@@ -262,9 +272,9 @@ public class HibernateDAO<T, ID extends Serializable> {
         Session session = getCurrentSession();
 
         if (session.contains(entity)) {
-            session.delete(entity);
+            session.remove(entity);
         } else {
-            session.delete(session.merge(entity));
+            session.remove(session.merge(entity));
         }
         autoFlush(session);
     }
@@ -284,7 +294,7 @@ public class HibernateDAO<T, ID extends Serializable> {
                 continue;
             }
 
-            session.delete(entity);
+            session.remove(entity);
         }
         autoFlush(session);
     }
@@ -300,9 +310,9 @@ public class HibernateDAO<T, ID extends Serializable> {
 
         for (T entity : entities) {
             if (session.contains(entity)) {
-                session.delete(entity);
+                session.remove(entity);
             } else {
-                session.delete(session.merge(entity));
+                session.remove(session.merge(entity));
             }
         }
         autoFlush(session);
@@ -317,7 +327,7 @@ public class HibernateDAO<T, ID extends Serializable> {
 
         CriteriaDelete<T> criteriaDelete = criteriaBuilder.createCriteriaDelete(entityClass);
         criteriaDelete.from(entityClass);
-        Query<T> query = session.createQuery(criteriaDelete);
+        MutationQuery query = session.createMutationQuery(criteriaDelete);
         query.executeUpdate();
     }
 

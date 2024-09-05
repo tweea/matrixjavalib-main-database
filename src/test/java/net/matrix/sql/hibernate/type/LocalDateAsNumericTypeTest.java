@@ -46,7 +46,7 @@ class LocalDateAsNumericTypeTest {
 
         LocalDateAsNumericTypeEntity typeEntity = new LocalDateAsNumericTypeEntity();
         typeEntity.setValue(LocalDate.of(2053, 1, 24));
-        session.save(typeEntity);
+        session.persist(typeEntity);
         session.flush();
 
         LocalDateAsNumericTestEntity testEntity = session.get(LocalDateAsNumericTestEntity.class, typeEntity.getId());
@@ -59,7 +59,7 @@ class LocalDateAsNumericTypeTest {
 
         LocalDateAsNumericTestEntity testEntity = new LocalDateAsNumericTestEntity();
         testEntity.setValue(2053_01_24L);
-        session.save(testEntity);
+        session.persist(testEntity);
         session.flush();
 
         LocalDateAsNumericTypeEntity typeEntity = session.get(LocalDateAsNumericTypeEntity.class, testEntity.getId());

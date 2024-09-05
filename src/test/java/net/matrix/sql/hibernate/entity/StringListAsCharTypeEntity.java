@@ -6,24 +6,26 @@ package net.matrix.sql.hibernate.entity;
 
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UuidGenerator;
+
+import net.matrix.sql.hibernate.type.StringListAsCharType;
 
 @Entity
 @Table(name = "TEST_STRING_LIST_CHAR")
 public class StringListAsCharTypeEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    @UuidGenerator
     private String id;
 
-    @Type(type = "net.matrix.sql.hibernate.type.StringListAsCharType", parameters = @Parameter(name = "separator", value = "#"))
+    @Type(value = StringListAsCharType.class, parameters = @Parameter(name = "separator", value = "#"))
     private List<String> value;
 
     public String getId() {

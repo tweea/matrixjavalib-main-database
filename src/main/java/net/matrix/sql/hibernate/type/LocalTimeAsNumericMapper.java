@@ -8,9 +8,8 @@ import java.time.LocalTime;
 
 import javax.annotation.Nonnull;
 
-import org.jadira.usertype.spi.shared.AbstractLongColumnMapper;
-
 import net.matrix.java.time.DateTimeFormatterMx;
+import net.matrix.sql.hibernate.type.jadira.AbstractLongColumnMapper;
 
 /**
  * 将数据库中的数值字段映射为 Java 中的本地时间类型。
@@ -35,7 +34,7 @@ public class LocalTimeAsNumericMapper
     }
 
     @Override
-    public LocalTime fromNonNullString(String s) {
+    public LocalTime fromNonNullString(CharSequence s) {
         return DateTimeFormatterMx.parseLocalTime(s, pattern);
     }
 

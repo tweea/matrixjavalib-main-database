@@ -7,26 +7,25 @@ package net.matrix.sql.hibernate.type;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import org.hibernate.SessionFactory;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.jadira.usertype.spi.shared.AbstractParameterizedUserType;
-import org.jadira.usertype.spi.shared.ConfigurationHelper;
+
+import net.matrix.sql.hibernate.type.jadira.AbstractSingleColumnUserType;
 
 /**
  * 将数据库中的字符字段映射为 Java 中的字符串列表类型。
  */
 public class StringListAsCharType
-    extends AbstractParameterizedUserType<List<String>, String, StringListAsCharMapper> {
+    extends AbstractSingleColumnUserType<List<String>, String, StringListAsCharMapper> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public List<String> nullSafeGet(ResultSet resultSet, String[] strings, SharedSessionContractImplementor session, Object object)
+    public List<String> nullSafeGet(ResultSet resultSet, int position, SharedSessionContractImplementor session, Object object)
         throws SQLException {
-        List<String> list = super.nullSafeGet(resultSet, strings, session, object);
+        List<String> list = super.nullSafeGet(resultSet, position, session, object);
         if (list == null) {
             list = new ArrayList();
         }
@@ -34,32 +33,36 @@ public class StringListAsCharType
     }
 
     @Override
-    public void nullSafeSet(PreparedStatement preparedStatement, Object value, int index, SharedSessionContractImplementor session)
+    public void nullSafeSet(PreparedStatement preparedStatement, List<String> value, int index, SharedSessionContractImplementor session)
         throws SQLException {
-        if (value == null) {
-            preparedStatement.setNull(index, Types.VARCHAR);
-            return;
-        }
-
-        List<String> list = (List) value;
-        if (list.isEmpty()) {
-            preparedStatement.setNull(index, Types.VARCHAR);
-            return;
+        if (value.isEmpty()) {
+            value = null;
         }
 
         super.nullSafeSet(preparedStatement, value, index, session);
     }
 
     @Override
-    public void applyConfiguration(SessionFactory sessionFactory) {
-        super.applyConfiguration(sessionFactory);
+    public List<String> deepCopy(List<String> value) {
+        if (value == null) {
+            return null;
+        }
+
+        return new ArrayList(value);
+    }
+
+    @Override
+    public boolean isMutable() {
+        return true;
+    }
+
+    @Override
+    public void setParameterValues(Properties parameters) {
+        super.setParameterValues(parameters);
 
         String separator = null;
-        if (getParameterValues() != null) {
-            separator = getParameterValues().getProperty("separator");
-        }
-        if (separator == null) {
-            separator = ConfigurationHelper.getProperty("separator");
+        if (parameters != null) {
+            separator = parameters.getProperty("separator");
         }
         if (separator == null) {
             separator = ",";
