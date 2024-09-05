@@ -1,4 +1,8 @@
 /*
+ * 版权所有 2024 Matrix。
+ * 保留所有权利。
+ */
+/*
  * Copyright 2010, 2011 Christopher Pheby
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +21,7 @@ import org.hibernate.type.BasicTypeReference;
 public interface ColumnMapper<T, J> {
     int getSqlType();
 
-    BasicTypeReference<? super J> getHibernateType();
+    BasicTypeReference<J> getHibernateType();
 
     T fromNonNullValue(J value);
 

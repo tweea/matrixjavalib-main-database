@@ -1,4 +1,8 @@
 /*
+ * 版权所有 2024 Matrix。
+ * 保留所有权利。
+ */
+/*
  * Copyright 2010, 2011 Christopher Pheby
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +35,7 @@ public final class TypeHelper {
 
     /**
      * Get the underlying class for a type, or null if the type is a variable type.
-     * 
+     *
      * @param type
      *     the type
      * @return the underlying class
@@ -39,10 +43,10 @@ public final class TypeHelper {
     public static Class<?> getClass(Type type) {
         if (type instanceof Class<?>) {
             return (Class<?>) type;
-        } else if (type instanceof ParameterizedType) {
-            return getClass(((ParameterizedType) type).getRawType());
-        } else if (type instanceof GenericArrayType) {
-            Type componentType = ((GenericArrayType) type).getGenericComponentType();
+        } else if (type instanceof ParameterizedType parameterizedType) {
+            return getClass(parameterizedType.getRawType());
+        } else if (type instanceof GenericArrayType genericArrayType) {
+            Type componentType = genericArrayType.getGenericComponentType();
             Class<?> componentClass = getClass(componentType);
             if (componentClass != null) {
                 return Array.newInstance(componentClass, 0).getClass();
@@ -56,7 +60,7 @@ public final class TypeHelper {
 
     /**
      * Get the actual type arguments a child class has used to extend a generic base class.
-     * 
+     *
      * @param baseClass
      *     the base class
      * @param childClass
@@ -69,7 +73,7 @@ public final class TypeHelper {
         Map<Type, Type> resolvedTypes = new HashMap<>();
         Type type = childClass;
         // start walking up the inheritance hierarchy until we hit baseClass
-        while (!getClass(type).equals(baseClass)) {
+        while (!baseClass.equals(getClass(type))) {
             if (type instanceof Class<?>) {
                 // there is no useful information for us in raw types, so just keep going.
                 type = ((Class<?>) type).getGenericSuperclass();
@@ -79,7 +83,7 @@ public final class TypeHelper {
 
                 Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
                 TypeVariable<?>[] typeParameters = rawType.getTypeParameters();
-                for (int i = 0; i < actualTypeArguments.length; i++) {
+                for (int i = 0; i < actualTypeArguments.length; ++i) {
                     resolvedTypes.put(typeParameters[i], actualTypeArguments[i]);
                 }
 
@@ -97,7 +101,7 @@ public final class TypeHelper {
         } else {
             actualTypeArguments = ((ParameterizedType) type).getActualTypeArguments();
         }
-        List<Class<?>> typeArgumentsAsClasses = new ArrayList<>();
+        List<Class<?>> typeArgumentsAsClasses = new ArrayList<>(actualTypeArguments.length);
         // resolve types by chasing down type variables.
         for (Type baseType : actualTypeArguments) {
             while (resolvedTypes.containsKey(baseType)) {

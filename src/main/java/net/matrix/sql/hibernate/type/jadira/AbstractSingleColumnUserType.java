@@ -1,4 +1,8 @@
 /*
+ * 版权所有 2024 Matrix。
+ * 保留所有权利。
+ */
+/*
  * Copyright 2010, 2011 Christopher Pheby
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +43,7 @@ public abstract class AbstractSingleColumnUserType<T, J, C extends ColumnMapper<
 
     private final int sqlType;
 
-    public AbstractSingleColumnUserType() {
+    protected AbstractSingleColumnUserType() {
         List<Class<?>> typeArguments = TypeHelper.getTypeArguments(AbstractSingleColumnUserType.class, getClass());
         try {
             Class<?> columnMapperClass = typeArguments.get(2);

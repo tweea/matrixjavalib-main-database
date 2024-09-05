@@ -16,7 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.engine.config.spi.ConfigurationService;
 import org.hibernate.service.ServiceRegistry;
 import org.slf4j.Logger;
@@ -306,9 +306,9 @@ public final class SessionFactoryManager
     public ConnectionInfo getConnectionInfo()
         throws SQLException {
         Map<String, Object> settings = getServiceRegistry().getService(ConfigurationService.class).getSettings();
-        String url = (String) settings.get(AvailableSettings.JAKARTA_JDBC_URL);
-        String user = (String) settings.get(AvailableSettings.JAKARTA_JDBC_USER);
-        String password = (String) settings.get(AvailableSettings.JAKARTA_JDBC_PASSWORD);
+        String url = (String) settings.get(JdbcSettings.JAKARTA_JDBC_URL);
+        String user = (String) settings.get(JdbcSettings.JAKARTA_JDBC_USER);
+        String password = (String) settings.get(JdbcSettings.JAKARTA_JDBC_PASSWORD);
         return new ConnectionInfo(url, user, password);
     }
 }
